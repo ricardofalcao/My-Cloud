@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+
+    <title>My Cloud</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar">
+            <div class="navbar-title">
+                <i class="fas fa-cloud"></i>
+                <span class="navbar-title-text">My Cloud</span>
+            </div>
+
+            <ul class="navbar-links">
+                <li class="navbar-link">
+                    <a href="./">Início</a>
+                </li>
+                <li class="navbar-link">
+                    <a href="./login">Login</a>
+                </li>
+                <li class="navbar-link">
+                    <a href="./settings">Definições</a>
+                </li>
+                <li class="navbar-avatar">
+                    <img src="./images/avatar_ricardofalcao.jpg"/>
+
+                    <div class="arrow"></div>
+                    <ul class="dropdown">
+                        <li class="dropdown-title">Ricardo Falcão</li>
+                        <li class="dropdown-link">
+                            <a href="#">
+                                <i class="fas fa-cogs"></i>
+                                Definições
+                            </a>
+                        </li>
+                        <li class="dropdown-link">
+                            <a href="#">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sair
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <nav class="sidebar">
+                <ul class="sidebar-top">
+                    <li class="sidebar-link active">
+                        <a href="#">
+                            <span class="sidebar-label">
+                                <i class="fas fa-folder"></i>
+                                <span class="sidebar-label-text">Ficheiros</span>
+                            </span>
+                            <span class="sidebar-number">1</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-link">
+                        <a href="#">
+                            <span class="sidebar-label">
+                                <i class="fas fa-star"></i>
+                                <span class="sidebar-label-text">Favoritos</span>
+                            </span>
+                            <span class="sidebar-number">24</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="sidebar-bottom">
+                    <li class="sidebar-link">
+                        <a href="#">
+                            <span class="sidebar-label">
+                                <i class="fas fa-trash"></i>
+                                <span class="sidebar-label-text">Reciclagem</span>
+                            </span>
+                            <span class="sidebar-number">99</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-text">
+                        2.4/15.0GB utilizados
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="content">
+                <table class="datatable" cellspacing="0" rowspacing="0">
+                    <thead class="datatable-header">
+                        <tr>
+                            <th class="file-checkbox"><input type="checkbox"></th>
+                            <th class="file-icon"></th>
+                            <th class="file-name">Nome</th>
+                            <th class="file-options"></th>
+                            <th class="file-size">Tamanho</th>
+                        </tr>
+                    </thead>
+                    <tbody class="datatable-body">
+                        <tr class="datatable-item">
+                            <td class="file-checkbox"><input type="checkbox"></td>
+                            <td class="file-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </td>
+                            <td class="file-name">Apresentação SIE<span class="file-extension">.pdf</span></td>
+                            <td class="file-options">
+                                <i class="fas fa-ellipsis-h"></i>
+
+                                <ul class="dropdown">
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i style="color: yellow;" class="fas fa-star"></i>
+                                            Adicionar aos favoritos
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-pen"></i>
+                                            Renomear
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-download"></i>
+                                            Transferir
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-trash"></i>
+                                            Eliminar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="file-size">350 KB</td>
+                        </tr>
+                        <tr class="datatable-item">
+                            <td class="file-checkbox"><input type="checkbox"></td>
+                            <td class="file-icon">
+                                <i class="fas fa-file-word"></i>
+                            </td>
+                            <td class="file-name">Apontameeeeeeeeeeeeeentos<span class="file-extension">.docx</span></td>
+                            <td class="file-options">
+                                <i class="fas fa-ellipsis-h"></i>
+
+                                <ul class="dropdown">
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i style="color: yellow;" class="fas fa-star"></i>
+                                            Adicionar aos favoritos
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-pen"></i>
+                                            Renomear
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-download"></i>
+                                            Transferir
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">
+                                            <i class="fas fa-trash"></i>
+                                            Eliminar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="file-size">350 KB</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="container">
+                    <div class="profile">
+                        <img class="profile-avatar" src="./images/sigarra_ricardofalcao.jpg">
+                        <div class="profile-info">
+                            <h1 class="profile-name">Ricardo Falcão</h1>
+                            <p class="profile-email">up201704220@edu.fe.up.pt</p>
+
+                            <a href="./files/mockup.pptx"><i class="fas fa-file-powerpoint"></i> Especificação do site (PPT)</a>
+                            <a href="./files/project.zip"><i class="fas fa-file-archive"></i> Código da aplicação (ZIP)</a>
+                            <a href="./css/app.css"><i class="fas fa-file-code"></i> Ficheiro CSS - (app.css)</a>
+                            <a href="./css/base.css"><i class="fas fa-file-code"></i> Ficheiro CSS - (base.css)</a>
+                            <a href="./css/login.css"><i class="fas fa-file-code"></i> Ficheiro CSS - (login.css)</a>
+
+                            <span class="profile-warning">Aviso: o site não está otimizado para correr em Internet Explorer.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="fab">
+                    <i class="fas fa-plus"></i>
+
+                    <input type="file">
+                </label>
+
+                <div class="notification">
+                    <span class="notification-text">Enviando 'TODO.txt'...</span>
+                    <i class="fas fa-spinner notification-spinner"></i>
+                    <i class="fas fa-check notification-check"></i>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
