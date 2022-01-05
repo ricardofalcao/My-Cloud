@@ -1,0 +1,32 @@
+@startmindmap
+
+skinparam linetype ortho
+skinparam Monochrome true
+
+title Navigation Diagrama
+
+
+* Aplicação
+** Drive
+*** Ficheiros
+*** Favoritos
+*** Lixo
+*** Partilhados
+*** Painel de Controlo
+**** Utilizador  
+***** Perfil
+***** Estatíticas de utilizador
+**** Adminnistrador
+***** Lista de utilizadores
+***** Estatíticas de Adminnistrador
+** Autenticação
+*** Login
+*** Registo
+
+
+@endmindmap
+
+
+
+
+
