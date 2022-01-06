@@ -1,0 +1,28 @@
+@startuml
+left to right direction
+skinparam Monochrome true
+
+actor :Utilizador: as User
+actor :Administrador: as Admin
+
+package Backend {
+    usecase "Partilhar ficheiros" as Share
+
+    usecase "Receber notificações" as Notifications
+    
+    usecase "Modificar o perfil" as Profile
+    usecase "Visualizar estatísticas do utilizador" as UserStats
+    
+    usecase "Criar e modificar novos utilizadores" as AdminUsers
+    usecase "Visualizar estatísticas do sistema" as AdminStats
+}
+
+User --> Share
+User --> Notifications
+User --> Profile
+User --> UserStats
+
+Admin --> AdminUsers
+Admin --> AdminStats
+
+@enduml

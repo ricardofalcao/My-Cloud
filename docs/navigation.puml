@@ -3,25 +3,21 @@
 skinparam linetype ortho
 skinparam Monochrome true
 
-title Navigation Diagrama
-
-
 * Aplicação
-** Drive
-*** Ficheiros
-*** Favoritos
-*** Lixo
-*** Partilhados
-*** Painel de Controlo
-**** Utilizador  
-***** Perfil
-***** Estatíticas de utilizador
-**** Adminnistrador
-***** Lista de utilizadores
-***** Estatíticas de Adminnistrador
-** Autenticação
-*** Login
-*** Registo
+** Drive \n /drive
+*** Ficheiros \n /files
+*** Favoritos \n /favorites
+*** Lixo \n /trash
+*** Partilhados \n /shared
+*** Painel de Controlo \n /dashboard
+**** Utilizador \n /user
+***** Perfil \n /profile
+***** Estatíticas de utilizador \n /stats
+**** Administrador \n /admin
+***** Lista de utilizadores \n /users
+***** Estatíticas de Administrador \n /stats
+** Autenticação \n /auth
+*** Login \n /login
 
 
 @endmindmap

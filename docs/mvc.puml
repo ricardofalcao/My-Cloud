@@ -1,0 +1,17 @@
+@startuml
+skinparam Monochrome true
+
+start
+:Requisição;
+:index.php;
+:Retira a rota através do URL da requisição;
+if (Rota existe) then(no)
+    :Retornar erro 404;
+    stop
+else (yes)
+    :Chamar o controlador associado à rota;
+    :Devolver resposta gerada pelo controlador;
+    stop
+endif
+
+@enduml

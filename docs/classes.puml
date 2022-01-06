@@ -1,0 +1,66 @@
+@startuml
+skinparam linetype ortho
+skinparam Monochrome true
+
+left to right direction
+
+/'
+
+'/
+
+enum FileType {
+    FILE
+    FOLDER
+}
+
+enum FileState {
+    NONE
+    FAVORITE
+    DELETED
+}
+
+class File {
+    Serial id
+    User owner
+    String name
+    int size
+    int quota
+    Date modifiedAt
+    Date createdAt
+}
+
+File -- File : children
+File -- FileType: type
+File -- FileState: state
+
+/'
+
+'/
+
+enum AccessType {
+    VIEWER
+    EDITOR
+}
+
+class Access {
+    Date givenAt
+    Date accessedAt
+}
+
+Access -- AccessType: type
+
+/'
+
+'/
+
+class User {
+    Serial id
+    String username
+    String name
+    String passwordHash    
+}
+
+User "1" -- "*" File
+(User, File) . Access : hasAccess
+
+@enduml

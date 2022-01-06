@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+skinparam Monochrome true
+
+actor :Utilizador: as User
+
+package Backend {
+    usecase "Fazer login" as Login
+}
+
+User --> Login
+
+@enduml

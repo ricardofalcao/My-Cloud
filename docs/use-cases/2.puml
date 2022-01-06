@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+skinparam Monochrome true
+
+actor :Utilizador: as User
+
+package Backend {
+    usecase "Dar upload de ficheiros" as Upload
+    usecase "Modificar ficheiros" as Modify
+    usecase "Transferir ficheiros" as Download
+    usecase "Tornar ficheiros favoritos" as Favorite
+    usecase "Enviar ficheiros para a reciclagem" as Recycle
+    usecase "Recuperar ficheiros da reciclagem" as Restore
+    usecase "Eliminar ficheiros" as Delete
+}
+
+User --> Upload
+User --> Modify
+User --> Download
+User --> Favorite
+User --> Recycle
+User --> Restore
+User --> Delete
+
+@enduml
