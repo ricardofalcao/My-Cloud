@@ -24,7 +24,7 @@ class Route
 class Router
 {
 
-    private $basepath;
+    public $basepath;
 
     /** @var Route[] */
     private $routes;

@@ -4,7 +4,7 @@ namespace Core;
 
 class App
 {
-    protected $router;
+    public $router;
 
     public function __construct($router)
     {

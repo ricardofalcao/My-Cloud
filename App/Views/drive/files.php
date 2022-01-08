@@ -1,54 +1,41 @@
 <?php
+use Core\View;
 
-$navbar_current_id = 'index';
+View::render('components/drive/base.php');
 
-class CloudFile {
-    public $icon;
-    public $name;
-    public $extension;
-    public $size;
+$path = dirname(__DIR__) . '/../../data/ricardofalcao/drive/';
+$files = array_diff(scandir($path), array('..', '.'));
 
-    public function __construct(string $icon, string $name, string $extension, string $size) {
-        $this->icon = $icon;
-        $this->name = $name;
-        $this->extension = $extension;
-        $this->size = $size;
-    }
-}
+$cloud_files = array_map(function($val) use($path) {
+    $path_parts = pathinfo($val);
+    $folder = is_dir($path . $val);
+    $filesize = filesize($path . $val);
 
-$cloud_files = array(
-    new CloudFile('pdf', 'Apresentação', 'pdf', '350 KB'),
-    new CloudFile('word', 'Documento', 'word', '25 MB'),
-);
+    return new CloudFile($path_parts['filename'], $folder ? '' : $path_parts['extension'], $filesize, $folder);
+}, $files);
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+<?php
 
-    <title>My Cloud</title>
+View::render('components/head.php');
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/app.css">
-</head>
+?>
 
 <body>
     <div id="app">
         <?php
-            include 'components/navbar.php'
+            View::render('components/drive/navbar.php');
         ?>
 
         <main>
             <?php
-                include 'components/sidebar.php'
+                View::render('components/drive/sidebar.php', [
+                    'sidebar_current_id' => 'files'
+                ]);
             ?>
             
 
@@ -71,9 +58,9 @@ $cloud_files = array(
                         <tr class="datatable-item">
                             <td class="file-checkbox"><input type="checkbox"></td>
                             <td class="file-icon">
-                                <i class="fas fa-file-<? echo $file->icon ?>"></i>
+                                <i class="fas fa-<? echo $file->icon ?>"></i>
                             </td>
-                            <td class="file-name"><? echo $file->name ?><span class="file-extension">.<? echo $file->extension ?></span></td>
+                            <td class="file-name"><? echo $file->name ?><span class="file-extension"><? if (!$file->folder) echo '.' . $file->extension; ?></span></td>
                             <td class="file-options">
                                 <i class="fas fa-ellipsis-h"></i>
 
