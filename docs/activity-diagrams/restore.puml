@@ -1,0 +1,21 @@
+@startuml
+
+skinparam Monochrome true
+
+title Restore
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Restaura um ficheiro \nda reciclagem;
+    |Backend|
+    :Verifica as permissões e \nrestaura o ficheiro;
+    |Database|
+    :Restaura o ficheiro;
+stop
+
+
+@enduml

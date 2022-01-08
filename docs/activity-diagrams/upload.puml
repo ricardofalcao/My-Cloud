@@ -1,0 +1,21 @@
+@startuml
+
+skinparam Monochrome true
+
+title Upload
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Efetua upload;
+    |Backend|
+    :Verifica as permissões e \nadiciona o ficheiro;
+    |Database|
+    :insere o ficheiro;
+stop
+
+
+@enduml

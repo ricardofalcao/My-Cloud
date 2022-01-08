@@ -1,0 +1,18 @@
+@startuml
+
+skinparam Monochrome true
+
+title Profile
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Acede à pagina de perfil;
+    |Backend|
+    :Recebe informações sobre o utilizador;
+    |Database|
+    :Busca o utilizador;
+stop
