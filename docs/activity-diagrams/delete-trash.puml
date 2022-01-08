@@ -1,0 +1,19 @@
+@startuml
+
+skinparam Monochrome true
+
+title Delete from trash
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Elimina o ficheiro \nda reciclagem;
+    |Backend|
+    :Verifica as permissões e \nelimina o ficheiro \npermanentemente;
+    |Database|
+    :Elimina o ficheiro;
+stop
+

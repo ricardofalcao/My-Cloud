@@ -1,0 +1,21 @@
+@startuml
+
+skinparam Monochrome true
+
+title files
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :       Acede às páginas \nfiles/favourite/shared/trash;
+    |Backend|
+    :Busca os ficheiros do utilizador;
+    |Database|
+    :Busca ficheiros;
+stop
+
+
+@enduml

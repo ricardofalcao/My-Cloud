@@ -1,0 +1,18 @@
+@startuml
+
+skinparam Monochrome true
+
+title Change profile
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Modifica o utilizador;
+    |Backend|
+    :Verifica as permissões e \nmodifica o utilizador;
+    |Database|
+    :Modifica o utilizador;
+stop

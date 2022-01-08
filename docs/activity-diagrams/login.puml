@@ -1,0 +1,22 @@
+@startuml
+
+skinparam Monochrome true
+
+title Login
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :login;
+    :insere credenciais;
+    |Backend|
+    :Valida pedido;
+    |Database|
+    :compara password;
+stop
+
+
+@enduml

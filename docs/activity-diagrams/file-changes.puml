@@ -1,0 +1,21 @@
+@startuml
+
+skinparam Monochrome true
+
+title File changes
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Modifica o ficheiro;
+    |Backend|
+    :Verifica as permissões e \nmodifica o ficheiro;
+    |Database|
+    :modifica o ficheiro;
+stop
+
+
+@enduml

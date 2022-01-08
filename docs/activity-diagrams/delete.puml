@@ -1,0 +1,21 @@
+@startuml
+
+skinparam Monochrome true
+
+title Delete
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Elimina o ficheiro;
+    |Backend|
+    :Verifica as permissões e \nenvia o ficheiro para a recilagem;
+    |Database|
+    :Adiciona o ficheiro à reciclagem;
+stop
+
+
+@enduml
