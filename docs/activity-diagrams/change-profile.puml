@@ -16,3 +16,5 @@ start
     |Database|
     :Modifica o utilizador;
 stop
+
+@enduml
