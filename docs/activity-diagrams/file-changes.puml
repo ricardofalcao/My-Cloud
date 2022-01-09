@@ -2,7 +2,7 @@
 
 skinparam Monochrome true
 
-title File changes
+title File Modification
 
 |#bcbcbc|User|
 |#d0d0d0|Backend|
@@ -10,6 +10,7 @@ title File changes
 
 |User|
 start
+    :Acede à pagina de ficheiros;
     :Modifica o ficheiro;
     |Backend|
     :Verifica as permissões e \nmodifica o ficheiro;

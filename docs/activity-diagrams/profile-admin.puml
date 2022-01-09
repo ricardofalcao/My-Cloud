@@ -2,17 +2,17 @@
 
 skinparam Monochrome true
 
-title User Profile
+title Admin Profile 
 
-|#bcbcbc|User|
+|#bcbcbc|Admin|
 |#d0d0d0|Backend|
 |#dddddd|Database|
 
-|User|
+|Admin|
 start
     :Acede à pagina de perfil;
     |Backend|
-    :Recebe informações \nsobre o utilizador;
+    :Recebe informações sobre os \nutilizadores e o sistema;
     |Database|
-    :Busca o utilizador;
+    :Busca o utilizadores;
 stop

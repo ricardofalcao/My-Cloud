@@ -1,0 +1,18 @@
+@startuml
+
+skinparam Monochrome true
+
+title Admin Statistics
+
+|#bcbcbc|Admin|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|Admin|
+start
+    :Acede à pagina de estatística;
+    |Backend|
+    :Recebe informações sobre \nutilizadores e o sistema;
+    |Database|
+    :Busca utilizadores e \nrespetivas informações;
+stop

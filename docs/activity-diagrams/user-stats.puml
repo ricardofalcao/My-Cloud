@@ -2,7 +2,7 @@
 
 skinparam Monochrome true
 
-title User Profile
+title User Statistics
 
 |#bcbcbc|User|
 |#d0d0d0|Backend|
@@ -10,9 +10,9 @@ title User Profile
 
 |User|
 start
-    :Acede à pagina de perfil;
+    :Acede à pagina de estatística;
     |Backend|
     :Recebe informações \nsobre o utilizador;
     |Database|
-    :Busca o utilizador;
+    :Busca informações;
 stop

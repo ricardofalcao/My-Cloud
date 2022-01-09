@@ -1,0 +1,19 @@
+@startuml
+
+skinparam Monochrome true
+
+title Admin - User Delete
+
+|#bcbcbc|Admin|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|Admin|
+start
+    :Acede à pagina de utilizadores;
+    :Seleciona e elimina utilizador;
+    |Backend|
+    :Verifica permissões e elimina \no utilizador permanentemente;
+    |Database|
+    :Elimina o utilizador;
+stop

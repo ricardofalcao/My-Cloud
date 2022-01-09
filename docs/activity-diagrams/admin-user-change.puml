@@ -1,0 +1,20 @@
+@startuml
+
+skinparam Monochrome true
+
+title Admin - User Modification
+
+|#bcbcbc|Admin|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|Admin|
+start
+    :Acede à pagina de utilizadores;
+    :Modifica dados do utilizador;
+    |Backend|
+    :Verifica permissões e modifica \no utilizador;
+    |Database|
+    :Modifica o utilizador;
+stop
+

@@ -1,0 +1,19 @@
+@startuml
+
+skinparam Monochrome true
+
+title Admin - User Add
+
+|#bcbcbc|Admin|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|Admin|
+start
+    :Acede à pagina de utilizadores;
+    :Insere dados do novo utilizador;
+    |Backend|
+    :Verifica permissões e adiciona \no novo utilizador;
+    |Database|
+    :Insere o utilizador;
+stop

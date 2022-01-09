@@ -2,7 +2,7 @@
 
 skinparam Monochrome true
 
-title Change profile
+title Profile Modification
 
 |#bcbcbc|User|
 |#d0d0d0|Backend|
@@ -10,6 +10,7 @@ title Change profile
 
 |User|
 start
+    :Acede à pagina de perfil;
     :Modifica o utilizador;
     |Backend|
     :Verifica as permissões e \nmodifica o utilizador;
