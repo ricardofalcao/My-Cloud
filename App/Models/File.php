@@ -10,7 +10,7 @@ class File extends \Core\Model
     public static function get($id)
     {
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM file WHERE id=?");
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE id=?");
         $stmt->execute([ $id ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -18,8 +18,16 @@ class File extends \Core\Model
     public static function getByParent($parentId)
     {
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM file WHERE parent_id=?");
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE parent_id=?");
         $stmt->execute([ $parentId ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getRootFolder($userId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE owner_id=? AND parent_id is NULL");
+        $stmt->execute([ $userId ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     // return true se tem acesso
@@ -41,14 +49,14 @@ class File extends \Core\Model
 
     {
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO file (owner_id, name, size, type, state, parent_id) VALUES (?, ?, ?, ?, ?, ?);");
+        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, parent_id) VALUES (?, ?, ?, ?, ?, ?);");
         $stmt->execute([ $ownerId, $name, $size, $type, $state, $parentId]);
     }
 
     public static function delete($id)
     {
         $db = static::db();
-        $stmt = $db->prepare("DELETE FROM file WHERE id=?");
+        $stmt = $db->prepare("DELETE FROM public.file WHERE id=?");
         $stmt->execute([ $id ]);
     }
 

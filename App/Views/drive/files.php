@@ -3,15 +3,11 @@ use Core\View;
 
 View::render('components/drive/base.php');
 
-$path = dirname(__DIR__) . '/../../data/ricardofalcao/drive/';
-$files = array_diff(scandir($path), array('..', '.'));
+$cloud_files = array_map(function($val) {
+    $path_parts = pathinfo($val['name']);
+    $folder = $val['type'] === 'FOLDER';
 
-$cloud_files = array_map(function($val) use($path) {
-    $path_parts = pathinfo($val);
-    $folder = is_dir($path . $val);
-    $filesize = filesize($path . $val);
-
-    return new CloudFile($path_parts['filename'], $folder ? '' : $path_parts['extension'], $filesize, $folder);
+    return new CloudFile($path_parts['filename'], $folder ? '' : $path_parts['extension'], $val['size'], $folder);
 }, $files);
 
 ?>

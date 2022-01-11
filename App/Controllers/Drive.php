@@ -2,13 +2,26 @@
 
 namespace App\Controllers;
 
+use App\Models\File;
+use Core\Input;
 use Core\View;
 
 class Drive extends \Core\Controller
 {
     public function files()
     {
-        View::render('drive/files.php');
+        session_start();
+
+        Input::check(['userId'], $_SESSION);
+        $userId = Input::int($_SESSION['userId']);
+
+        // verificar root
+
+        $files = File::getRootFolder($userId);
+
+        View::render('drive/files.php', [
+            'files' => $files
+        ]);
     }
 
     public function favorites()
