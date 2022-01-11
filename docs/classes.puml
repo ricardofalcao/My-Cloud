@@ -24,7 +24,6 @@ class File {
     User owner
     String name
     int size
-    int quota
     Date modifiedAt
     Date createdAt
 }
@@ -57,7 +56,8 @@ class User {
     Serial id
     String username
     String name
-    String passwordHash    
+    String passwordHash
+    int quota
 }
 
 User "1" -- "*" File
