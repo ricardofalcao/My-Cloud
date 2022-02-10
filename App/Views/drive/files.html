@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>files</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    <div class="columns is-6-desktop">
+        <div class="column">
+            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+                <h1 class="pl-5">
+                    <span class="icon-text is-large">
+                        <span class="icon">
+                            <i class="fa fa-cloud"></i>
+                        </span>
+                        <span>My Cloud</span>
+                    </span>
+                </h1>
+                <div id="navbar" class="navbar-menu">
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <span>
+                                <div class="dropdown is-active">
+                                    <div class="dropdown-trigger">
+                                        <figure class="image" aria-controls="dropdown-menu">
+                                            <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                        </figure>
+                                    </div>
+                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <p class="has-text-grey-light ml-3">Ricardo Falcão</p>
+                                            <a href="#" class="dropdown-item">
+                                                <span class="icon-text">
+                                                    <span class="icon">
+                                                        <i class="fas fa-gear"></i>
+                                                    </span>
+                                                    <span>Painel de controlo</span>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="dropdown-item">
+                                                <span class="icon-text">
+                                                    <span class="icon">
+                                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                                    </span>
+                                                    <span>Sair</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="columns">
+                <aside class="column is-2 menu is-fullheight">
+                    <ul class="menu-list">
+                        <li>
+                            <a href="#" class="item active has-background-grey-lighter is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-folder"></i>
+                                </span>
+                                <span class="name">Ficheiros</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item active is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-share"></i>
+                                </span>
+                                <span class="name">Partilhados</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item active is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="name">Favoritos</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-list mt-auto">
+                        <li>
+                            <a href="#" class=" is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span class="name">Reciclagem</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <p class="ml-2 mt-2 has-text-grey-light">2.4/6 GB utilizados</p>
+                        </li>
+                    </ul>
+                </aside>
+                <div class="column is-full">
+                    <table class="table is-narrow">
+                        <tr class="mb-6 has-text-grey-light">
+                            <td><label class="checkbox"><input type="checkbox"></label></td>
+                            <td class="ml-6">Nome</td>
+                            <td class="mr-auto">Tamanho</td>
+                        </tr>
+
+                        <tr>
+                            <td><label class="checkbox"><input type="checkbox"></label></td>
+                            <td><span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-file"></i>
+                                    </span>
+                                    <span>Apresentação<span class="has-text-grey-light">.docx</span>
+                                        <span>
+                                            <div class="dropdown is-active">
+                                                <div class="dropdown-trigger">
+                                                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                                    <span class="icon is-small">
+                                                      <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
+                                                    </span>
+                                                  </button>
+                                                </div>
+                                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                                    <div class="dropdown-content">
+                                                        <a href="#" class="dropdown-item">
+                                                            <span class="icon-text">
+                                                                <span class="icon">
+                                                                <i class="fas fa-star"></i>
+                                                                </span>
+                                                                <span>Adicionar aos favoritos</span>
+                                                            </span>
+                                                        </a>
+                                                        <a href="#" class="dropdown-item">
+                                                            <span class="icon-text">
+                                                                <span class="icon">
+                                                                    <i class="fas fa-pencil"></i>
+                                                                </span>
+                                                                <span>Renomear</span>
+                                                            </span>
+                                                        </a>
+                                                        <a href="#" class="dropdown-item">
+                                                            <span class="icon-text">
+                                                                <span class="icon">
+                                                                    <i class="fas fa-download"></i>
+                                                                </span>
+                                                                <span>Transferir</span>
+                                                            </span>
+                                                        </a>
+                                                        <a href="#" class="dropdown-item">
+                                                            <span class="icon-text">
+                                                                <span class="icon">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </span>
+                                                                <span>Eliminar</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td>350KB</td>
+                        </tr>
+                    </table>
+
+                    <div class="box">
+                        Enviando 'TODO.txt'...
+                        <div class="progress--circle progress--25">
+                            <div class="progress__number">25%</div>
+                        </div>
+                      </div>
+
+                    <span class="icon">
+                        <i class="fas fa-circle-plus"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
