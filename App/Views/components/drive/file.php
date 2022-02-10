@@ -46,7 +46,7 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
 
 <tr class="datatable-item" id="file-<?php echo $file['id'] ?>">
     <td class="file-checkbox"><input type="checkbox"></td>
-    <td class="file-icon">
+    <td class="file-icon <? echo $folder ? 'colored' : '' ?>">
         <i class="fas fa-<? echo $icon ?>"></i>
     </td>
     <td class="file-name">
