@@ -14,11 +14,10 @@ class Auth extends \Core\Controller
     }
 
     public function authenticate() {
-        $on = $_POST;
-        Input::check(['username', 'password'], $on);
+        $input = new Input();
 
-        $username = Input::str($on['username']);
-        $password = Input::str($on['password']);
+        $username = $input->str('username');
+        $password = $input->str('password');
 
         $user = User::getByUsername($username);
         if ($user === false) {
@@ -32,23 +31,23 @@ class Auth extends \Core\Controller
         session_start();
         $_SESSION['userId'] = $user['id'];
 
-        echo $user['id'];
+        header('Location: /drive/files');
     }
 
     public function logout() {
         session_start();
         session_destroy();
 
-        echo 'Logout';
+        header('Location: /auth/login');
     }
 
     public function test()
     {
+        $input = new Input($_SESSION);
+
         session_start();
 
-        Input::check(['userId'], $_SESSION);
-
-        $userId = Input::int($_SESSION['userId']);
+        $userId = $input->int('userId');
         echo 'UserID: ' . $userId;
     }
 }

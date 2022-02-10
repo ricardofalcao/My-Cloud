@@ -1,14 +1,10 @@
 <?php
+
 use Core\View;
 
-View::render('components/drive/base.php');
-
-$cloud_files = array_map(function($val) {
-    $path_parts = pathinfo($val['name']);
-    $folder = $val['type'] === 'FOLDER';
-
-    return new CloudFile($path_parts['filename'], $folder ? '' : $path_parts['extension'], $val['size'], $folder);
-}, $files);
+if (!isset($id) || !isset($files) || !isset($count)) {
+    return;
+}
 
 ?>
 
@@ -22,88 +18,137 @@ View::render('components/head.php');
 ?>
 
 <body>
-    <div id="app">
+<div id="app" ondrop="onFileDrop(event)" ondragover="onFileDrag(event)">
+    <div id="drag_overlay">
+        <h1>Drag and drop to upload!</h1>
+    </div>
+
+    <?php
+    View::render('components/drive/navbar.php');
+    ?>
+
+    <main>
         <?php
-            View::render('components/drive/navbar.php');
+        View::render('components/drive/sidebar.php', [
+            'sidebar_current_id' => $id,
+            'count' => $count,
+        ]);
         ?>
 
-        <main>
-            <?php
-                View::render('components/drive/sidebar.php', [
-                    'sidebar_current_id' => 'files'
-                ]);
-            ?>
-            
 
-            <div class="content">
-                <table class="datatable" cellspacing="0" rowspacing="0">
-                    <thead class="datatable-header">
-                        <tr>
-                            <th class="file-checkbox"><input type="checkbox"></th>
-                            <th class="file-icon"></th>
-                            <th class="file-name">Nome</th>
-                            <th class="file-options"></th>
-                            <th class="file-size">Tamanho</th>
-                        </tr>
-                    </thead>
-                    <tbody class="datatable-body">
-                        <?php 
-                            foreach($cloud_files as $file) {
-                        ?>
+        <div class="content">
+            <table class="datatable" cellspacing="0" rowspacing="0">
+                <thead class="datatable-header">
+                <tr>
+                    <th class="file-checkbox"><input type="checkbox"></th>
+                    <th class="file-icon"></th>
+                    <th class="file-name">Nome</th>
+                    <th class="file-options"></th>
+                    <th class="file-size">Tamanho</th>
+                </tr>
+                </thead>
+                <tbody class="datatable-body" id="datatable-content">
+                <?php
+                foreach ($files as $file) {
+                    $fileId = $file['id'];
 
-                        <tr class="datatable-item">
-                            <td class="file-checkbox"><input type="checkbox"></td>
-                            <td class="file-icon">
-                                <i class="fas fa-<? echo $file->icon ?>"></i>
-                            </td>
-                            <td class="file-name"><? echo $file->name ?><span class="file-extension"><? if (!$file->folder) echo '.' . $file->extension; ?></span></td>
-                            <td class="file-options">
-                                <i class="fas fa-ellipsis-h"></i>
+                    View::render('components/drive/file.php', [
+                        'file' => $file
+                    ]);
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
 
-                                <ul class="dropdown">
-                                    <li class="dropdown-link">
-                                        <a href="#">
-                                            <i style="color: yellow;" class="fas fa-star"></i>
-                                            Adicionar aos favoritos
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-link">
-                                        <a href="#">
-                                            <i class="fas fa-pen"></i>
-                                            Renomear
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-link">
-                                        <a href="#">
-                                            <i class="fas fa-download"></i>
-                                            Transferir
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-link">
-                                        <a href="#">
-                                            <i class="fas fa-trash"></i>
-                                            Eliminar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="file-size"><? echo $file->size ?></td>
-                        </tr>
+        <label class="fab">
+            <i class="fas fa-plus"></i>
 
-                        <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+            <input type="file" multiple onchange="onFileUpload(event)">
+        </label>
+    </main>
+</div>
 
-            <label class="fab">
-                <i class="fas fa-plus"></i>
+<script>
+    async function restoreFile(fileId) {
+        const result = await fetch(`/drive/trash/${fileId}`, {
+            method: 'POST',
+        })
 
-                <input type="file">
-            </label>
-        </main>
-    </div>
+        if (result.ok) {
+            document.location.reload()
+        }
+    }
+
+    async function deleteFile(fileId, force) {
+        const result = await fetch(force ? `/drive/trash/${fileId}` : `/drive/files/${fileId}`, {
+            method: 'DELETE',
+        })
+
+        if (result.ok) {
+            document.location.reload()
+        }
+    }
+
+    async function favoriteFile(fileId, value) {
+        const result = await fetch(`/drive/favorites/${fileId}`, {
+            method: value ? 'POST' : 'DELETE',
+        })
+
+        if (result.ok) {
+            document.location.reload()
+        }
+    }
+
+    async function uploadFiles(files) {
+        const data = new FormData()
+        for (let i = 0; i < files.length; i++) {
+            data.append('files[]', files[i])
+        }
+
+        const result = await fetch(window.location.href, {
+            method: 'POST',
+            body: data
+        })
+
+        if (result.ok) {
+            window.location.reload();
+        }
+    }
+
+    async function onFileUpload(event) {
+        event.preventDefault();
+
+        await uploadFiles(event.target.files);
+    }
+
+    async function onFileDrop(event) {
+        event.preventDefault();
+
+        const files = [];
+
+        const items = event.dataTransfer.items;
+        if (items) {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file') {
+                    files.push(items[i].getAsFile());
+                }
+            }
+        }
+
+        if (files.length > 0) {
+            await uploadFiles(files);
+        }
+    }
+
+    async function onFileDrag(event) {
+        event.preventDefault();
+
+        const overlay = document.getElementById("drag_overlay");
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+    }
+</script>
 </body>
 
 </html>

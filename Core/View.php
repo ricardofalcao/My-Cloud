@@ -8,12 +8,12 @@ class View
   {
     extract($args, EXTR_SKIP);
 
-    $file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
+    $__file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
 
-    if (!is_readable($file)) {
-      throw new \Exception("$file not found");
+    if (!is_readable($__file)) {
+      throw new \Exception("$__file not found");
     }
 
-    require $file;
+    require $__file;
   }
 }

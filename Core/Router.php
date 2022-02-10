@@ -48,10 +48,10 @@ class Router
         $path = preg_replace('/\//', '\\/', $path);
 
         // Convert variables e.g. {controller}
-        $path = preg_replace('/\{([a-z]+)\}/', '(?\'\1\'[a-z-]+)', $path);
+        $path = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?\'\1\'[a-zA-Z0-9_]+)', $path);
 
         // Convert variables with custom regular expressions e.g. {id:\d+}
-        $path = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?\'$1\'$2)', $path);
+        $path = preg_replace('/\{([a-zA-Z0-9_]+):([^\}]+)\}/', '(?\'$1\'$2)', $path);
 
         // Add start and end delimiters, and case insensitive flag
         $path = '/^' . $path . '$/i';

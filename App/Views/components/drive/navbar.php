@@ -1,23 +1,3 @@
-<?php
-class NavbarLink {
-    public $id;
-    public $name;
-    public $target;
-
-    public function __construct(string $id, string $name, string $target) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->target = $target;
-    }
-}
-
-$navbar_links = array(
-    new NavbarLink('index', 'Início', '/'),
-    new NavbarLink('login', 'Login', '/login'),
-    new NavbarLink('settings', 'Settings', '/settings')
-);
-?>
-
 <nav class="navbar">
     <div class="navbar-title">
         <i class="fas fa-cloud"></i>
@@ -25,20 +5,6 @@ $navbar_links = array(
     </div>
 
     <ul class="navbar-links">
-        <?php 
-            foreach($navbar_links as $link) {
-        ?>
-
-        
-
-        <li class="navbar-link <? echo $link->id === $navbar_current_id ? "active" : "" ?>">
-            <a href="<? echo $link->target ?>"><? echo $link->name ?></a>
-        </li>
-
-        <?php
-            }
-        ?>
-
         <li class="navbar-avatar">
             <img src="/assets/images/avatar_ricardofalcao.jpg"/>
 
@@ -52,10 +18,12 @@ $navbar_links = array(
                     </a>
                 </li>
                 <li class="dropdown-link">
-                    <a href="#">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Sair
-                    </a>
+                    <form action="/auth/logout" method="POST">
+                        <button type="submit">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair
+                        </button>
+                    </form>
                 </li>
             </ul>
         </li>

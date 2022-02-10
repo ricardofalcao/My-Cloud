@@ -3,53 +3,88 @@
 namespace Core;
 
 class  Input {
-    
-    static function check($arr, $on = false) {
-        if ($on === false) {
-            $on = $_REQUEST;
-        }
-        foreach ($arr as $value) {
-            if (empty($on[$value])) {
-                throw new \Exception("Field '$value' is missing", 900);
-            }
-        }
+
+    protected $params = [];
+
+    /**
+     * Class constructor
+     *
+     * @param array $params  Parameters from the route
+     *
+     * @return void
+     */
+    public function __construct($params = false)
+    {
+        $this->params = $params ?: $_REQUEST;
     }
 
-    static function int($val) {
-        $val = filter_var($val, FILTER_VALIDATE_INT);
-        if ($val === false) {
-            throw new \Exception('Invalid Integer', 901);
-        }
-        return $val;
+    /*
+     *
+     */
+
+    public function exists($key) {
+        return !empty($this->params[$key]);
     }
 
-    static function str($val) {
-        if (!is_string($val)) {
-            throw new \Exception('Invalid String', 902);
+    public function requires($key) {
+        if (!$this->exists($key)) {
+            throw new \Exception("Field '$key' is required.", 400);
+            return false;
         }
 
-        $val = trim(htmlspecialchars($val));
-        return $val;
+        return true;
     }
 
-    static function bool($val) {
-        $val = filter_var($val, FILTER_VALIDATE_BOOLEAN);
-        return $val;
-    }
+    /*
+     *
+     */
 
-    static function email($val) {
-        $val = filter_var($val, FILTER_VALIDATE_EMAIL);
-        if ($val === false) {
-            throw new \Exception('Invalid Email', 903);
+    private function _filter($key, $filter, $errorMessage) {
+        $this->requires($key);
+
+        $value = filter_var($this->params[$key], $filter);
+        if ($value === false) {
+            throw new \Exception("Field '$key' must be $errorMessage.", 400);
         }
-        return $val;
+
+        return $value;
     }
 
-    static function url($val) {
-        $val = filter_var($val, FILTER_VALIDATE_URL);
-        if ($val === false) {
-            throw new \Exception('Invalid URL', 904);
+    public function int($key) {
+        return $this->_filter($key, FILTER_VALIDATE_INT, 'numeric');
+    }
+
+    public function float($key) {
+        return $this->_filter($key, FILTER_VALIDATE_FLOAT, 'a float');
+    }
+
+    public function str($key) {
+        $this->requires($key);
+
+        $value = $this->params[$key];
+        if (!is_string($value)) {
+            throw new \Exception("Field '$key' must be numeric.", 400);
         }
-        return $val;
+
+        $value = trim(htmlspecialchars($value));
+        return $value;
+    }
+
+    public function bool($key) {
+        return $this->_filter($key, FILTER_VALIDATE_BOOLEAN, 'a boolean');
+    }
+
+    public function email($key) {
+        return $this->_filter($key, FILTER_VALIDATE_EMAIL, 'an email');
+    }
+
+    public function url($key) {
+        return $this->_filter($key, FILTER_VALIDATE_URL, 'an url');
+    }
+
+    public function get($key) {
+        $this->requires($key);
+
+        return $this->params[$key];
     }
 }

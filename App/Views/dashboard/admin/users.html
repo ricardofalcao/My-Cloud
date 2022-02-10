@@ -9,189 +9,172 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" href="../../../../public/assets/css/main.css">
 
 </head>
 
 <body>
-    <div class="columns is-6-desktop">
-        <div class="column">
-            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-                <h1 class="pl-5">
+
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <h1 class="pl-5">
                     <span class="icon-text is-large">
                         <span class="icon">
                             <i class="fa fa-cloud"></i>
                         </span>
                         <span>My Cloud</span>
                     </span>
-                </h1>
-                <div id="navbar" class="navbar-menu">
-                    <div class="navbar-end">
-                        <div class="navbar-item">
-                            <span>
-                                <div class="dropdown is-active">
-                                    <div class="dropdown-trigger">
-                                        <figure class="image" aria-controls="dropdown-menu">
-                                            <img class="is-rounded"
-                                                src="https://bulma.io/images/placeholders/128x128.png">
-                                        </figure>
-                                    </div>
-                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                        <div class="dropdown-content">
-                                            <p class="has-text-grey-light ml-3">Ricardo Falcão</p>
-                                            <a href="#" class="dropdown-item">
-                                                <span class="icon-text">
-                                                    <span class="icon">
-                                                        <i class="fas fa-gear"></i>
-                                                    </span>
-                                                    <span>Painel de controlo</span>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="dropdown-item">
-                                                <span class="icon-text">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                                    </span>
-                                                    <span>Sair</span>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+    </h1>
+    <div id="navbar" class="navbar-menu">
+        <div class="navbar-end">
+
+        </div>
+    </div>
+</nav>
+
+<div class="columns is-gapless">
+    <aside class="column is-2 menu is-fullheight left-border">
+        <ul class="menu-list">
+            <p class="menu-label ml-4 mt-4">
+                Utilizador
+            </p>
+            <li>
+                <a href="#" class="is-flex is-align-items-center">
+                            <span class="icon mr-2">
+                                <i class="fas fa-user"></i>
                             </span>
+                    <span class="name">Perfil</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#" class=" is-flex is-align-items-center">
+                            <span class="icon mr-2">
+                                <i class="fas fa-chart-pie"></i>
+                            </span>
+                    <span class="name">Estatísticas</span>
+                </a>
+            </li>
+        </ul>
+        <p class="menu-label ml-4 mt-4">
+            Administrador
+        </p>
+        <ul class="menu-list">
+            <li>
+                <a href="#" class="has-background-grey-lighter is-flex is-align-items-center">
+                            <span class="icon mr-2">
+                                <i class="fas fa-users"></i>
+                            </span>
+                    <span class="name">Utilizadores</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class=" is-flex is-align-items-center">
+                            <span class="icon mr-2">
+                                <i class="fas fa-chart-pie"></i>
+                            </span>
+                    <span class="name">Estatísticas</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="column">
+        <table class="table is-fullwidth">
+            <tr class="has-text-grey-light">
+                <td>Username</td>
+                <td>Nome Completo</td>
+                <td>Ações</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="icon-text">
+                        <!--<figure class="image is-128x128">
+                            <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                        </figure>-->
+
+                        ricardofalcao
+                    </span>
+                </td>
+
+                <td>
+                    Ricardo Falcão
+                </td>
+
+                <td>
+                    <span class="icon">
+                        <i class="fas fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <span class="icon">
+                <i class="fas fa-circle-plus"></i>
+            </span>
+        </div>
+
+
+        <div class="container is-fluid">
+            <form>
+                <h1 class="is-size-4 has-text-weight-bold mb-4">Adicionar utilizador</h1>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label for="" class="label">Username</label>
+                            <p class="control has-icons-left is-expanded">
+                                <input type="email" placeholder="e.g. Notorious B.I.G." class="input" required>
+                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                            </p>
+                        </div>
+
+                        <div class="field">
+                            <label for="" class="label">Nome completo</label>
+                            <p class="control has-icons-left is-expanded">
+                                <input type="password" placeholder="e.g. Adelino Passas" class="input" required>
+                                <span class="icon is-small is-left">
+                            <i class="fa fa-address-book"></i>
+                        </span>
+                            </p>
                         </div>
                     </div>
                 </div>
-            </nav>
+                <div class="field is-horizontal">
+                    <div class="field-body">
 
-            <div class="columns">
-                <aside class="column is-2 menu is-fullheight">
-                    <ul class="menu-list">
-                        <p class="menu-label ml-2 mt-2">
-                            Utilizador
-                        </p>
-                        <li>
-                            <a href="#" class="is-flex is-align-items-center">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-user"></i>
-                                </span>
-                                <span class="name">Perfil</span>
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class=" is-flex is-align-items-center">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie"></i>
-                                </span>
-                                <span class="name">Estatísticas</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="menu-label ml-2 mt-2">
-                        Administrador
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a href="#" class="has-background-grey-lighter is-flex is-align-items-center">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-users"></i>
-                                </span>
-                                <span class="name">Utilizadores</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class=" is-flex is-align-items-center">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie"></i>
-                                </span>
-                                <span class="name">Estatísticas</span>
-                            </a>
-                        </li>
-                    </ul>
-                </aside>
-
-                <div class="column is-full">
-                    <table class="table is-narrow">
-                        <tr class="mb-6 has-text-grey-light">
-                            <td class="ml-6">Username</td>
-                            <td class="mr-auto">Nome Completo</td>
-                            <td class="mr-auto">Ações</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <figure class="image">
-                                    <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-                                </figure>
-                            </td>
-                            <td><span class="icon-text">
-                                    <span>Ricardo Falcão</span>
-                                </span>
-                            </td>
-                            <td><span class="icon">
-                                    <i class="fas fa-trash"></i>
-                                </span></td>
-                        </tr>
-                    </table>
-
-                    <div>
-                        <span class="icon">
-                            <i class="fas fa-circle-plus"></i>
-                        </span>
-                    </div>
-
-                    <div class="field-group ml-4 mt-4">
-                        <div class="field is-inline-block-desktop mr-6">
-                            <h1 class="is-size-4">Adicionar utilizador</h1>
-                            <div class="field">
-                                <label for="" class="label mt-4">Username</label>
-                                <div class="control has-icons-left">
-                                    <input type="email" placeholder="e.g. Notorious B.I.G." class="input" required>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label for="" class="label mt-4">Password</label>
-                                <div class="control has-icons-left mb-6">
-                                    <input type="password" placeholder="*******" class="input" required>
-                                    <span class="icon is-small is-left">
-                                        <i class="fa fa-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <button class="button is-block is-fullwidth is-primary is-medium mb-6">
-                                    Submeter
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="field is-inline-block-desktop">
-                            <label for="" class="label">Nome completo</label>
-                            <div class="control has-icons-left">
-                                <input type="password" placeholder="e.g. Adelino Passas" class="input" required>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-address-book"></i>
-                                </span>
-                            </div>
-
-                            <label for="" class="label mt-4">Confirmar Password</label>
+                        <div class="field">
+                            <label for="" class="label">Password</label>
                             <div class="control has-icons-left">
                                 <input type="password" placeholder="*******" class="input" required>
                                 <span class="icon is-small is-left">
-                                    <i class="fa fa-lock"></i>
-                                </span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="" class="label">Confirmar Password</label>
+                            <div class="control has-icons-left">
+                                <input type="password" placeholder="*******" class="input" required>
+                                <span class="icon is-small is-left">
+                                <i class="fa fa-lock"></i>
+                            </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="field">
+                    <button class="button is-primary">
+                        Submeter
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 </body>
 
 </html>

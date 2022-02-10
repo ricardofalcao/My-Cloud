@@ -10,7 +10,6 @@ services:
     volumes:
       - ./public:/var/www/html
       - ./:/var/www/
+      - ./data:/data
     ports:
       - 8080:80
-volumes:
-  pg:

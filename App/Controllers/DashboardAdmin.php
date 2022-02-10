@@ -17,8 +17,8 @@ class DashboardAdmin extends \Core\Controller
      */
 
     public function showUser() {
-        Input::check(['id'], $this->params);
-        $userId = Input::int($this->params['id']);
+        $input = new Input($this->params);
+        $userId = $input->int('id');
 
         $user = User::get($userId);
         echo $user;
@@ -31,12 +31,11 @@ class DashboardAdmin extends \Core\Controller
 
     public function createUser()
     {
-        $on = $_POST;
-        Input::check(['username', 'name', 'password'], $on);
+        $input = new Input();
 
-        $username = Input::str($on['username']);
-        $name = Input::str($on['name']);
-        $password = Input::str($on['password']);
+        $username = $input->str('username');
+        $name = $input->str('name');
+        $password = $input->str('password');
 
         User::create($username, $name, $password);
     }
