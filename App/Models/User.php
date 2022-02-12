@@ -38,8 +38,9 @@ class User extends \Core\Model
         $password_hash = password_hash($password,  PASSWORD_DEFAULT);
 
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO public.user (username, name, password_hash, quota, role) VALUES (?, ?, ?, ?, ?);");
+        $stmt = $db->prepare("INSERT INTO public.user (username, name, password_hash, quota, role) VALUES (?, ?, ?, ?, ?) RETURNING *;");
         $stmt->execute([ $username, $name, $password_hash, $quota, $role]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }

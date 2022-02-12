@@ -40,7 +40,7 @@ View::render('components/head.php');
             <table class="datatable" cellspacing="0" rowspacing="0">
                 <thead class="datatable-header">
                 <tr>
-                    <th class="file-checkbox"><input type="checkbox"></th>
+                    <th class="file-checkbox"><input type="checkbox" onchange="checkboxAll(event.currentTarget.checked)"></th>
                     <th class="file-icon"></th>
                     <th class="file-name">Nome</th>
                     <th class="file-options"></th>
@@ -49,11 +49,12 @@ View::render('components/head.php');
                 </thead>
                 <tbody class="datatable-body" id="datatable-content">
                 <?php
-                foreach ($files as $file) {
+                foreach ($files as $index => $file) {
                     $fileId = $file['id'];
 
                     View::render('components/drive/file.php', [
-                        'file' => $file
+                        'file' => $file,
+                        'index' => $index
                     ]);
                 }
                 ?>
@@ -61,15 +62,40 @@ View::render('components/head.php');
             </table>
         </div>
 
-        <label class="fab">
+        <label class="fab" onclick="createFolder(event)">
             <i class="fas fa-plus"></i>
 
-            <input type="file" multiple onchange="onFileUpload(event)">
+            <!--<input type="file" multiple onchange="onFileUpload(event)">-->
         </label>
     </main>
 </div>
 
 <script>
+    let lastIndex = -1;
+
+    function check(checkbox, shift) {
+        const checkboxes = document.getElementsByClassName('row-checkbox')
+        const index = [].indexOf.call(checkboxes, checkbox)
+
+        if (shift && lastIndex != -1) {
+            const min = Math.min(lastIndex, index);
+            const max = Math.max(lastIndex, index);
+
+            for(let i = min; i <= max; i++) {
+                checkboxes[i].checked = checkbox.checked;
+            }
+        }
+
+        lastIndex = index;
+    }
+
+    function checkboxAll(value) {
+        const checkboxes = document.getElementsByClassName('row-checkbox')
+        for(let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = value;
+        }
+    }
+
     async function restoreFile(fileId) {
         const result = await fetch(`/drive/trash/${fileId}`, {
             method: 'POST',
@@ -105,6 +131,22 @@ View::render('components/head.php');
         for (let i = 0; i < files.length; i++) {
             data.append('files[]', files[i])
         }
+
+        const result = await fetch(window.location.href, {
+            method: 'POST',
+            body: data
+        })
+
+        if (result.ok) {
+            window.location.reload();
+        }
+    }
+
+    async function createFolder(event) {
+        event.preventDefault();
+
+        const data = new FormData()
+        data.append('folderName', Date.now().toString())
 
         const result = await fetch(window.location.href, {
             method: 'POST',

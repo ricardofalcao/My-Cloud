@@ -28,24 +28,57 @@ class Auth extends \Core\Controller
             throw new \Exception('Incorrent password', 401);
         }
 
-        session_start();
         $_SESSION['userId'] = $user['id'];
 
         header('Location: /drive/files');
     }
 
     public function logout() {
-        session_start();
         session_destroy();
 
         header('Location: /auth/login');
     }
 
+    /*
+     *
+     */
+
+
+    public function register()
+    {
+        View::render('auth/register.php');
+    }
+
+    public function signup() {
+        $input = new Input();
+
+        $username = $input->str('username');
+        $name = $input->str('name');
+        $password = $input->str('password');
+        $confirmPassword = $input->str('confirm-password');
+
+        if ($password !== $confirmPassword) {
+            View::render('auth/register.php', [
+                'error' => 'Passwords dont match'
+            ]);
+
+            return;
+        }
+
+        $user = User::create($username, $name, $password);
+
+        $_SESSION['userId'] = $user['id'];
+
+        header('Location: /drive/files');
+    }
+
+    /*
+     *
+     */
+
     public function test()
     {
         $input = new Input($_SESSION);
-
-        session_start();
 
         $userId = $input->int('userId');
         echo 'UserID: ' . $userId;

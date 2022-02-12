@@ -12,12 +12,15 @@ class Route
 
     public $method;
 
-    public function __construct($expression, $httpMethod, $controller, $method)
+    public $middleware;
+
+    public function __construct($expression, $httpMethod, $controller, $method, $middleware)
     {
         $this->expression = $expression;
         $this->httpMethod = $httpMethod;
         $this->controller = $controller;
         $this->method = $method;
+        $this->middleware = $middleware;
     }
 }
 
@@ -59,24 +62,24 @@ class Router
         return $path;
     }
 
-    public function get($path, $controller, $method)
+    public function get($path, $controller, $method, $middleware = [])
     {
-        $this->routes[] = new Route($this->prepareExpression($path), 'GET', $controller, $method);
+        $this->routes[] = new Route($this->prepareExpression($path), 'GET', $controller, $method, $middleware);
     }
 
-    public function post($path, $controller, $method)
+    public function post($path, $controller, $method, $middleware = [])
     {
-        $this->routes[] = new Route($this->prepareExpression($path), 'POST', $controller, $method);
+        $this->routes[] = new Route($this->prepareExpression($path), 'POST', $controller, $method, $middleware);
     }
 
-    public function patch($path, $controller, $method)
+    public function patch($path, $controller, $method, $middleware = [])
     {
-        $this->routes[] = new Route($this->prepareExpression($path), 'PATCH', $controller, $method);
+        $this->routes[] = new Route($this->prepareExpression($path), 'PATCH', $controller, $method, $middleware);
     }
 
-    public function delete($path, $controller, $method)
+    public function delete($path, $controller, $method, $middleware = [])
     {
-        $this->routes[] = new Route($this->prepareExpression($path), 'DELETE', $controller, $method);
+        $this->routes[] = new Route($this->prepareExpression($path), 'DELETE', $controller, $method, $middleware);
     }
 
     /*
@@ -116,6 +119,24 @@ class Router
                     $instance = new $controller($params);
                     if (!method_exists($instance, $method)) {
                         throw new \Exception("Method $method not found in controller " . $controller);
+                    }
+
+                    foreach($route->middleware as $mw) {
+                        $middlewareClass = 'App\Middleware\\' . $mw;
+
+                        if (!class_exists($middlewareClass)) {
+                            throw new \Exception("Could not find $middlewareClass class");
+                        }
+
+                        $middlewareInstance = new $middlewareClass();
+                        if (!($middlewareInstance instanceof Middleware)) {
+                            throw new \Exception("$middlewareClass does not extend Middleware class");
+                        }
+
+                        if (!$middlewareInstance->handle()) {
+
+                            return;
+                        }
                     }
             
                     call_user_func_array([$instance, $method], []);

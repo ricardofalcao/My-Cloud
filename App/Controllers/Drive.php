@@ -4,19 +4,22 @@ namespace App\Controllers;
 
 use App\Models\File;
 use Core\Input;
+use Core\Request;
 use Core\View;
 
 class Drive extends \Core\Controller
 {
-    public function countFiles() {
-        $inputSession = new Input($_SESSION);
-        $userId = $inputSession->int('userId');
+    public function countFiles()
+    {
+        $userId = Request::get('userId');
+
+        $deleted = count(File::getByState($userId, 'DELETED'));
 
         return [
-            'files' => count(File::getByType($userId, 'FILE')),
+            'files' => count(File::getByType($userId, 'FILE')) - $deleted,
             'shared' => 0,
             'favorites' => count(File::getByState($userId, 'FAVORITE')),
-            'trash' => count(File::getByState($userId, 'DELETED')),
+            'trash' => $deleted,
         ];
     }
 
@@ -26,15 +29,11 @@ class Drive extends \Core\Controller
 
     public function files()
     {
-        session_start();
-
-        $inputSession = new Input($_SESSION);
-        $userId = $inputSession->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         if ($inputParams->exists('id')) {
-            $folderId = $inputParams->int('id');
-;
+            $folderId = $inputParams->int('id');;
             $files = File::getByParent($folderId);
         } else {
             $files = File::getRoot($userId);
@@ -50,14 +49,7 @@ class Drive extends \Core\Controller
 
     public function filesPost()
     {
-        session_start();
-
-        $inputSession = new Input($_SESSION);
-        $userId = $inputSession->int('userId');
-
-        $inputRequest = new Input($_FILES);
-        $files = $inputRequest->get('files');
-        $all_files = count($files['tmp_name']);
+        $userId = Request::get('userId');
 
         $parent_id = null;
         $inputParams = new Input($this->params);
@@ -65,30 +57,37 @@ class Drive extends \Core\Controller
             $parent_id = $inputParams->int('id');
         }
 
-        $dir = '/data/' . $userId;
-        if (!file_exists($dir)) {
-            mkdir($dir, 0775, true);
-        }
+        $inputRequest = new Input($_FILES);
+        if ($inputRequest->exists('folderName')) {
+            $folderName = $inputRequest->get('folderName');
 
-        for ($i = 0; $i < $all_files; $i++) {
-            $size = $files['size'][$i];
-            $name = $files['name'][$i];
-            $tmp = $files['tmp_name'][$i];
-            $type = $files['type'][$i];
+            $id = File::create($userId, $folderName, 0, 'FOLDER', 'NONE', null, $parent_id);
+        } else {
+            $files = $inputRequest->get('files');
+            $all_files = count($files['tmp_name']);
 
-            $id = File::create($userId, $name, $size, 'FILE', 'NONE', $type, $parent_id);
-            $path = $dir . '/' . $id;
+            $dir = '/data/' . $userId;
+            if (!file_exists($dir)) {
+                mkdir($dir, 0775, true);
+            }
 
-            move_uploaded_file($tmp, $path);
+            for ($i = 0; $i < $all_files; $i++) {
+                $size = $files['size'][$i];
+                $name = $files['name'][$i];
+                $tmp = $files['tmp_name'][$i];
+                $type = $files['type'][$i];
+
+                $id = File::create($userId, $name, $size, 'FILE', 'NONE', $type, $parent_id);
+                $path = $dir . '/' . $id;
+
+                move_uploaded_file($tmp, $path);
+            }
         }
     }
 
     public function filesDelete()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-        $userId = $input->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
@@ -103,10 +102,7 @@ class Drive extends \Core\Controller
 
     public function download()
     {
-        session_start();
-
-        $inputSession = new Input($_SESSION);
-        $userId = $inputSession->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
@@ -122,12 +118,12 @@ class Drive extends \Core\Controller
 
             header('Content-Description: File Transfer');
             header("Content-Type: $mime_type");
-            header('Content-Disposition: attachment; filename="'. $name .'"');
+            header('Content-Disposition: attachment; filename="' . $name . '"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
-            header('Content-Length: '.$size);
-            header("Content-Range: 0-".($size-1)."/".$size);
+            header('Content-Length: ' . $size);
+            header("Content-Range: 0-" . ($size - 1) . "/" . $size);
 
             readfile($path);
             exit;
@@ -141,12 +137,7 @@ class Drive extends \Core\Controller
 
     public function favorites()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-
-        $userId = $input->int('userId');
-
+        $userId = Request::get('userId');
         // verificar root
 
         $files = File::getRootByState($userId, 'FAVORITE');
@@ -160,11 +151,7 @@ class Drive extends \Core\Controller
 
     public function favoritesPost()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-
-        $userId = $input->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
@@ -175,11 +162,7 @@ class Drive extends \Core\Controller
 
     public function favoritesDelete()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-
-        $userId = $input->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
@@ -194,12 +177,7 @@ class Drive extends \Core\Controller
 
     public function shared()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-
-        $userId = $input->int('userId');
-
+        $userId = Request::get('userId');
         // verificar root
 
         //$files = File::getRoot($userId);
@@ -211,15 +189,10 @@ class Drive extends \Core\Controller
             'count' => $this->countFiles(),
         ]);
     }
-    
+
     public function trash()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-
-        $userId = $input->int('userId');
-
+        $userId = Request::get('userId');
         // verificar root
 
         $files = File::getByState($userId, 'DELETED');
@@ -233,10 +206,7 @@ class Drive extends \Core\Controller
 
     public function trashPost()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-        $userId = $input->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
@@ -247,10 +217,7 @@ class Drive extends \Core\Controller
 
     public function trashDelete()
     {
-        session_start();
-
-        $input = new Input($_SESSION);
-        $userId = $input->int('userId');
+        $userId = Request::get('userId');
 
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
