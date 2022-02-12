@@ -21,11 +21,26 @@ class Auth extends \Core\Controller
 
         $user = User::getByUsername($username);
         if ($user === false) {
-            throw new \Exception('User not found', 404);
+            View::render('auth/login.php', [
+                "errors" => [
+                    "username" => "Invalid username"
+                ],
+                "username" => $username,
+            ]);
+
+            return;
         }
 
         if (!password_verify($password, $user['password_hash'])) {
-            throw new \Exception('Incorrent password', 401);
+            View::render('auth/login.php', [
+                "errors" => [
+                    "username" => "",
+                    "password" => "Invalid password"
+                ],
+                "username" => $username,
+            ]);
+
+            return;
         }
 
         $_SESSION['userId'] = $user['id'];
@@ -34,6 +49,7 @@ class Auth extends \Core\Controller
     }
 
     public function logout() {
+        session_start();
         session_destroy();
 
         header('Location: /auth/login');
