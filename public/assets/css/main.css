@@ -7848,3 +7848,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 .left-border {
   border-right: 1px solid #dbdbdb; }
+
+.notification .is-info .is-light {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  max-width: 10rem; }

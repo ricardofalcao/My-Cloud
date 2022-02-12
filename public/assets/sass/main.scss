@@ -12,3 +12,10 @@ $menu-list-link-padding: 0.875em 1.25em;
   border-right: 1px solid $border;
 }
 
+.notification .is-info .is-light{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  
+  max-width: 10rem;
+}
