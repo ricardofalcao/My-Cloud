@@ -2,3 +2,4 @@ vendor
 data
 
 composer.lock
+.idea/
