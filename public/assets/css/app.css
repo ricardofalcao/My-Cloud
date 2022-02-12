@@ -2,9 +2,35 @@
 
 #app {
     height: 100vh;
+    position: relative;
 
+    z-index: 15;
     display: flex;
     flex-direction: column;
+}
+
+#drag_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .5);
+
+    z-index: 10;
+    display: none;
+    opacity: 0;
+
+    transition: opacity 2s;
+    align-items: center;
+    justify-content: center;
+}
+
+#drag_overlay h1 {
+    color: #fff;
+    border: 4px dashed #fff;
+    border-radius: 8px;
+    padding: 2rem;
 }
 
 /* Navbar */
@@ -382,6 +408,10 @@ main {
 
 .file-icon {
     padding: 0 1.5rem 0 0.5rem;
+    color: var(--color-text-gray);
+}
+
+.file-icon.colored {
     color: var(--color-primary);
 }
 
@@ -418,6 +448,15 @@ main {
 
 .file-size {
     padding: 0rem 1.5rem;
+}
+
+.file-link, .file-link:link, .file-link:visited {
+    text-decoration: none;
+    color: var(--color-text-primary);
+}
+
+.file-link:hover {
+    text-decoration: underline;
 }
 
 .file-extension {

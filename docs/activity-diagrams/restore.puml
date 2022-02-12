@@ -10,6 +10,7 @@ title Restore
 
 |User|
 start
+    :Acede à pagina da reciclagem;
     :Restaura um ficheiro \nda reciclagem;
     |Backend|
     :Verifica as permissões e \nrestaura o ficheiro;

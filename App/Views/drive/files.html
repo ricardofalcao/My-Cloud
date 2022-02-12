@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>files</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+
+</head>
+
+<body>
+    <div class="columns is-6-desktop">
+        <div class="column">
+            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="https://bulma.io">
+                        <span class="icon mr-2">
+                            <i class="fa fa-cloud"></i>
+                        </span>
+
+                        <span>My Cloud</span>
+                    </a>
+
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-menu">
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <input class="input is-rounded" type="text" placeholder="Search">
+                                    <span class="icon is-small is-left">
+                                      <i class="fas fa-search"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <div class="navbar-link">
+                                User
+                            </div>
+
+                            <div id="moreDropdown" class="navbar-dropdown is-right">
+                                <a class="navbar-item " href="http://bulma.io/extensions/">
+                                    <div class="level is-mobile">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <p>
+                                                    <strong>Extensions</strong>
+                                                    <br>
+                                                    <small>Side projects to enhance Bulma</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                  <span class="icon has-text-info">
+                                                    <i class="fa fa-plug"></i>
+                                                  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="columns is-gapless">
+                <aside class="column is-2 menu is-fullheight">
+                    <ul class="menu-list">
+                        <li>
+                            <a href="#" class="item active has-background-grey-lighter is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-folder"></i>
+                                </span>
+                                <span class="name">Ficheiros</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item active is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-share"></i>
+                                </span>
+                                <span class="name">Partilhados</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item active is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="name">Favoritos</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-list mt-auto">
+                        <li>
+                            <a href="#" class=" is-flex is-align-items-center">
+                                <span class="icon mr-2">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span class="name">Reciclagem</span>
+                                <span class="tag is-rounded ml-auto">1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <p class="ml-2 mt-2 has-text-grey-light">2.4/6 GB utilizados</p>
+                        </li>
+                    </ul>
+                </aside>
+                <div class="column">
+                    <table class="table is-fullwidth">
+                        <tr class="has-text-grey-light">
+                            <td><label class="checkbox"><input type="checkbox"></label></td>
+                            <td>Nome</td>
+                            <td>Tamanho</td>
+                        </tr>
+
+                        <tr>
+                            <td><label class="checkbox"><input type="checkbox"></label></td>
+                            <td>
+                                <span class="icon-text is-flex">
+                                    <span class="icon">
+                                        <i class="fas fa-file"></i>
+                                    </span>
+
+                                    <span>Apresentação<span class="has-text-grey-light">.docx</span></span>
+
+                                    <div class="ml-auto dropdown is-hoverable">
+                                        <div class="dropdown-trigger">
+                                          <button class="button is-small is-black is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
+                                            <span class="icon is-small">
+                                              <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                                            </span>
+                                          </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                            <div class="dropdown-content">
+                                                <a href="#" class="dropdown-item">
+                                                    <span class="icon-text">
+                                                        <span class="icon">
+                                                            <i class="fas fa-star"></i>
+                                                        </span>
+                                                        <span>Favoritos</span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <span class="icon-text">
+                                                        <span class="icon">
+                                                            <i class="fas fa-pen"></i>
+                                                        </span>
+                                                        <span>Renomear</span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <span class="icon-text">
+                                                        <span class="icon">
+                                                            <i class="fas fa-download"></i>
+                                                        </span>
+                                                        <span>Transferir</span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <span class="icon-text">
+                                                        <span class="icon">
+                                                            <i class="fas fa-trash"></i>
+                                                        </span>
+                                                        <span>Eliminar</span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </td>
+                            <td>350KB</td>
+                        </tr>
+                    </table>
+
+                    <div class="notification is-info is-light">
+                        <button class="delete"></button>
+
+                        Enviando 'TODO.txt'...
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>

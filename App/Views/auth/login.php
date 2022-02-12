@@ -17,7 +17,7 @@ View::render('components/head.php');
                 <span class="login-title-text">My Cloud</span>
             </h1>
 
-            <form class="form" action="/drive" method="GET">
+            <form class="form" action="/auth/login" method="POST">
                 <label for="username">Username</label>
                 <div class="form-input-text">
                     <i class="fas fa-user"></i>

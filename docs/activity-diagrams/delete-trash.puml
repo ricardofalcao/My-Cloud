@@ -2,7 +2,7 @@
 
 skinparam Monochrome true
 
-title Delete from trash
+title Delete Permanently
 
 |#bcbcbc|User|
 |#d0d0d0|Backend|
@@ -10,6 +10,7 @@ title Delete from trash
 
 |User|
 start
+    :Acede à pagina da reciclagem;
     :Elimina o ficheiro \nda reciclagem;
     |Backend|
     :Verifica as permissões e \nelimina o ficheiro \npermanentemente;

@@ -10,6 +10,7 @@ title Delete
 
 |User|
 start
+    :Acede à pagina de ficheiros;
     :Elimina o ficheiro;
     |Backend|
     :Verifica as permissões e \nenvia o ficheiro para a recilagem;

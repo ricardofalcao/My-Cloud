@@ -1,0 +1,18 @@
+@startuml
+
+skinparam Monochrome true
+
+title Admin Profile 
+
+|#bcbcbc|Admin|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|Admin|
+start
+    :Acede à pagina de perfil;
+    |Backend|
+    :Recebe informações sobre os \nutilizadores e o sistema;
+    |Database|
+    :Busca o utilizadores;
+stop

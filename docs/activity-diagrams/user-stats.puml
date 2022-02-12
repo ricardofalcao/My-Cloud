@@ -1,0 +1,18 @@
+@startuml
+
+skinparam Monochrome true
+
+title User Statistics
+
+|#bcbcbc|User|
+|#d0d0d0|Backend|
+|#dddddd|Database|
+
+|User|
+start
+    :Acede à pagina de estatística;
+    |Backend|
+    :Recebe informações \nsobre o utilizador;
+    |Database|
+    :Busca informações;
+stop

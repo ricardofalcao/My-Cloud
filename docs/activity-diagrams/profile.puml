@@ -2,7 +2,7 @@
 
 skinparam Monochrome true
 
-title Profile
+title User Profile
 
 |#bcbcbc|User|
 |#d0d0d0|Backend|
@@ -12,7 +12,7 @@ title Profile
 start
     :Acede à pagina de perfil;
     |Backend|
-    :Recebe informações sobre o utilizador;
+    :Recebe informações \nsobre o utilizador;
     |Database|
     :Busca o utilizador;
 stop
