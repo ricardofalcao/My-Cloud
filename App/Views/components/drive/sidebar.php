@@ -32,7 +32,7 @@ $sidebar_links = array(
                     <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
                 </span>
                 <span class="name is-size-6"><? echo $link->name ?></span>
-                <span class="tag is-white is-rounded ml-auto"><? echo $count[$link->id] ?></span>
+                <span class="tag is-white is-rounded ml-auto"><? echo array_key_exists($link->id, $count) ? $count[$link->id] : 0 ?></span>
             </a>
         </li>
 
@@ -46,7 +46,7 @@ $sidebar_links = array(
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="name is-size-6">Reciclagem</span>
-                <span class="tag is-white is-rounded ml-auto"><? echo $count['trash'] ?></span>
+                <span class="tag is-white is-rounded ml-auto"><? echo array_key_exists('trash', $count) ? $count['trash'] : 0 ?></span>
             </a>
         </li>
 
