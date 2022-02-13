@@ -28,7 +28,12 @@ class  Input {
 
     public function requires($key) {
         if (!$this->exists($key)) {
-            throw new \Exception("Field '$key' is required.", 400);
+            $name = ucfirst($key);
+
+            throw new AppException([
+                $key => "'$name' is required."
+            ], 400);
+
             return false;
         }
 
@@ -44,7 +49,11 @@ class  Input {
 
         $value = filter_var($this->params[$key], $filter);
         if ($value === false) {
-            throw new \Exception("Field '$key' must be $errorMessage.", 400);
+            $name = ucfirst($key);
+
+            throw new AppException([
+                $key => "'$name' must be $errorMessage."
+            ], 400);
         }
 
         return $value;
@@ -63,7 +72,11 @@ class  Input {
 
         $value = $this->params[$key];
         if (!is_string($value)) {
-            throw new \Exception("Field '$key' must be numeric.", 400);
+            $name = ucfirst($key);
+
+            throw new AppException([
+                $key => "'$name' must be a string."
+            ], 400);
         }
 
         $value = trim(htmlspecialchars($value));

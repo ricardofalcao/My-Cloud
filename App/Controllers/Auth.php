@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Core\AppException;
 use Core\Input;
+use Core\Validation;
 use Core\View;
 
 class Auth extends \Core\Controller
@@ -13,42 +15,40 @@ class Auth extends \Core\Controller
         View::render('auth/login.php');
     }
 
-    public function authenticate() {
-        $input = new Input();
+    public function authenticate()
+    {
+        $validation = new Validation();
 
-        $username = $input->str('username');
-        $password = $input->str('password');
+        $username = $validation->name('username')->str()->min(4)->required()->get();
+        $password = $validation->name('password')->str()->min(6)->required()->get();
 
-        $user = User::getByUsername($username);
-        if ($user === false) {
-            View::render('auth/login.php', [
-                "errors" => [
-                    "username" => "Invalid username"
-                ],
-                "username" => $username,
-            ]);
+        if ($validation->isValid()) {
+            $user = User::getByUsername($username);
+            $validation->assert($user != false, [ "username" => "User not found" ]);
 
-            return;
+            if ($validation->isValid()) {
+                $validation->assert(password_verify($password, $user['password_hash']), [
+                    "username" => "",
+                    "password" => "Invalid password",
+                ]);
+            }
         }
 
-        if (!password_verify($password, $user['password_hash'])) {
+        if (!$validation->isValid()) {
             View::render('auth/login.php', [
-                "errors" => [
-                    "username" => "",
-                    "password" => "Invalid password"
-                ],
-                "username" => $username,
+                "errors" => $validation->getErrors(),
+                "username" => $username
             ]);
 
             return;
         }
 
         $_SESSION['userId'] = $user['id'];
-
         header('Location: /drive/files');
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_start();
         session_destroy();
 
@@ -65,24 +65,31 @@ class Auth extends \Core\Controller
         View::render('auth/register.php');
     }
 
-    public function signup() {
-        $input = new Input();
+    public function signup()
+    {
+        $validation = new Validation();
 
-        $username = $input->str('username');
-        $name = $input->str('name');
-        $password = $input->str('password');
-        $confirmPassword = $input->str('confirm-password');
+        $username = $validation->name('username')->str()->min(4)->required()->get();
+        $name = $validation->name('name')->str()->min(4)->required()->get();
+        $password = $validation->name('password')->str()->min(6)->required()->get();
+        $confirmPassword = $validation->name('confirmPassword')->str()->min(6)->required()->get();
 
-        if ($password !== $confirmPassword) {
+        $validation->assert($password === $confirmPassword, [
+            'password' => 'Passwords must match.',
+            'confirmPassword' => 'Passwords must match.'
+        ]);
+
+        if (!$validation->isValid()) {
             View::render('auth/register.php', [
-                'error' => 'Passwords dont match'
+                "errors" => $validation->getErrors(),
+                "username" => $username,
+                "name" => $name,
             ]);
 
             return;
         }
 
         $user = User::create($username, $name, $password);
-
         $_SESSION['userId'] = $user['id'];
 
         header('Location: /drive/files');

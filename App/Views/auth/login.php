@@ -11,20 +11,40 @@ if (!isset($errors)) {
     $errors = [];
 }
 
-function has_error($errors, $key) {
+function has_error($errors, $key)
+{
     return array_key_exists($key, $errors);
 }
 
-function get_error($errors, $key) {
+function get_error($errors, $key)
+{
     return has_error($errors, $key) ? $errors[$key] : null;
 }
+
+$inputs = [
+    [
+        "id" => "username",
+        "label" => "Username",
+        "placeholder" => "joaoexemplo",
+        "type" => "text",
+        "icon" => "fa fa-user"
+    ],
+    [
+        "id" => "password",
+        "label" => "Password",
+        "placeholder" => "password",
+        "type" => "password",
+        "icon" => "fa fa-key"
+    ]
+]
 
 ?>
 
 <body>
 
 
-<section class="hero is-fullheight" style="background-image: url('/assets/images/login_bg.png'); background-size: cover; background-position: center;">
+<section class="hero is-fullheight"
+         style="background-image: url('/assets/images/login_bg.png'); background-size: cover; background-position: center;">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
@@ -38,26 +58,29 @@ function get_error($errors, $key) {
                             <h1 class="title has-text-black has-text-weight-normal is-size-3">My Cloud</h1>
                         </span>
 
-                        <div class="field">
-                            <label for="username" class="label">Username</label>
-                            <div class="control has-icons-left">
-                                <input id="username" name="username" type="text" placeholder="e.g. Notorious B.I.G." class="input <? echo has_error($errors,'username') ? 'is-danger' : 'is-primary' ?>" required value="<? echo isset($username) ? $username : '' ?>">
-                                <span class="icon is-small is-left">
-                                <i class="fa fa-user"></i>
-                                </span>
+                        <?
+                        foreach ($inputs as $input) {
+                            ?>
+                            <div class="field">
+                                <label for="<? echo $input['id'] ?>" class="label"><? echo $input['label'] ?></label>
+                                <div class="control has-icons-left">
+                                    <input
+                                            id="<? echo $input['id'] ?>"
+                                            name="<? echo $input['id'] ?>"
+                                            type="<? echo $input['type'] ?>"
+                                            placeholder="<? echo $input['placeholder'] ?>"
+                                            class="input <? echo has_error($errors, $input['id']) ? 'is-danger' : 'is-primary' ?>"
+                                            value="<? echo isset(${$input['id']}) ? ${$input['id']} : '' ?>">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa <? echo $input['icon'] ?>"></i>
+                                    </span>
+                                </div>
+                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, $input['id']) ?: '<wbr/>' ?></p>
                             </div>
-                            <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'username') ?: '<wbr/>' ?></p>
-                        </div>
-                        <div class="field">
-                            <label for="password" class="label">Password</label>
-                            <div class="control has-icons-left">
-                                <input id="password" name="password" type="password" placeholder="*******" class="input <? echo has_error($errors,'password') ? 'is-danger' : 'is-primary' ?>" required>
-                                <span class="icon is-small is-left">
-                                <i class="fa fa-lock"></i>
-                                </span>
-                            </div>
-                            <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'password') ?: '<wbr/>' ?></p>
-                        </div>
+                            <?
+                        }
+                        ?>
+
                         <div class="field">
                             <label for="remember" class="checkbox">
                                 <input id="remember" name="remember" type="checkbox">
@@ -72,12 +95,7 @@ function get_error($errors, $key) {
                         <nav class="level mt-5">
                             <div class="level-item has-text-centered">
                                 <div>
-                                    <a href="#">Forgot Password?</a>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <a href="#">Create an Account</a>
+                                    <a href="/auth/register">Create an Account</a>
                                 </div>
                             </div>
                         </nav>
