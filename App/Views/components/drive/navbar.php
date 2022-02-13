@@ -1,31 +1,61 @@
-<nav class="navbar">
-    <div class="navbar-title">
-        <i class="fas fa-cloud"></i>
-        <span class="navbar-title-text">My Cloud</span>
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+                    <span class="icon mr-2">
+                        <i class="fa fa-cloud"></i>
+                    </span>
+
+            <span>My Cloud</span>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
     </div>
+    <div id="navbar" class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input is-rounded is-small" type="text" placeholder="Search">
+                        <span class="icon is-small is-left">
+                                  <i class="fas fa-search"></i>
+                                </span>
+                    </p>
+                </div>
+            </div>
 
-    <ul class="navbar-links">
-        <li class="navbar-avatar">
-            <img src="/assets/images/avatar_ricardofalcao.jpg"/>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <div class="navbar-link">
+                    User
+                </div>
 
-            <div class="arrow"></div>
-            <ul class="dropdown">
-                <li class="dropdown-title">Ricardo Falcão</li>
-                <li class="dropdown-link">
-                    <a href="#">
-                        <i class="fas fa-cogs"></i>
-                        Definições
+                <div id="moreDropdown" class="navbar-dropdown is-right">
+                    <a class="navbar-item " href="http://bulma.io/extensions/">
+                        <div class="level is-mobile">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <p>
+                                        <strong>Extensions</strong>
+                                        <br>
+                                        <small>Side projects to enhance Bulma</small>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="level-right">
+                                <div class="level-item">
+                                              <span class="icon has-text-info">
+                                                <i class="fa fa-plug"></i>
+                                              </span>
+                                </div>
+                            </div>
+                        </div>
                     </a>
-                </li>
-                <li class="dropdown-link">
-                    <form action="/auth/logout" method="POST">
-                        <button type="submit">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Sair
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </li>
-    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>

@@ -21,40 +21,37 @@ $sidebar_links = array(
 
 ?>
 
-<nav class="sidebar">
-    <ul class="sidebar-top">
-        <?php
-            foreach($sidebar_links as $link) {
-        ?>
+<aside class="column is-2 menu is-flex is-flex-direction-column is-align-items-stretch right-border">
+    <ul class="menu-list">
 
-        <li class="sidebar-link <? echo $link->id === $sidebar_current_id ? "active" : "" ?>">
-            <a href="<? echo $link->target ?>">
-                <span class="sidebar-label">
-                    <i class="fas fa-<? echo $link->icon ?>"></i>
-                    <span class="sidebar-label-text"><? echo $link->name ?></span>
+        <?  foreach($sidebar_links as $link) { ?>
+
+        <li>
+            <a href="<? echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <? echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
+                <span class="icon mr-2">
+                    <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
                 </span>
-                <span class="sidebar-number"><? echo $count[$link->id] ?></span>
+                <span class="name is-size-6"><? echo $link->name ?></span>
+                <span class="tag is-white is-rounded ml-auto"><? echo $count[$link->id] ?></span>
             </a>
         </li>
 
-        <?php
-            }
-        ?>
+        <? } ?>
     </ul>
 
-    <ul class="sidebar-bottom">
-        <li class="sidebar-link <? echo "trash" === $sidebar_current_id ? "active" : "" ?>">
-            <a href="/drive/trash">
-                <span class="sidebar-label">
+    <ul class="menu-list mt-auto mb-4">
+        <li>
+            <a href="/drive/trash" class=" is-flex is-align-items-center is-justify-content-space-between py-4 px-4 <? echo $sidebar_current_id === 'trash' ? 'is-active' : '' ?>">
+                <span class="icon mr-2 is-size-6">
                     <i class="fas fa-trash"></i>
-                    <span class="sidebar-label-text">Reciclagem</span>
                 </span>
-                <span class="sidebar-number"><? echo $count['trash']; ?></span>
+                <span class="name is-size-6">Reciclagem</span>
+                <span class="tag is-white is-rounded ml-auto"><? echo $count['trash'] ?></span>
             </a>
         </li>
 
-        <li class="sidebar-text">
-            2.4/15.0GB utilizados
+        <li>
+            <p class="ml-2 mt-2 has-text-grey-light is-size-6">2.4/6 GB utilizados</p>
         </li>
     </ul>
-</nav>
+</aside>

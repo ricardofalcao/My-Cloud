@@ -36,8 +36,10 @@ class Drive extends \Core\Controller
         if ($inputParams->exists('id')) {
             $folderId = $inputParams->int('id');;
             $files = File::getByParent($folderId);
+            $ancestors = File::getAncestors($folderId);
         } else {
             $files = File::getRoot($userId);
+            $ancestors = null;
         }
 
         View::render('drive/files.php', [
@@ -45,6 +47,7 @@ class Drive extends \Core\Controller
             'files' => $files,
             'folderId' => $folderId ?? null,
             'count' => $this->countFiles(),
+            'ancestors' => $ancestors,
         ]);
     }
 

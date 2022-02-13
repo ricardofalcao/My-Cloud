@@ -1797,7 +1797,7 @@ div.icon-text {
   .table th {
     border: 1px solid #dbdbdb;
     border-width: 0 0 1px;
-    padding: 1em 1.5em;
+    padding: 0em 0.5em;
     vertical-align: top; }
     .table td.is-white,
     .table th.is-white {
@@ -3294,7 +3294,7 @@ button.dropdown-item {
 .menu-list {
   line-height: 1.25; }
   .menu-list a {
-    border-radius: 2px;
+    border-radius: 0;
     color: #4a4a4a;
     display: block;
     padding: 0.875em 1.25em; }
@@ -3302,8 +3302,8 @@ button.dropdown-item {
       background-color: whitesmoke;
       color: #363636; }
     .menu-list a.is-active {
-      background-color: #485fc7;
-      color: #fff; }
+      background-color: #dbdbdb;
+      color: #4a4a4a; }
   .menu-list li ul {
     border-left: 1px solid #dbdbdb;
     margin: 0.75em;
@@ -7846,7 +7846,27 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
-.left-border {
+#drag_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  display: none;
+  opacity: 0;
+  transition: opacity 2s;
+  align-items: center;
+  justify-content: center; }
+
+#drag_overlay h1 {
+  color: #fff;
+  border: 4px dashed #fff;
+  border-radius: 8px;
+  padding: 2rem; }
+
+.right-border {
   border-right: 1px solid #dbdbdb; }
 
 .notification_icon {
@@ -7866,3 +7886,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   display: flex;
   flex-direction: row;
   align-items: center; }
+
+.row-checkbox {
+  width: 1.4rem;
+  height: 1.4rem;
+  vertical-align: middle; }
+
+.row-checkbox:checked {
+  accent-color: currentColor; }
