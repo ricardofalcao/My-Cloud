@@ -160,7 +160,7 @@ class Drive extends \Core\Controller
         $fileId = $inputParams->int('id');
 
         $file = File::get($fileId);
-        File::updateState($fileId, 'DELETED');
+        File::propagateState($fileId, 'DELETED');
     }
 
     /*
@@ -244,7 +244,8 @@ class Drive extends \Core\Controller
         $fileId = $inputParams->int('id');
 
         $file = File::get($fileId);
-        File::updateState($fileId, 'NONE');
+
+        File::propagateState($fileId, 'NONE');
     }
 
     public function trashDelete()
@@ -255,6 +256,19 @@ class Drive extends \Core\Controller
         $fileId = $inputParams->int('id');
 
         $file = File::get($fileId);
+
+        if ($file['type'] === 'FOLDER') {
+            $children = File::getDescendants($fileId);
+
+            foreach ($children as $child) {
+                $path = '/data/' . $child['owner_id'] . '/' . $child['id'];
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+        }
+
         File::delete($fileId);
 
         $path = '/data/' . $file['owner_id'] . '/' . $fileId;

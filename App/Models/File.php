@@ -26,6 +26,14 @@ class File extends \Core\Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getDescendants($id)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE ? = ANY(ancestors)");
+        $stmt->execute([ $id ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function batchGet($ids)
     {
         $db = static::db();
@@ -112,6 +120,13 @@ class File extends \Core\Model
         $db = static::db();
         $stmt = $db->prepare("UPDATE public.file SET state=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
         $stmt->execute([ $state, $id ]);
+    }
+
+    public static function propagateState($id, $state)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("UPDATE public.file SET state=?, modified_at=CURRENT_TIMESTAMP FROM public.file_ancestors WHERE file_ancestors.id=file.id AND (file.id=? OR ? = ANY(file_ancestors.ancestors))");
+        $stmt->execute([ $state, $id, $id ]);
     }
 
     public static function delete($id)
