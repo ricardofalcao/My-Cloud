@@ -76,16 +76,12 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                     Renomear
                 </a>
             </li>
-            <?
-            if (!$folder) {
-                ?>
-                <li class="dropdown-link">
-                    <a href="/drive/download/<? echo $file['id'] ?>">
-                        <i class="fas fa-download"></i>
-                        Transferir
-                    </a>
-                </li>
-            <? } ?>
+            <li class="dropdown-link">
+                <a href="/drive/download?files[]=<? echo $file['id'] ?>">
+                    <i class="fas fa-download"></i>
+                    Transferir
+                </a>
+            </li>
             <li class="dropdown-link">
                 <button onclick="deleteFile(<? echo $file['id'] ?>, <? echo $deleted ?>)">
                     <i class="fas fa-trash"></i>

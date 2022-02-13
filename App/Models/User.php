@@ -11,7 +11,7 @@ class User extends \Core\Model
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.user WHERE id=?;");
         $stmt->execute([ $id ]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function getByUsername($username)
@@ -19,7 +19,7 @@ class User extends \Core\Model
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.user WHERE username=?;");
         $stmt->execute([ $username ]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function getAll()

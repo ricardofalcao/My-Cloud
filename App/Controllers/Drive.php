@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\File;
 use Core\Input;
 use Core\Request;
+use Core\Validation;
 use Core\View;
 
 class Drive extends \Core\Controller
@@ -94,41 +95,6 @@ class Drive extends \Core\Controller
 
         $file = File::get($fileId);
         File::updateState($fileId, 'DELETED');
-    }
-
-    /*
-     *
-     */
-
-    public function download()
-    {
-        $userId = Request::get('userId');
-
-        $inputParams = new Input($this->params);
-        $fileId = $inputParams->int('id');
-
-        $file = File::get($fileId);
-        $path = '/data/' . $file['owner_id'] . '/' . $fileId;
-
-        // verificar acesso
-        if (file_exists($path)) {
-            $mime_type = $file['mime_type'];
-            $name = $file['name'];
-            $size = $file['size'];
-
-            header('Content-Description: File Transfer');
-            header("Content-Type: $mime_type");
-            header('Content-Disposition: attachment; filename="' . $name . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . $size);
-            header("Content-Range: 0-" . ($size - 1) . "/" . $size);
-
-            readfile($path);
-            exit;
-        }
-
     }
 
     /*

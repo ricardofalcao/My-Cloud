@@ -44,7 +44,11 @@ class Validation
 
     public function assert($condition, $message = []) {
         if (!$condition) {
-            $this->errors = array_merge($this->errors, $message);
+            if (is_array($message)) {
+                $this->errors = array_merge($this->errors, $message);
+            } else {
+                $this->errors[] = $message;
+            }
 
             $this->valid = false;
         }
