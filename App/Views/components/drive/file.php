@@ -65,7 +65,7 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
 
             </span>
 
-            <div class="ml-auto dropdown is-hoverable">
+            <div class="ml-auto dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
                   <button class="button is-small is-black is-inverted" aria-haspopup="true"
                           aria-controls="dropdown-menu">
@@ -117,7 +117,9 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                             </span>
                         </button>
 
-                        <button class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
+                        <? if ($deleted) {
+                        ?>
+                            <button class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
                             <span class="icon-text">
                                 <span class="icon">
                                     <i class="fas fa-recycle"></i>
@@ -125,6 +127,8 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                                 <span>Restaurar</span>
                             </span>
                         </button>
+                        <?
+                        } ?>
                     </div>
                 </div>
             </div>

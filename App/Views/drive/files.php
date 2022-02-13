@@ -58,7 +58,7 @@ View::render('components/head.php');
                         <?
                                     } else {
                         ?>
-                                        <li><a href="/drive/files/<? echo $ancestor['id'] ?>"><? echo $ancestor['name'] ?></a></li>
+                                        <li><a href="/drive/files/<? echo $ancestor['id'] ?>" class="has-text-weight-bold"><? echo $ancestor['name'] ?></a></li>
                         <?
                                     }
                                 }
