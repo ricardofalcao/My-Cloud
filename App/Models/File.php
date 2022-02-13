@@ -12,7 +12,16 @@ class File extends \Core\Model
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file WHERE id=?");
         $stmt->execute([ $id ]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function batchGet($ids)
+    {
+        $db = static::db();
+        $qMarks = str_repeat('?,', count($ids) - 1) . '?';
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE id IN ($qMarks)");
+        $stmt->execute($ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getByParent($parentId)

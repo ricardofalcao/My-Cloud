@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Models\User;
 use Core\Input;
 use Core\Middleware;
 use Core\Request;
@@ -22,8 +23,17 @@ class Authenticated extends \Core\Middleware
             return false;
         }
 
+        $user = User::get($userId);
+        $validation->assert($user !== null, "Invalid user");
+
+        if (!$validation->isValid()) {
+            header('Location: /auth/login');
+            return false;
+        }
+
         Request::attr([
-            'userId' => $userId
+            'userId' => $userId,
+            'user' => $user
         ]);
 
         return true;

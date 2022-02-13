@@ -39,7 +39,7 @@ $router->get('/drive/trash', 'Drive', 'trash', ['Authenticated']);
 $router->post('/drive/trash/{id}', 'Drive', 'trashPost', ['Authenticated']);
 $router->delete('/drive/trash/{id}', 'Drive', 'trashDelete', ['Authenticated']);
 
-$router->get('/drive/download/{id}', 'Drive', 'download', ['Authenticated']);
+$router->get('/drive/download', 'DriveDownload', 'download', ['Authenticated']);
 
 $router->get('/dashboard/admin/users', 'DashboardAdmin', 'listUsers', ['Authenticated']);
 $router->get('/dashboard/admin/users/{id}', 'DashboardAdmin', 'showUser', ['Authenticated']);
