@@ -73,7 +73,7 @@ View::render('components/head.php');
 
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
-                            <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <button class="button is-small" style="border-radius: 9999px;" aria-haspopup="true" aria-controls="dropdown-menu">
                                 <span class="icon is-small">
                                 <i class="fas fa-plus" aria-hidden="true"></i>
                                 </span>
@@ -82,11 +82,11 @@ View::render('components/head.php');
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
                                 <a href="#" class="dropdown-item modal-trigger" data-target="folder-modal">
-                                    Create folder
+                                    Criar pasta
                                 </a>
-                                <a href="#" class="dropdown-item">
-                                    <label class="is-clickable">
-                                        Upload files
+                                <a href="#" class="dropdown-item px-0">
+                                    <label class="is-clickable px-4">
+                                        Enviar ficheiros
 
                                         <input type="file" style="display: none;" multiple
                                                onchange="onFileUpload(event)">
@@ -97,7 +97,7 @@ View::render('components/head.php');
                     </div>
                 </div>
 
-                <div class="table-wrapper">
+                <div class="table-container" style="padding-bottom: 12rem;">
                     <table class="table is-fullwidth">
                         <thead>
                         <tr class="has-text-grey-light">
@@ -106,7 +106,8 @@ View::render('components/head.php');
                                        onchange="checkboxAll(event.currentTarget.checked)">
                             </td>
                             <td class="py-3">Nome</td>
-                            <td class="py-3 pr-4">Tamanho</td>
+                            <td class="py-3">Tamanho</td>
+                            <td class="py-3 pr-4">Modificado</td>
                         </tr>
                         </thead>
 
@@ -132,7 +133,7 @@ View::render('components/head.php');
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Create new folder</p>
+                <p class="modal-card-title">Criar nova pasta</p>
                 <button class="delete" aria-label="close"></button>
             </header>
 
@@ -147,23 +148,23 @@ View::render('components/head.php');
                 </div>
             </section>
 
-            <footer class="modal-card-foot">
-                <button class="button is-success" onclick="createFolder(event)">Create</button>
-                <button class="button" onclick="closeNearestModal(this)">Cancel</button>
+            <footer class="modal-card-foot is-justify-content-right">
+                <button class="button is-success" onclick="createFolder(event)">Criar</button>
+                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
             </footer>
         </div>
     </div>
 
     <div id="notification" class="notification is-danger is-light is-hidden">
         <button class="delete"></button>
-        <span class="notification-message">Hello worlddddddddddddddddddddaaaaaaaaaaaaaaaaaaaaaad</span>
+        <span class="notification-message"></span>
     </div>
 
     <div id="rename-modal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Rename file</p>
+                <p class="modal-card-title">Renomear ficheiro</p>
                 <button class="delete" aria-label="close"></button>
             </header>
 
@@ -178,9 +179,28 @@ View::render('components/head.php');
                 </div>
             </section>
 
-            <footer class="modal-card-foot">
-                <button class="button is-success" onclick="renameFile(event)">Rename</button>
-                <button class="button" onclick="closeNearestModal(this)">Cancel</button>
+            <footer class="modal-card-foot is-justify-content-right">
+                <button class="button is-success" onclick="renameFile(event)">Renomear</button>
+                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Eliminar ficheiro</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+
+            <section class="modal-card-body">
+                <p id="delete-input"></p>
+            </section>
+
+            <footer class="modal-card-foot is-justify-content-right">
+                <button class="button is-danger" onclick="deleteFile(event)">Eliminar</button>
+                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
             </footer>
         </div>
     </div>
@@ -247,18 +267,6 @@ View::render('components/head.php');
         }
     }
 
-    async function deleteFile(fileId, force) {
-        const result = await fetch(force ? `/drive/trash/${fileId}` : `/drive/files/${fileId}`, {
-            method: 'DELETE',
-        })
-
-        if (result.ok) {
-            document.location.reload()
-        } else {
-            setNotification((await result.json()).errors)
-        }
-    }
-
     async function favoriteFile(event, fileId, value) {
         event.preventDefault();
         const result = await fetch(`/drive/favorites/${fileId}`, {
@@ -311,25 +319,25 @@ View::render('components/head.php');
         }
     }
 
-    let currentRenameId = null;
-    let currentRenameExtension = null;
+    let currentFileId = null;
+    let currentFileExtension = null;
 
     async function renameFile(event) {
         event.preventDefault();
 
-        if (!currentRenameId) {
+        if (!currentFileId) {
             return;
         }
 
         const fileName = document.getElementById("rename-input").value;
 
-        const result = await fetch(`/drive/files/${currentRenameId}`, {
+        const result = await fetch(`/drive/files/${currentFileId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                fileName: currentRenameExtension ? fileName + "." + currentRenameExtension : fileName
+                fileName: currentFileExtension ? fileName + "." + currentFileExtension : fileName
             })
         })
 
@@ -345,13 +353,49 @@ View::render('components/head.php');
         event.preventDefault();
 
         const extIndex = fileName.lastIndexOf('.');
-        currentRenameExtension = extIndex > 0 ? fileName.substr(extIndex + 1) : null;
-        currentRenameId = fileId;
+        currentFileExtension = extIndex > 0 ? fileName.substr(extIndex + 1) : null;
+        currentFileId = fileId;
 
         const input = document.getElementById('rename-input');
         input.value = extIndex > 0 ? fileName.substr(0, extIndex) : fileName;
 
         setActive(document.getElementById('rename-modal'));
+    }
+
+    let forceDelete = false;
+
+    async function deleteFile(event) {
+        event.preventDefault();
+
+        if (!currentFileId) {
+            return;
+        }
+
+        const result = await fetch(forceDelete ? `/drive/trash/${currentFileId}` : `/drive/files/${currentFileId}`, {
+            method: 'DELETE',
+        })
+
+        if (result.ok) {
+            document.location.reload()
+            closeNearestModal(event.target);
+        } else {
+            setNotification((await result.json()).errors)
+        }
+    }
+
+    async function openDelete(event, fileId, fileName, force) {
+        event.preventDefault();
+
+        const extIndex = fileName.lastIndexOf('.');
+        currentFileId = fileId;
+        forceDelete = force;
+
+        const input = document.getElementById('delete-input');
+
+        input.innerHTML = `Tem a certeza que deseja eliminar "${fileName}"?<br/>`
+        input.innerHTML += force ? 'Este ficheiro vai ser eliminado permanentemente!' : 'Este ficheiro vai ser movido para a reciclagem.';
+
+        setActive(document.getElementById('delete-modal'));
     }
 
     async function onFileUpload(event) {

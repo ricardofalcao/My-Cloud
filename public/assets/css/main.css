@@ -7884,3 +7884,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 .row-checkbox:checked {
   accent-color: currentColor; }
+
+.row-name {
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }

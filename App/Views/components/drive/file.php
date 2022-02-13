@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($file) || !isset($index)) {
+use Core\Utils;if (!isset($file) || !isset($index)) {
     return;
 }
 
@@ -45,11 +45,11 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
 ?>
 
 <tr class="datatable-item" id="file-<?php echo $file['id'] ?>">
-    <td style="vertical-align: middle; font-size: 1.4rem;">
+    <td style="vertical-align: middle; font-size: 1.4rem; white-space: nowrap;">
         <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
     </td>
 
-    <td style="width: 99%">
+    <td style="width: 99%;">
         <span class="icon-text is-flex is-align-items-center">
             <span class="icon mr-3 is-relative">
                 <i class="fas fa-lg fa-<? echo $icon ?> <? echo $folder ? 'has-text-primary' : ''?> "></i>
@@ -61,12 +61,12 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                 } ?>
             </span>
 
-            <span class="py-3">
+            <span class="py-3 row-name">
 
                 <? if ($folder) { ?>
                     <a href="/drive/files/<? echo $file['id'] ?>" class="has-text-black"><? echo $filename ?></a>
                 <? } else { ?>
-                    <? echo $filename ?><span class="has-text-grey-light">.<? echo $extension; ?></span>
+                    <? echo $filename ?><span class="has-text-grey-light" >.<? echo $extension; ?></span>
                 <? } ?>
 
             </span>
@@ -110,7 +110,7 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                             <span>Transferir</span>
                         </a>
 
-                        <a href="#" class="dropdown-item" onclick="deleteFile(<? echo $file['id'] ?>, <? echo $deleted ?>)">
+                        <a href="#" class="dropdown-item" onclick="openDelete(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>', <? echo $deleted ?>)">
                             <span class="icon">
                                 <i class="fas fa-trash"></i>
                             </span>
@@ -119,12 +119,12 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
 
                         <? if ($deleted) {
                         ?>
-                            <button class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
+                        <a href="#" class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-recycle"></i>
                             </span>
                             <span>Restaurar</span>
-                        </button>
+                        </a>
                         <?
                         } ?>
                     </div>
@@ -132,9 +132,13 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
             </div>
         </span>
     </td>
-    <td style="vertical-align: middle">
+    <td style="vertical-align: middle; white-space: nowrap;">
         <? if ($size > 0) {
             echo $humanSize;
         } ?>
+    </td>
+    <td style="vertical-align: middle; white-space: nowrap;">
+
+        <? echo Utils::humanizeDateDifference(time(), strtotime($file['modified_at'])) ?>
     </td>
 </tr>

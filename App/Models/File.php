@@ -87,7 +87,7 @@ class File extends \Core\Model
     public static function create($ownerId, $name, $size, $type, $state = 'NONE', $mime_type = null, $parentId = null)
     {
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (owner_id, name, coalesce(parent_id, '-1')) DO UPDATE SET size = excluded.size, type = excluded.type, state = excluded.state, mime_type = excluded.mime_type RETURNING id;");
+        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (owner_id, name, coalesce(parent_id, '-1')) DO UPDATE SET size = excluded.size, type = excluded.type, state = excluded.state, mime_type = excluded.mime_type, modified_at=CURRENT_TIMESTAMP RETURNING id;");
         $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId]);
         return $stmt->fetchColumn();
     }
@@ -103,14 +103,14 @@ class File extends \Core\Model
     public static function rename($id, $newName)
     {
         $db = static::db();
-        $stmt = $db->prepare("UPDATE public.file SET name=? WHERE id=?");
+        $stmt = $db->prepare("UPDATE public.file SET name=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
         $stmt->execute([ $newName, $id ]);
     }
 
     public static function updateState($id, $state)
     {
         $db = static::db();
-        $stmt = $db->prepare("UPDATE public.file SET state=? WHERE id=?");
+        $stmt = $db->prepare("UPDATE public.file SET state=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
         $stmt->execute([ $state, $id ]);
     }
 
