@@ -27,6 +27,7 @@ $router->get('/drive/files/{id}', 'Drive', 'files', ['Authenticated']);
 
 $router->post('/drive/files', 'Drive', 'filesPost', ['Authenticated']);
 $router->post('/drive/files/{id}', 'Drive', 'filesPost', ['Authenticated']);
+$router->put('/drive/files/{id}', 'Drive', 'filesPut', ['Authenticated']);
 $router->delete('/drive/files/{id}', 'Drive', 'filesDelete', ['Authenticated']);
 
 $router->get('/drive/favorites', 'Drive', 'favorites', ['Authenticated']);

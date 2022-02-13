@@ -65,7 +65,16 @@ class Drive extends \Core\Controller
         if ($inputRequest->exists('folderName')) {
             $folderName = $inputRequest->get('folderName');
 
-            $id = File::create($userId, $folderName, 0, 'FOLDER', 'NONE', null, $parent_id);
+            try {
+                File::createIfNotExists($userId, $folderName, 0, 'FOLDER', 'NONE', null, $parent_id);
+            } catch(\PDOException $ex) {
+                http_response_code(400);
+                echo json_encode([
+                    "errors" => "A file with the name of '$folderName' already exists."
+                ]);
+
+                return;
+            }
         } else {
             $files = $inputRequest->get('files');
             $all_files = count($files['tmp_name']);
@@ -86,6 +95,60 @@ class Drive extends \Core\Controller
 
                 move_uploaded_file($tmp, $path);
             }
+        }
+    }
+
+    public function filesPut()
+    {
+        $_PUT = json_decode(file_get_contents('php://input'), true);
+
+        $userId = Request::get('userId');
+
+        $validation = new Validation($this->params);
+        $fileId = $validation->name('id')->int()->required()->get();
+
+        if (!$validation->isValid()) {
+            http_response_code(400);
+            echo json_encode([
+                "errors" => $validation->getErrors()
+            ]);
+
+            return;
+        }
+
+        $validation = new Validation($_PUT);
+        $fileName = $validation->name('fileName')->str()->required()->get();
+
+        if (!$validation->isValid()) {
+            http_response_code(400);
+            echo json_encode([
+                "errors" => $validation->getErrors()
+            ]);
+
+            return;
+        }
+
+        $file = File::get($fileId);
+        $validation->assert($file !== null, "File not found");
+
+        if (!$validation->isValid()) {
+            http_response_code(400);
+            echo json_encode([
+                "errors" => $validation->getErrors()
+            ]);
+
+            return;
+        }
+
+        try {
+            File::rename($fileId, $fileName);
+        } catch (\PDOException $ex) {
+            http_response_code(400);
+            echo json_encode([
+                "errors" => "A file with the name of '$fileName' already exists."
+            ]);
+
+            return;
         }
     }
 

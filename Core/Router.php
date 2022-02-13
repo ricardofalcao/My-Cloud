@@ -77,6 +77,11 @@ class Router
         $this->routes[] = new Route($this->prepareExpression($path), 'PATCH', $controller, $method, $middleware);
     }
 
+    public function put($path, $controller, $method, $middleware = [])
+    {
+        $this->routes[] = new Route($this->prepareExpression($path), 'PUT', $controller, $method, $middleware);
+    }
+
     public function delete($path, $controller, $method, $middleware = [])
     {
         $this->routes[] = new Route($this->prepareExpression($path), 'DELETE', $controller, $method, $middleware);

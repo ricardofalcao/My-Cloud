@@ -92,6 +92,21 @@ class File extends \Core\Model
         return $stmt->fetchColumn();
     }
 
+    public static function createIfNotExists($ownerId, $name, $size, $type, $state = 'NONE', $mime_type = null, $parentId = null)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;");
+        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId]);
+        return $stmt->fetchColumn();
+    }
+
+    public static function rename($id, $newName)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("UPDATE public.file SET name=? WHERE id=?");
+        $stmt->execute([ $newName, $id ]);
+    }
+
     public static function updateState($id, $state)
     {
         $db = static::db();

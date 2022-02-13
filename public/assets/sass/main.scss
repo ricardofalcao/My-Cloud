@@ -46,30 +46,13 @@ $menu-item-active-color: $text;
   border-right: 1px solid $border;
 }
 
-.notification_icon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .notification {
-  display: flex;
-
-  justify-content: space-between;
-  align-items: center;
-  align-self: flex-end;
-
-  
-  max-width: 17rem;
-  max-height: 3rem;
-
-}
-
-.image_text{
-  display: flex;
-  flex-direction: row;
-
-  align-items: center;
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 99;
 }
 
 .row-checkbox {
