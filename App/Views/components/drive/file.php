@@ -45,62 +45,96 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
 ?>
 
 <tr class="datatable-item" id="file-<?php echo $file['id'] ?>">
-    <td class="file-checkbox"><input type="checkbox" class="row-checkbox" onclick="check(this, event.shiftKey)"></td>
-    <td class="file-icon <? echo $folder ? 'colored' : '' ?>">
-        <i class="fas fa-<? echo $icon ?>"></i>
+    <td style="vertical-align: middle; font-size: 1.4rem;">
+        <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
     </td>
-    <td class="file-name">
-        <? if ($folder) { ?>
-            <a class="file-link" href="/drive/files/<? echo $file['id'] ?>"><? echo $filename ?></a>
-        <? } else { ?>
-            <? echo $filename ?><span class="file-extension">.<? echo $extension; ?></span>
-        <? } ?>
-    </td>
-    <td class="file-options">
-        <i class="fas fa-ellipsis-h"></i>
 
-        <ul class="dropdown">
-            <li class="dropdown-link">
-                <button onclick="favoriteFile(<? echo $file['id'] ?>, <? echo !$favorite ?>)">
-                    <i style="color: yellow;" class="fas fa-star"></i>
-                    <? if ($favorite) { ?>
-                        Remover dos favoritos
-                    <? } else { ?>
-                        Adicionar aos favoritos
-                    <? } ?>
-                </button>
-            </li>
-            <li class="dropdown-link">
-                <a href="#">
-                    <i class="fas fa-pen"></i>
-                    Renomear
-                </a>
-            </li>
-            <li class="dropdown-link">
-                <a href="/drive/download?files[]=<? echo $file['id'] ?>">
-                    <i class="fas fa-download"></i>
-                    Transferir
-                </a>
-            </li>
-            <li class="dropdown-link">
-                <button onclick="deleteFile(<? echo $file['id'] ?>, <? echo $deleted ?>)">
-                    <i class="fas fa-trash"></i>
-                    Eliminar
-                </button>
-            </li>
-            <?
-            if ($deleted) {
-                ?>
-                <li class="dropdown-link">
-                    <button onclick="restoreFile(<? echo $file['id'] ?>)">
-                        <i class="fas fa-recycle"></i>
-                        Restaurar
-                    </button>
-                </li>
-            <? } ?>
-        </ul>
+    <td style="width: 99%">
+        <span class="icon-text is-flex is-align-items-center">
+            <span class="icon mr-3">
+                <i class="fas fa-lg fa-<? echo $icon ?> <? echo $folder ? 'has-text-primary' : ''?> "></i>
+            </span>
+
+            <span class="py-3">
+
+                <? if ($folder) { ?>
+                    <a href="/drive/files/<? echo $file['id'] ?>" class="has-text-black"><? echo $filename ?></a>
+                <? } else { ?>
+                    <? echo $filename ?><span class="has-text-grey-light">.<? echo $extension; ?></span>
+                <? } ?>
+
+            </span>
+
+            <div class="ml-auto dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                  <button class="button is-small is-black is-inverted" aria-haspopup="true"
+                          aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <button class="dropdown-item" onclick="favoriteFile(<? echo $file['id'] ?>, <? echo !$favorite ?>)">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i style="color: yellow;" class="fas fa-star"></i>
+                                </span>
+
+                                <? if ($favorite) { ?>
+                                    Remover dos favoritos
+                                <? } else { ?>
+                                    Adicionar aos favoritos
+                                <? } ?>
+                            </span>
+                        </button>
+
+                        <a href="#" class="dropdown-item">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                <span>Renomear</span>
+                            </span>
+                        </a>
+
+                        <a href="/drive/download?files[]=<? echo $file['id'] ?>" class="dropdown-item">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span>Transferir</span>
+                            </span>
+                        </a>
+
+                        <button class="dropdown-item" onclick="deleteFile(<? echo $file['id'] ?>, <? echo $deleted ?>)">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Eliminar</span>
+                            </span>
+                        </button>
+
+                        <? if ($deleted) {
+                        ?>
+                            <button class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-recycle"></i>
+                                </span>
+                                <span>Restaurar</span>
+                            </span>
+                        </button>
+                        <?
+                        } ?>
+                    </div>
+                </div>
+            </div>
+        </span>
     </td>
-    <td class="file-size">
+    <td style="vertical-align: middle">
         <? if ($size > 0) {
             echo $humanSize;
         } ?>

@@ -27,46 +27,75 @@ View::render('components/head.php');
     View::render('components/drive/navbar.php');
     ?>
 
-    <main>
-        <?php
-        View::render('components/drive/sidebar.php', [
-            'sidebar_current_id' => $id,
-            'count' => $count,
-        ]);
-        ?>
+    <main class="hero is-fullheight-with-navbar">
+        <div class="columns is-gapless is-flex-grow-1">
+            <?php
+            View::render('components/drive/sidebar.php', [
+                'sidebar_current_id' => $id,
+                'count' => $count,
+            ]);
+            ?>
 
 
-        <div class="content">
-            <table class="datatable" cellspacing="0" rowspacing="0">
-                <thead class="datatable-header">
-                <tr>
-                    <th class="file-checkbox"><input type="checkbox" onchange="checkboxAll(event.currentTarget.checked)"></th>
-                    <th class="file-icon"></th>
-                    <th class="file-name">Nome</th>
-                    <th class="file-options"></th>
-                    <th class="file-size">Tamanho</th>
-                </tr>
-                </thead>
-                <tbody class="datatable-body" id="datatable-content">
-                <?php
-                foreach ($files as $index => $file) {
-                    $fileId = $file['id'];
+            <div class="column">
+                <nav class="breadcrumb ml-4 mt-4" aria-label="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="/drive/files">
+                                <span class="icon is-small">
+                                  <i class="fas fa-home" aria-hidden="true"></i>
+                                </span>
+                                <span><wbr /></span>
+                            </a>
+                        </li>
+                        <?
+                            if (isset($ancestors)) {
+                                $len = count($ancestors);
+                                foreach($ancestors as $i => $ancestor) {
+                                    if ($i == $len - 1) {
+                        ?>
+                                        <li class="is-active"><a href="#" aria-current="page"><? echo $ancestor['name'] ?></a></li>
+                        <?
+                                    } else {
+                        ?>
+                                        <li><a href="/drive/files/<? echo $ancestor['id'] ?>" class="has-text-weight-bold"><? echo $ancestor['name'] ?></a></li>
+                        <?
+                                    }
+                                }
+                            }
+                        ?>
+                    </ul>
+                </nav>
 
-                    View::render('components/drive/file.php', [
-                        'file' => $file,
-                        'index' => $index
-                    ]);
-                }
-                ?>
-                </tbody>
-            </table>
+                <div class="table-wrapper">
+                    <table class="table is-fullwidth">
+                        <thead>
+                        <tr class="has-text-grey-light">
+                            <td style="vertical-align: middle; font-size: 1.4rem;">
+                                <input type="checkbox" class="row-checkbox has-text-primary"
+                                       onchange="checkboxAll(event.currentTarget.checked)">
+                            </td>
+                            <td class="py-3">Nome</td>
+                            <td class="py-3 pr-4">Tamanho</td>
+                        </tr>
+                        </thead>
+
+                        <tbody class="is-scrollable">
+                        <?php
+                        foreach ($files as $index => $file) {
+                            $fileId = $file['id'];
+
+                            View::render('components/drive/file.php', [
+                                'file' => $file,
+                                'index' => $index
+                            ]);
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-        <label class="fab" onclick="createFolder(event)">
-            <i class="fas fa-plus"></i>
-
-            <!--<input type="file" multiple onchange="onFileUpload(event)">-->
-        </label>
     </main>
 </div>
 
@@ -81,7 +110,7 @@ View::render('components/head.php');
             const min = Math.min(lastIndex, index);
             const max = Math.max(lastIndex, index);
 
-            for(let i = min; i <= max; i++) {
+            for (let i = min; i <= max; i++) {
                 checkboxes[i].checked = checkbox.checked;
             }
         }
@@ -91,7 +120,7 @@ View::render('components/head.php');
 
     function checkboxAll(value) {
         const checkboxes = document.getElementsByClassName('row-checkbox')
-        for(let i = 0; i < checkboxes.length; i++) {
+        for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = value;
         }
     }

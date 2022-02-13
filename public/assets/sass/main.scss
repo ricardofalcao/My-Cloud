@@ -1,15 +1,48 @@
 @charset "utf-8";
 
+@import "../bulma/sass/utilities/initial-variables.sass";
+
 $primary: #009688;
 $info: #b2dfdb;
 $dark: #795548;
 
-$table-cell-padding: 1em 1.5em;
+$table-cell-padding: 0em 0.5em;
+
 $menu-list-link-padding: 0.875em 1.25em;
+$menu-item-active-background-color: $grey-lighter;
+$menu-item-radius: 0;
+
+@import "../bulma/sass/utilities/derived-variables.sass";
+
+$menu-item-active-color: $text;
 
 @import "../bulma/bulma.sass";
 
-.left-border {
+#drag_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .5);
+
+  z-index: 10;
+  display: none;
+  opacity: 0;
+
+  transition: opacity 2s;
+  align-items: center;
+  justify-content: center;
+}
+
+#drag_overlay h1 {
+  color: #fff;
+  border: 4px dashed #fff;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.right-border {
   border-right: 1px solid $border;
 }
 
@@ -39,3 +72,12 @@ $menu-list-link-padding: 0.875em 1.25em;
   align-items: center;
 }
 
+.row-checkbox {
+  width: 1.4rem;
+  height: 1.4rem;
+  vertical-align: middle;
+}
+
+.row-checkbox:checked {
+  accent-color: currentColor;
+}
