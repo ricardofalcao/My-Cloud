@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,12 @@
 
     <link rel="stylesheet" href="../../../../public/assets/css/main.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </head>
+
 <body>
     <div class="columns is-6-desktop is-fullheight">
         <div class="column">
@@ -75,7 +80,7 @@
                     </div>
                 </div>
             </nav>
-        
+
             <div class="columns is-gapless">
                 <aside class="column is-2 menu is-fullheight left-border">
                     <ul class="menu-list">
@@ -125,10 +130,40 @@
                 </aside>
 
                 <div class="column is-one-fifth ml-4 mt-4">
-                    <h1 class="is-size-4">Utilização de espaço</h1>
-                </div>   
-            </div>  
-        </div>                 
-    </div>        
+                    <h1 class="is-size-4 has-text-weight-bold mb-5">Utilização de espaço</h1>
+
+                    <canvas id="myChart" width="300" height="300"></canvas>
+                    <script>
+                        var ctx = document.getElementById("myChart");
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Utilização de espaço', 'Livre'],
+                                datasets: [{
+                                    label: '# of Tomatoes',
+                                    data: [12, (100 - 12)],
+                                    backgroundColor: [
+                                        'rgba(0, 150, 136, 1)',
+                                        'rgba(255, 255, 255, 1)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(0,0,0,1)',
+                                        'rgba(0, 0, 0, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                //cutoutPercentage: 40,
+                                responsive: false,
+
+                            },
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

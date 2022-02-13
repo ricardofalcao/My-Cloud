@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,11 +9,15 @@
 
     <link rel="stylesheet" href="../../../../public/assets/css/main.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </head>
+
 <body>
     <div class="columns is-6-desktop is-fullheight">
-        <div class="column">    
+        <div class="column">
             <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="https://bulma.io">
@@ -75,7 +80,7 @@
                     </div>
                 </div>
             </nav>
-        
+
             <div class="columns is-gapless">
                 <aside class="column is-2 menu is-fullheight left-border">
                     <ul class="menu-list">
@@ -124,12 +129,109 @@
                     </ul>
                 </aside>
 
-                <div class="column is-one-fifth ml-4 mt-4">
-                    <h1 class="is-size-4 has-text-weight-bold">Utilização de espaço total</h1>
-                    <h1 class="is-size-4 has-text-weight-bold">Sistema</h1>
+                <div class="column is-two-thirds ml-4 mt-4">
+                    <h1 class="is-size-4 has-text-weight-bold mb-5">Utilização de espaço total</h1>
+
+                    <canvas id="Chart_disk" width="300" height="300"></canvas>
+                    <script>
+                        var ctx = document.getElementById("Chart_disk");
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Utilização de espaço', 'Livre'],
+                                datasets: [{
+                                    label: '# of Tomatoes',
+                                    data: [36, (100 - 36)],
+                                    backgroundColor: [
+                                        'rgba(0, 150, 136, 1)',
+                                        'rgba(255, 255, 255, 1)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(0,0,0,1)',
+                                        'rgba(0, 0, 0, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                //cutoutPercentage: 40,
+                                responsive: false,
+
+                            },
+                        });
+                    </script>
+                    <h1 class="is-size-4 has-text-weight-bold my-5">Sistema</h1>
+                    <div class="columns is-four-fifths">
+                        <div class="column">
+                            <h1 class="has-text-weight-bold">CPU</h1>
+
+                            <canvas id="Chart_cpu" width="300" height="300"></canvas>
+                            <script>
+                                var ctx = document.getElementById("Chart_cpu");
+                                var myChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Utilização de CPU %',],
+                                        datasets: [{
+                                            label: '# of Tomatoes',
+                                            data: [24, (100 - 24)],
+                                            backgroundColor: [
+                                                'rgba(0, 150, 136, 1)',
+                                                'rgba(255, 255, 255, 1)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(0,0,0,1)',
+                                                'rgba(0, 0, 0, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        //cutoutPercentage: 40,
+                                        responsive: false,
+
+                                    },
+                                });
+                            </script>
+                        </div>
+                        <div class="column">
+                            <h1 class="has-text-weight-bold">Memória</h1>
+
+                            <canvas id="Chart_mem" width="300" height="300"></canvas>
+                            <script>
+                                var ctx = document.getElementById("Chart_mem");
+                                var myChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Utilização de RAM', ],
+                                        datasets: [{
+                                            label: '# of Tomatoes',
+                                            data: [43, (100 - 43)],
+                                            backgroundColor: [
+                                                'rgba(0, 150, 136, 1)',
+                                                'rgba(255, 255, 255, 1)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(0,0,0,1)',
+                                                'rgba(0, 0, 0, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        //cutoutPercentage: 40,
+                                        responsive: false,
+
+                                    },
+                                });
+                            </script>
+                        </div>
+
+                    </div>
                 </div>
-            </div>  
-        </div>                 
-    </div>        
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
