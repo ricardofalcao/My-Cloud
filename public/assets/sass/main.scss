@@ -2,6 +2,7 @@
 
 $primary: #009688;
 $info: #b2dfdb;
+$dark: #795548;
 
 $table-cell-padding: 1em 1.5em;
 $menu-list-link-padding: 0.875em 1.25em;
@@ -10,6 +11,12 @@ $menu-list-link-padding: 0.875em 1.25em;
 
 .left-border {
   border-right: 1px solid $border;
+}
+
+.notification_icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .notification {

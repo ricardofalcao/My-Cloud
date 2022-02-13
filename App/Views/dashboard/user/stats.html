@@ -11,100 +11,115 @@
 
 </head>
 <body>
-    <div class="columns is-6-desktop">
+    <div class="columns is-6-desktop is-fullheight">
         <div class="column">
             <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-                <h1 class="pl-5">
-                    <span class="icon-text is-large">
-                        <span class="icon">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="https://bulma.io">
+                        <span class="icon mr-2">
                             <i class="fa fa-cloud"></i>
                         </span>
+
                         <span>My Cloud</span>
-                    </span>
-                </h1>
+                    </a>
+
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
                 <div id="navbar" class="navbar-menu">
                     <div class="navbar-end">
                         <div class="navbar-item">
-                            <span>
-                                <div class="dropdown is-active">
-                                    <div class="dropdown-trigger">
-                                        <figure class="image" aria-controls="dropdown-menu">
-                                            <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-                                        </figure>
-                                    </div>
-                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                        <div class="dropdown-content">
-                                            <p class="has-text-grey-light ml-3">Ricardo Falcão</p>
-                                            <a href="#" class="dropdown-item">
-                                                <span class="icon-text">
-                                                    <span class="icon">
-                                                        <i class="fas fa-gear"></i>
-                                                    </span>
-                                                    <span>Painel de controlo</span>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <input class="input is-rounded" type="text" placeholder="Search">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <div class="navbar-link">
+                                User
+                            </div>
+
+                            <div id="moreDropdown" class="navbar-dropdown is-right">
+                                <a class="navbar-item " href="http://bulma.io/extensions/">
+                                    <div class="level is-mobile">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <p>
+                                                    <strong>Extensions</strong>
+                                                    <br>
+                                                    <small>Side projects to enhance Bulma</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                <span class="icon has-text-info">
+                                                    <i class="fa fa-plug"></i>
                                                 </span>
-                                            </a>
-                                            <a href="#" class="dropdown-item">
-                                                <span class="icon-text">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                                    </span>
-                                                    <span>Sair</span>
-                                                </span>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </nav>
         
-            <div class="columns">
-                <aside class="column is-2 menu is-fullheight">
+            <div class="columns is-gapless">
+                <aside class="column is-2 menu is-fullheight left-border">
                     <ul class="menu-list">
-                        <p class="menu-label ml-2 mt-2">
+                        <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
                             Utilizador
                         </p>
                         <li>
-                            <a href="#" class="is-flex is-align-items-center">
+                            <a href="#" class="is-flex is-align-items-center py-4 px-4">
                                 <span class="icon mr-2">
-                                    <i class="fas fa-user"></i>
+                                    <i class="fas fa-user is-size-5"></i>
                                 </span>
-                                <span class="name">Perfil</span>
-                            </a> 
+                                <span class="name is-size-5">Perfil</span>
+                            </a>
                         </li>
 
 
                         <li>
-                            <a href="#" class="has-background-grey-lighter is-flex is-align-items-center">
+                            <a href="#" class=" has-background-grey-lighter is-flex is-align-items-center py-4 px-4">
                                 <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie"></i>
+                                    <i class="fas fa-chart-pie is-size-5"></i>
                                 </span>
-                                <span class="name">Estatísticas</span>
-                            </a> 
+                                <span class="name is-size-5">Estatísticas</span>
+                            </a>
                         </li>
                     </ul>
-
-                        <p class="menu-label ml-2 mt-2">
-                            Administrador
-                        </p>
+                    <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
+                        Administrador
+                    </p>
                     <ul class="menu-list">
                         <li>
-                            <a href="#" class=" is-flex is-align-items-center">
+                            <a href="#" class=" is-flex is-align-items-center py-4 px-4">
                                 <span class="icon mr-2">
-                                    <i class="fas fa-users"></i>
+                                    <i class="fas fa-users is-size-5"></i>
                                 </span>
-                                <span class="name">Utilizadores</span>
-                            </a> 
+                                <span class="name is-size-5">Utilizadores</span>
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class=" is-flex is-align-items-center">
+                            <a href="#" class="is-flex is-align-items-center py-4 px-4">
                                 <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie"></i>
+                                    <i class="fas fa-chart-pie is-size-5"></i>
                                 </span>
-                            <span class="name">Estatísticas</span>
-                            </a> 
+                                <span class="name is-size-5">Estatísticas</span>
+                            </a>
                         </li>
                     </ul>
                 </aside>
