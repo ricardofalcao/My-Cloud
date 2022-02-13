@@ -7848,3 +7848,16 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 .left-border {
   border-right: 1px solid #dbdbdb; }
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: flex-end;
+  max-width: 17rem;
+  max-height: 3rem; }
+
+.image_text {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }

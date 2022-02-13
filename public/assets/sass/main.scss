@@ -12,3 +12,23 @@ $menu-list-link-padding: 0.875em 1.25em;
   border-right: 1px solid $border;
 }
 
+.notification {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  align-self: flex-end;
+
+  
+  max-width: 17rem;
+  max-height: 3rem;
+
+}
+
+.image_text{
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+}
+
