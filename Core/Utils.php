@@ -5,6 +5,42 @@ namespace Core;
 class Utils
 {
 
+    static function iconFromExtension($extension) {
+        if (empty($extension)) {
+            return 'folder';
+        }
+
+        $iconMap = [
+            '(doc|docm|docx|odt)' => 'file-word',
+            '(potx|pptx)' => 'file-powerpoint',
+            '(ods|xls|xlsx|xml)' => 'file-excel',
+            '(csv)' => 'file-csv',
+            '(pdf)' => 'file-pdf',
+            '(webm|mkv|flv|wmv|avi|mp4|m4p|m4v|mpg|mpeg|mpv)' => 'file-video',
+            '(jpeg|jpg|png|gif|tiff|raw)' => 'file-image',
+            '(7z|rar|zip|tar|tar.gz)' => 'file-archive',
+        ];
+
+        foreach ($iconMap as $regex => $iconT) {
+            if (preg_match($regex, $extension)) {
+                return $iconT;
+            }
+        }
+
+        return 'file';
+    }
+
+    static function humanizeBytes($size) {
+        $_sz = 'BKMGTP';
+        $_factor = floor((strlen($size) - 1) / 3);
+        $humanSize = sprintf("%.1f ", $size / pow(1024, $_factor)) . @$_sz[$_factor];
+
+        if ($humanSize !== 'B') {
+            $humanSize .= 'B';
+        }
+
+        return $humanSize;
+    }
 
     static function humanizeDateDifference($now, $otherDate = null, $offset = null)
     {

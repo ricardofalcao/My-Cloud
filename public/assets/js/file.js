@@ -1,5 +1,11 @@
 let lastIndex = -1;
 
+/*
+
+    CHECKBOXES
+
+ */
+
 function check(checkbox, shift) {
     const checkboxes = document.getElementsByClassName('row-checkbox')
     const index = [].indexOf.call(checkboxes, checkbox)
@@ -23,6 +29,12 @@ function checkboxAll(value) {
     }
 }
 
+/*
+
+    RESTORE
+
+ */
+
 async function restoreFile(fileId) {
     const result = await fetch(`/drive/trash/${fileId}`, {
         method: 'POST',
@@ -34,6 +46,12 @@ async function restoreFile(fileId) {
         setNotification((await result.json()).errors)
     }
 }
+
+/*
+
+    FAVORITE
+
+ */
 
 async function favoriteFile(event, fileId, value) {
     event.preventDefault();
@@ -47,6 +65,12 @@ async function favoriteFile(event, fileId, value) {
         setNotification((await result.json()).errors)
     }
 }
+
+/*
+
+    FILE UPLOAD
+
+ */
 
 async function uploadFiles(files) {
     const data = new FormData()
@@ -66,17 +90,24 @@ async function uploadFiles(files) {
     }
 }
 
-async function createFolder(event) {
-    const folderName = document.getElementById("folder-input").value;
+/*
 
+    NEW FOLDER
+
+ */
+
+async function createFolder(event) {
     event.preventDefault();
 
-    const data = new FormData()
-    data.append('folderName', folderName)
+    const data = getModalData('folder-modal');
+    const folderName = data.input;
+
+    const formData = new FormData()
+    formData.append('folderName', folderName)
 
     const result = await fetch(window.location.href, {
         method: 'POST',
-        body: data
+        body: formData
     })
 
     if (result.ok) {
@@ -87,25 +118,37 @@ async function createFolder(event) {
     }
 }
 
-let currentFileId = null;
-let currentFileExtension = null;
+function openNewFolder(event) {
+    event.preventDefault();
+
+    openModal('folder-modal', {
+        input: '',
+    });
+}
+
+/*
+
+ */
+
+let renameFileId = null;
+let renameFileExtension = null;
 
 async function renameFile(event) {
     event.preventDefault();
 
-    if (!currentFileId) {
+    if (!renameFileId) {
         return;
     }
 
     const fileName = document.getElementById("rename-input").value;
 
-    const result = await fetch(`/drive/files/${currentFileId}`, {
+    const result = await fetch(`/drive/files/${renameFileId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fileName: currentFileExtension ? fileName + "." + currentFileExtension : fileName
+            fileName: renameFileExtension ? fileName + "." + renameFileExtension : fileName
         })
     })
 
@@ -121,25 +164,31 @@ async function openRename(event, fileId, fileName) {
     event.preventDefault();
 
     const extIndex = fileName.lastIndexOf('.');
-    currentFileExtension = extIndex > 0 ? fileName.substr(extIndex + 1) : null;
-    currentFileId = fileId;
+    renameFileExtension = extIndex > 0 ? fileName.substr(extIndex + 1) : null;
+    renameFileId = fileId;
 
-    const input = document.getElementById('rename-input');
-    input.value = extIndex > 0 ? fileName.substr(0, extIndex) : fileName;
-
-    setActive(document.getElementById('rename-modal'));
+    openModal('rename-modal', {
+        input: extIndex > 0 ? fileName.substr(0, extIndex) : fileName,
+    });
 }
 
-let forceDelete = false;
+/*
+
+    DELETE FILE
+
+ */
+
+let deleteFileId = null;
+let deleteForce = false;
 
 async function deleteFile(event) {
     event.preventDefault();
 
-    if (!currentFileId) {
+    if (!deleteFileId) {
         return;
     }
 
-    const result = await fetch(forceDelete ? `/drive/trash/${currentFileId}` : `/drive/files/${currentFileId}`, {
+    const result = await fetch(deleteForce ? `/drive/trash/${deleteFileId}` : `/drive/files/${deleteFileId}`, {
         method: 'DELETE',
     })
 
@@ -154,17 +203,20 @@ async function deleteFile(event) {
 async function openDelete(event, fileId, fileName, force) {
     event.preventDefault();
 
-    const extIndex = fileName.lastIndexOf('.');
-    currentFileId = fileId;
-    forceDelete = force;
+    deleteFileId = fileId;
+    deleteForce = force;
 
-    const input = document.getElementById('delete-input');
-
-    input.innerHTML = `Tem a certeza que deseja eliminar "${fileName}"?<br/>`
-    input.innerHTML += force ? 'Este ficheiro vai ser eliminado permanentemente!' : 'Este ficheiro vai ser movido para a reciclagem.';
-
-    setActive(document.getElementById('delete-modal'));
+    openModal('delete-modal', {
+        input: [
+            `Tem a certeza que deseja eliminar "${fileName}"?`,
+            (force ? 'Este ficheiro vai ser eliminado permanentemente!' : 'Este ficheiro vai ser movido para a reciclagem.')
+        ].join('<br/>')
+    });
 }
+
+/*
+
+ */
 
 async function onFileUpload(event) {
     event.preventDefault();
@@ -186,15 +238,28 @@ async function onFileDrop(event) {
         }
     }
 
+    const overlay = document.getElementById("drag_overlay");
+    overlay.style.opacity = '0';
+    overlay.style.display = 'none';
+
     if (files.length > 0) {
         await uploadFiles(files);
     }
+
 }
 
 async function onFileDrag(event) {
     event.preventDefault();
 
-    const overlay = document.getElementById("drag_overlay");
-    overlay.style.display = 'flex';
-    overlay.style.opacity = '1';
+    const items = event.dataTransfer.items;
+    if (items) {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].kind === 'file') {
+                const overlay = document.getElementById("drag_overlay");
+                overlay.style.display = 'flex';
+                overlay.style.opacity = '1';
+                break;
+            }
+        }
+    }
 }

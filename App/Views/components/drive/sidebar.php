@@ -21,7 +21,7 @@ $sidebar_links = array(
 
 ?>
 
-<aside class="column is-2 menu is-flex is-flex-direction-column is-align-items-stretch right-border">
+<aside class="column is-3 menu is-flex is-flex-direction-column is-align-items-stretch right-border">
     <ul class="menu-list">
 
         <?  foreach($sidebar_links as $link) { ?>

@@ -41,7 +41,7 @@ View::render('components/head.php');
             ?>
 
 
-            <div class="column">
+            <div class="column is-flex is-flex-direction-column">
                 <div class="is-flex is-align-items-center ml-4 mt-4 mb-4">
                     <nav class="breadcrumb mb-0" aria-label="breadcrumbs">
                         <ul>
@@ -85,26 +85,28 @@ View::render('components/head.php');
                         </div>
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
-                                <a href="#" class="dropdown-item modal-trigger" data-target="folder-modal">
+                                <a href="#" class="dropdown-item" onclick="openNewFolder(event)">
                                     Criar pasta
                                 </a>
-                                <a href="#" class="dropdown-item px-0">
-                                    <label class="is-clickable px-4">
-                                        Enviar ficheiros
 
-                                        <input type="file" style="display: none;" multiple
-                                               onchange="onFileUpload(event)">
-                                    </label>
-                                </a>
+                                <label>
+                                    <input type="file" style="display: none;" multiple
+                                           onchange="onFileUpload(event)">
+
+                                    <a class="dropdown-item is-clickable">
+                                        Enviar ficheiros
+                                    </a>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="table-container" style="padding-bottom: 12rem;">
-                    <table class="table is-fullwidth">
-                        <thead>
-                        <tr class="has-text-grey-light">
+                <div class="is-flex-grow-1" style="flex-basis: 14rem; overflow: auto;">
+                    <div class="table-container" style="padding-bottom: 12rem;">
+                        <table class="table is-fullwidth">
+                            <thead>
+                            <tr class="has-text-grey-light">
                             <td style="vertical-align: middle; font-size: 1.4rem;">
                                 <input type="checkbox" class="row-checkbox has-text-primary"
                                        onchange="checkboxAll(event.currentTarget.checked)">
@@ -112,22 +114,28 @@ View::render('components/head.php');
                             <td class="py-3">Nome</td>
                             <td class="py-3">Tamanho</td>
                             <td class="py-3 pr-4">Modificado</td>
-                        </tr>
-                        </thead>
+                            </tr>
+                            </thead>
 
-                        <tbody class="is-scrollable">
-                        <?php
-                        foreach ($files as $index => $file) {
-                            $fileId = $file['id'];
+                            <tbody style="overflow: auto; height: 200px; width: 100%;">
+                            <?php
+                    foreach ($files as $index => $file) {
+                        $fileId = $file['id'];
 
-                            View::render('components/drive/file.php', [
-                                'file' => $file,
-                                'index' => $index
-                            ]);
-                        }
-                        ?>
-                        </tbody>
-                    </table>
+                        View::render('components/drive/file.php', [
+                            'file' => $file,
+                            'index' => $index
+                        ]);
+
+                        View::render('components/drive/file.php', [
+                            'file' => $file,
+                            'index' => $index
+                        ]);
+                    }
+                    ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,7 +152,7 @@ View::render('components/head.php');
             <section class="modal-card-body">
                 <div class="field">
                     <p class="control has-icons-left has-icons-right">
-                        <input id="folder-input" class="input" type="name" placeholder="Folder name" required/>
+                        <input data-value="input" class="input" type="name" placeholder="Folder name" required/>
                         <span class="icon is-small is-left">
                           <i class="fas fa-folder"></i>
                         </span>
@@ -170,7 +178,8 @@ View::render('components/head.php');
             <section class="modal-card-body">
                 <div class="field">
                     <p class="control has-icons-left has-icons-right">
-                        <input id="rename-input" class="input" type="name" placeholder="File name" required/>
+                        <input data-value="input" class="input" type="name" placeholder="File name" required/>
+
                         <span class="icon is-small is-left">
                           <i class="fas fa-pen"></i>
                         </span>
@@ -194,7 +203,7 @@ View::render('components/head.php');
             </header>
 
             <section class="modal-card-body">
-                <p id="delete-input"></p>
+                <p data-value="input"></p>
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
@@ -206,6 +215,7 @@ View::render('components/head.php');
 </div>
 
 <script src="/assets/js/file.js"></script>
+<script src="/assets/js/modal.js"></script>
 
 </body>
 

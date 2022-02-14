@@ -7886,7 +7886,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   accent-color: currentColor; }
 
 .row-name {
-  width: 80%;
+  width: 60%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; }

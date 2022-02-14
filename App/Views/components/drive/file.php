@@ -12,39 +12,10 @@ $path_parts = pathinfo($file['name']);
 $filename = $path_parts['filename'];
 $extension = $folder ? '' : $path_parts['extension'];
 
-$icon = 'file';
-
-if ($folder) {
-    $icon = 'folder';
-} else {
-    $iconMap = [
-        '(doc|docm|docx|odt)' => 'file-word',
-        '(potx|pptx)' => 'file-powerpoint',
-        '(ods|xls|xlsx|xml)' => 'file-excel',
-        '(csv)' => 'file-csv',
-        '(pdf)' => 'file-pdf',
-        '(webm|mkv|flv|wmv|avi|mp4|m4p|m4v|mpg|mpeg|mpv)' => 'file-video',
-        '(jpeg|jpg|png|gif|tiff|raw)' => 'file-image',
-        '(7z|rar|zip|tar|tar.gz)' => 'file-archive',
-    ];
-
-    foreach ($iconMap as $regex => $iconT) {
-        if (preg_match($regex, $extension)) {
-            $icon = $iconT;
-            break;
-        }
-    }
-}
+$icon = Utils::iconFromExtension($extension);
 
 $size = $file['size'];
-
-$_sz = 'BKMGTP';
-$_factor = floor((strlen($size) - 1) / 3);
-$humanSize = sprintf("%.1f ", $size / pow(1024, $_factor)) . @$_sz[$_factor];
-
-if ($humanSize !== 'B') {
-    $humanSize .= 'B';
-}
+$humanSize = Utils::humanizeBytes($size);
 
 ?>
 
@@ -53,7 +24,7 @@ if ($humanSize !== 'B') {
         <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
     </td>
 
-    <td style="width: 99%;">
+    <td>
         <span class="icon-text is-flex is-align-items-center">
             <span class="icon mr-3 is-relative">
                 <i class="fas fa-lg fa-<? echo $icon ?> <? echo $folder ? 'has-text-primary' : ''?> "></i>

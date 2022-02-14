@@ -20,3 +20,12 @@ function setNotification(message, timeout = 5000) {
         Array.prototype.forEach.call(target.getElementsByClassName('notification-message'), e => e.innerHTML = '');
     }, timeout);
 }
+
+// notifications close button
+document.querySelectorAll('.notification .delete').forEach(($delete) => {
+    const $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
+    });
+});
