@@ -4,12 +4,18 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Core\Input;
+use Core\View;
 
 class DashboardAdmin extends \Core\Controller
 {
-    public function index()
+    public function users()
     {
-        echo 'hello';
+        View::render('dashboard/admin/users.php');
+    }
+
+    public function stats()
+    {
+        View::render('dashboard/admin/stats.php');
     }
 
     /*

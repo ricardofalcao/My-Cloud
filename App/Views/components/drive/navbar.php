@@ -1,6 +1,17 @@
+<?
+use Core\Request;
+
+$user = Request::get('user');
+
+if(!isset($showSearch)) {
+    $showSearch = true;
+}
+
+?>
+
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
+        <a class="navbar-item" href="/drive/files">
                     <span class="icon mr-2">
                         <i class="fa fa-cloud"></i>
                     </span>
@@ -16,20 +27,24 @@
     </div>
     <div id="navbar" class="navbar-menu">
         <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input is-rounded is-small" type="text" placeholder="Search">
-                        <span class="icon is-small is-left">
+            <? if ($showSearch) {
+            ?>
+                <div class="navbar-item">
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input class="input is-rounded is-small" type="text" placeholder="Search">
+                            <span class="icon is-small is-left">
                                   <i class="fas fa-search"></i>
                                 </span>
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            <?
+            } ?>
 
             <div class="navbar-item has-dropdown is-hoverable">
                 <div class="navbar-link">
-                    User
+                    <? echo $user['name']; ?>
                 </div>
 
                 <div id="moreDropdown" class="navbar-dropdown is-right">

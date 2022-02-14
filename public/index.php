@@ -42,10 +42,8 @@ $router->delete('/drive/trash/{id}', 'Drive', 'trashDelete', ['Authenticated']);
 
 $router->get('/drive/download', 'DriveDownload', 'download', ['Authenticated']);
 
-$router->get('/dashboard/admin/users', 'DashboardAdmin', 'listUsers', ['Authenticated']);
-$router->get('/dashboard/admin/users/{id}', 'DashboardAdmin', 'showUser', ['Authenticated']);
-
-$router->post('/dashboard/admin/users', 'DashboardAdmin', 'createUser', ['Authenticated']);
+$router->get('/dashboard/admin/users', 'DashboardAdmin', 'users', ['Authenticated']);
+$router->get('/dashboard/admin/stats', 'DashboardAdmin', 'stats', ['Authenticated']);
 
 $app = new Core\App($router);
 $app->run();

@@ -40,7 +40,11 @@ $size = $file['size'];
 
 $_sz = 'BKMGTP';
 $_factor = floor((strlen($size) - 1) / 3);
-$humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
+$humanSize = sprintf("%.1f ", $size / pow(1024, $_factor)) . @$_sz[$_factor];
+
+if ($humanSize !== 'B') {
+    $humanSize .= 'B';
+}
 
 ?>
 
@@ -84,7 +88,7 @@ $humanSize = sprintf("%.1f", $size / pow(1024, $_factor)) . @$_sz[$_factor];
                     <div class="dropdown-content is-block">
                         <a href="#" class="dropdown-item" onclick="favoriteFile(event, <? echo $file['id'] ?>, <? echo !$favorite ?>)">
                             <span class="icon">
-                                <i style="color: #f6d16b;" class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
                             </span>
 
                             <span>

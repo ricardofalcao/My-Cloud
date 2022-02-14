@@ -153,8 +153,8 @@ View::render('components/head.php');
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button is-success" onclick="createFolder(event)">Criar</button>
                 <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-primary" onclick="createFolder(event)">Criar</button>
             </footer>
         </div>
     </div>
@@ -179,8 +179,8 @@ View::render('components/head.php');
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button is-success" onclick="renameFile(event)">Renomear</button>
                 <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-primary" onclick="renameFile(event)">Renomear</button>
             </footer>
         </div>
     </div>
@@ -198,8 +198,8 @@ View::render('components/head.php');
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button is-danger" onclick="deleteFile(event)">Eliminar</button>
                 <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-danger" onclick="deleteFile(event)">Eliminar</button>
             </footer>
         </div>
     </div>
