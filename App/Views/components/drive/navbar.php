@@ -46,34 +46,35 @@ if(!isset($showSearch)) {
             <?
             } ?>
 
-            <div class="navbar-item has-dropdown is-hoverable">
-                <div class="navbar-link">
+            <div class="navbar-item has-dropdown is-hoverable is-right">
+                <a class="navbar-item has-text-white">
                     <? echo $user['name']; ?>
-                </div>
+                </a>
 
-                <div id="moreDropdown" class="navbar-dropdown is-right">
-                    <a class="navbar-item " href="http://bulma.io/extensions/">
-                        <div class="level is-mobile">
-                            <div class="level-left">
-                                <div class="level-item">
-                                    <p>
-                                        <strong>Extensions</strong>
-                                        <br>
-                                        <small>Side projects to enhance Bulma</small>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="navbar-dropdown is-right">
+                    <a class="navbar-item has-text-grey">
+                        <? echo $user['username']; ?>
+                    </a>
 
-                            <div class="level-right">
-                                <div class="level-item">
-                                              <span class="icon has-text-info">
-                                                <i class="fa fa-plug"></i>
-                                              </span>
-                                </div>
-                            </div>
-                        </div>
+                    <a class="navbar-item">
+                        <span class="icon-text">
+                        <span class="icon">
+                            <i class="fas fa-cogs"></i>
+                        </span>
+                        <span>Painel de Controlo</span>
+                    </span>
+                    </a>
+
+                    <a class="navbar-item">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </span>
+                            <span>Sair</span>
+                        </span>
                     </a>
                 </div>
+            </div>
             </div>
         </div>
     </div>
