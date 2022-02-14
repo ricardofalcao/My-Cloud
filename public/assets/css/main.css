@@ -7869,6 +7869,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .right-border {
   border-right: 1px solid #dbdbdb; }
 
+.all-border {
+  border: 1px solid #dbdbdb; }
+
 .notification {
   position: absolute;
   top: 16px;
@@ -7890,3 +7893,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; }
+
+.is-scrollable {
+  flex-basis: auto;
+  overflow: auto; }
+  @media screen and (min-width: 769px), print {
+    .is-scrollable {
+      flex-basis: 0; } }

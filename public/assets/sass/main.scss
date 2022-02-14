@@ -47,6 +47,10 @@ $menu-item-active-color: $text;
   border-right: 1px solid $border;
 }
 
+.all-border {
+  border: 1px solid $border;
+}
+
 .notification {
   position: absolute;
   top: 16px;
@@ -71,4 +75,13 @@ $menu-item-active-color: $text;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.is-scrollable {
+  flex-basis: auto;
+  overflow: auto;
+
+  @include tablet {
+    flex-basis: 0;
+  }
 }

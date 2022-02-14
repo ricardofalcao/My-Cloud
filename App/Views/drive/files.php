@@ -32,7 +32,7 @@ View::render('components/head.php');
     ?>
 
     <main class="hero is-fullheight-with-navbar">
-        <div class="columns is-gapless is-flex-grow-1">
+        <div class="columns is-gapless is-flex-grow-1 «">
             <?php
             View::render('components/drive/sidebar.php', [
                 'sidebar_current_id' => $id,
@@ -77,7 +77,8 @@ View::render('components/head.php');
 
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
-                            <button class="button is-small" style="border-radius: 9999px;" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <button class="button is-small" style="border-radius: 9999px;" aria-haspopup="true"
+                                    aria-controls="dropdown-menu">
                                 <span class="icon is-small">
                                 <i class="fas fa-plus" aria-hidden="true"></i>
                                 </span>
@@ -102,37 +103,52 @@ View::render('components/head.php');
                     </div>
                 </div>
 
-                <div class="is-flex-grow-1" style="flex-basis: 14rem; overflow: auto;">
+                <div class="is-flex-grow-1 is-scrollable">
                     <div class="table-container" style="padding-bottom: 12rem;">
                         <table class="table is-fullwidth">
                             <thead>
                             <tr class="has-text-grey-light">
-                            <td style="vertical-align: middle; font-size: 1.4rem;">
-                                <input type="checkbox" class="row-checkbox has-text-primary"
-                                       onchange="checkboxAll(event.currentTarget.checked)">
-                            </td>
-                            <td class="py-3">Nome</td>
-                            <td class="py-3">Tamanho</td>
-                            <td class="py-3 pr-4">Modificado</td>
+                                <td style="vertical-align: middle; font-size: 1.4rem;">
+                                    <input type="checkbox" class="row-checkbox has-text-primary"
+                                           onchange="checkboxAll(event.currentTarget.checked)">
+                                </td>
+                                <td class="py-3" style="width: 99%;">
+                                    <!--<span class="icon-text is-align-items-center">
+                                        <span>Nome</span>
+
+                                        <form href="/drive/files/">
+                                            <a class="button is-white is-small is-rounded ml-1">
+                                                <span class="icon is-small has-text-grey-light">
+                                                    <i class="fas fa-sort-alpha-down"></i>
+                                                </span>
+                                            </a>
+                                        </form>
+                                    </span>-->
+
+                                    Nome
+                                </td>
+                                <td class="py-3">Tamanho</td>
+                                <td class="py-3 pr-4">Modificado</td>
                             </tr>
                             </thead>
 
-                            <tbody style="overflow: auto; height: 200px; width: 100%;">
-                            <?php
-                    foreach ($files as $index => $file) {
-                        $fileId = $file['id'];
+                            <tbody>
 
-                        View::render('components/drive/file.php', [
-                            'file' => $file,
-                            'index' => $index
-                        ]);
+                            <? foreach ($files as $index => $file) { ?>
 
-                        View::render('components/drive/file.php', [
-                            'file' => $file,
-                            'index' => $index
-                        ]);
-                    }
-                    ?>
+                                <tr class="datatable-item" data-fileid="<? echo $file['id'] ?>">
+
+                                    <?
+                                    View::render('components/drive/file.php', [
+                                        'file' => $file,
+                                        'id' => $id,
+                                    ]);
+                                    ?>
+
+                                </tr>
+
+                            <? } ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -190,6 +206,50 @@ View::render('components/head.php');
             <footer class="modal-card-foot is-justify-content-right">
                 <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
                 <button class="button is-primary" onclick="renameFile(event)">Renomear</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="share-modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Partilhar '<span data-value="title"></span>'</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+
+            <section class="modal-card-body">
+                <div class="field has-addons">
+                    <p class="control has-icons-left is-expanded">
+                        <input data-value="input" class="input" type="name" placeholder="Nome de utilizador" required/>
+
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-user"></i>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <span class="select">
+                          <select data-value="type">
+                            <option value="VIEWER">Visualizador</option>
+                            <option value="EDITOR">Editor</option>
+                          </select>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="field is-grouped is-grouped-multiline mt-4" data-value="items">
+                    <div class="control">
+                        <div class="tags has-addons">
+                            <a class="tag is-primary" data-value="items.user"></a>
+                            <a class="tag is-delete"></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="modal-card-foot is-justify-content-right">
+                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-primary" onclick="shareFile(event)">Partilhar</button>
             </footer>
         </div>
     </div>

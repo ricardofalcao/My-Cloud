@@ -1,6 +1,8 @@
 <?php
 
-use Core\Utils;if (!isset($file) || !isset($index)) {
+use Core\Utils;
+
+if (!isset($file)) {
     return;
 }
 
@@ -19,34 +21,34 @@ $humanSize = Utils::humanizeBytes($size);
 
 ?>
 
-<tr class="datatable-item" id="file-<?php echo $file['id'] ?>">
-    <td style="vertical-align: middle; font-size: 1.4rem; white-space: nowrap;">
-        <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
-    </td>
+<td style="vertical-align: middle; font-size: 1.4rem; white-space: nowrap;">
+    <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
+</td>
 
-    <td>
+<td>
         <span class="icon-text is-flex is-align-items-center">
             <span class="icon mr-3 is-relative">
-                <i class="fas fa-lg fa-<? echo $icon ?> <? echo $folder ? 'has-text-primary' : ''?> "></i>
+                <i class="fas fa-lg fa-<? echo $icon ?> <? echo $folder ? 'has-text-primary' : '' ?> "></i>
 
-                <? if ($favorite) {
-                ?>
-                    <i style="color: #f6d16b; position: absolute; top: 0; right: -4px;" class="fas fa-star is-size-7"></i>
-                <?
-                } ?>
+                <i style="color: #f6d16b; position: absolute; top: 0; right: -4px;"
+                   class="favorite fas fa-star is-size-7 <? echo $favorite ? '' : 'is-hidden' ?>"></i>
             </span>
 
             <span class="py-3 row-name">
 
                 <? if ($folder) { ?>
-                    <a href="/drive/files/<? echo $file['id'] ?>" class="has-text-black"><? echo $filename ?></a>
+                    <a href="/drive/files/<? echo $file['id'] ?>" class="has-text-black" data-value="filename"><? echo $filename ?></a>
                 <? } else { ?>
-                    <? echo $filename ?><span class="has-text-grey-light" >.<? echo $extension; ?></span>
+                    <span data-value="filename"><? echo $filename ?></span> <span class="has-text-grey-light">.<? echo $extension; ?></span>
                 <? } ?>
 
             </span>
 
-            <div class="ml-auto dropdown is-hoverable is-right">
+            <span class="ml-auto icon is-small">
+              <i class="fas fa-link" aria-hidden="true"></i>
+            </span>
+
+            <div class="dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
                   <button class="button is-small is-black is-inverted" aria-haspopup="true"
                           aria-controls="dropdown-menu">
@@ -57,12 +59,14 @@ $humanSize = Utils::humanizeBytes($size);
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content is-block">
-                        <a href="#" class="dropdown-item" onclick="favoriteFile(event, <? echo $file['id'] ?>, <? echo !$favorite ?>)">
+                        <a href="#" class="dropdown-item"
+                           onclick="favoriteFile(event, <? echo $file['id'] ?>, <? echo $id === 'favorites' ? true : false ?>)">
+
                             <span class="icon">
                                 <i class="fas fa-star"></i>
                             </span>
 
-                            <span>
+                            <span data-value="favorite_text">
                                 <? if ($favorite) { ?>
                                     Remover dos favoritos
                                 <? } else { ?>
@@ -71,7 +75,16 @@ $humanSize = Utils::humanizeBytes($size);
                             </span>
                         </a>
 
-                        <a href="#" class="dropdown-item" onclick="openRename(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>')">
+                        <a href="#" class="dropdown-item"
+                           onclick="openShare(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>')">
+                            <span class="icon">
+                                <i class="fas fa-link"></i>
+                            </span>
+                            <span>Partilhar</span>
+                        </a>
+
+                        <a href="#" class="dropdown-item"
+                           onclick="openRename(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>')">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
                             </span>
@@ -85,7 +98,8 @@ $humanSize = Utils::humanizeBytes($size);
                             <span>Transferir</span>
                         </a>
 
-                        <a href="#" class="dropdown-item" onclick="openDelete(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>', <? echo $deleted ?>)">
+                        <a href="#" class="dropdown-item"
+                           onclick="openDelete(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>', <? echo $deleted ?>)">
                             <span class="icon">
                                 <i class="fas fa-trash"></i>
                             </span>
@@ -93,27 +107,26 @@ $humanSize = Utils::humanizeBytes($size);
                         </a>
 
                         <? if ($deleted) {
-                        ?>
-                        <a href="#" class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
+                            ?>
+                            <a href="#" class="dropdown-item" onclick="restoreFile(<? echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-recycle"></i>
                             </span>
                             <span>Restaurar</span>
                         </a>
-                        <?
+                            <?
                         } ?>
                     </div>
                 </div>
             </div>
         </span>
-    </td>
-    <td style="vertical-align: middle; white-space: nowrap;">
-        <? if ($size > 0) {
-            echo $humanSize;
-        } ?>
-    </td>
-    <td style="vertical-align: middle; white-space: nowrap;">
+</td>
+<td style="vertical-align: middle; white-space: nowrap;">
+    <? if ($size > 0) {
+        echo $humanSize;
+    } ?>
+</td>
+<td style="vertical-align: middle; white-space: nowrap;">
 
-        <? echo Utils::humanizeDateDifference(time(), strtotime($file['modified_at'])) ?>
-    </td>
-</tr>
+    <? echo Utils::humanizeDateDifference(time(), strtotime($file['modified_at'])) ?>
+</td>

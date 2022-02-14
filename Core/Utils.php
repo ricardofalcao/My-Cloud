@@ -19,6 +19,7 @@ class Utils
             '(webm|mkv|flv|wmv|avi|mp4|m4p|m4v|mpg|mpeg|mpv)' => 'file-video',
             '(jpeg|jpg|png|gif|tiff|raw)' => 'file-image',
             '(7z|rar|zip|tar|tar.gz)' => 'file-archive',
+            '(json|c|cpp|html|java|py)' => 'file-code',
         ];
 
         foreach ($iconMap as $regex => $iconT) {
@@ -33,9 +34,11 @@ class Utils
     static function humanizeBytes($size) {
         $_sz = 'BKMGTP';
         $_factor = floor((strlen($size) - 1) / 3);
-        $humanSize = sprintf("%.1f ", $size / pow(1024, $_factor)) . @$_sz[$_factor];
+        $term = @$_sz[$_factor];
 
-        if ($humanSize !== 'B') {
+        $humanSize = sprintf("%.1f ", $size / pow(1024, $_factor)) . $term;
+
+        if ($term !== 'B') {
             $humanSize .= 'B';
         }
 

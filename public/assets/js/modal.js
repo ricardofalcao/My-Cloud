@@ -24,16 +24,7 @@ function openModal(modalId, data = null) {
     const target = document.getElementById(modalId);
 
     if (target) {
-        data && Object.keys(data).forEach((k) => {
-            const value = data[k];
-            const child = target.querySelector(`[data-value="${k}"]`);
-
-            if (child.tagName === 'INPUT') {
-                child.value = value;
-            } else {
-                child.innerHTML = value;
-            }
-        })
+        data && injectData(target, data);
 
         setActive(target);
     }
@@ -48,6 +39,8 @@ function getModalData(modalId) {
         target.querySelectorAll(`[data-value]`).forEach((element) => {
             if (element.tagName === 'INPUT') {
                 output[element.getAttribute('data-value')] = element.value;
+            } else if (element.tagName === 'SELECT') {
+                output[element.getAttribute('data-value')] = element.options[element.selectedIndex].value;
             } else {
                 output[element.getAttribute('data-value')] = element.innerHTML;
             }

@@ -32,8 +32,14 @@ class Drive extends \Core\Controller
     {
         $userId = Request::get('userId');
 
+        $inputRequest = new Input();
         $inputParams = new Input($this->params);
-        if ($inputParams->exists('id')) {
+
+        if ($inputRequest->exists('search')) {
+            $search = $inputRequest->str('search');
+            $files = File::search($search);
+            $ancestors = null;
+        } else if ($inputParams->exists('id')) {
             $folderId = $inputParams->int('id');;
             $files = File::getByParent($folderId);
             $ancestors = File::getAncestors($folderId);

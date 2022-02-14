@@ -30,14 +30,18 @@ if(!isset($showSearch)) {
             <? if ($showSearch) {
             ?>
                 <div class="navbar-item">
-                    <div class="field">
-                        <p class="control has-icons-left">
-                            <input class="input is-rounded is-small" type="text" placeholder="Search">
-                            <span class="icon is-small is-left">
+                    <form action="/drive/files">
+
+                        <input type="submit" style="display: none;"/>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input is-rounded is-small" type="text" name="search" placeholder="Search">
+                                <span class="icon is-small is-left">
                                   <i class="fas fa-search"></i>
                                 </span>
-                        </p>
-                    </div>
+                            </p>
+                        </div>
+                    </form>
                 </div>
             <?
             } ?>

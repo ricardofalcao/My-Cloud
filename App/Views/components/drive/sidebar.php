@@ -1,4 +1,8 @@
 <?php
+
+use Core\Request;
+use Core\Utils;
+
 class SidebarLink {
     public $id;
     public $name;
@@ -19,9 +23,12 @@ $sidebar_links = array(
     new SidebarLink('favorites', 'Favoritos', 'star',  '/drive/favorites'),
 );
 
+$user = Request::get('user');
+$total_space = 2.4e6;
+
 ?>
 
-<aside class="column is-3 menu is-flex is-flex-direction-column is-align-items-stretch right-border">
+<aside class="column is-3 is-2-desktop menu is-flex is-flex-direction-column is-align-items-stretch right-border">
     <ul class="menu-list">
 
         <?  foreach($sidebar_links as $link) { ?>
@@ -32,7 +39,7 @@ $sidebar_links = array(
                     <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
                 </span>
                 <span class="name is-size-6"><? echo $link->name ?></span>
-                <span class="tag is-white is-rounded ml-auto"><? echo array_key_exists($link->id, $count) ? $count[$link->id] : 0 ?></span>
+                <span class="tag is-white is-rounded ml-auto all-border"><? echo array_key_exists($link->id, $count) ? $count[$link->id] : 0 ?></span>
             </a>
         </li>
 
@@ -46,12 +53,22 @@ $sidebar_links = array(
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="name is-size-6">Reciclagem</span>
-                <span class="tag is-white is-rounded ml-auto"><? echo array_key_exists('trash', $count) ? $count['trash'] : 0 ?></span>
+                <span class="tag is-white is-rounded ml-auto all-border"><? echo array_key_exists('trash', $count) ? $count['trash'] : 0 ?></span>
             </a>
         </li>
 
         <li>
-            <p class="ml-2 mt-2 has-text-grey-light is-size-6">2.4/6 GB utilizados</p>
+            <?
+            if (empty($user['quota'])) {
+            ?>
+                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($total_space) ?> utilizados</p>
+            <?
+            } else {
+            ?>
+                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($total_space) ?> / <? echo  Utils::humanizeBytes($user['quota']) ?> utilizados</p>
+            <?
+            }
+            ?>
         </li>
     </ul>
 </aside>

@@ -1,5 +1,9 @@
 let lastIndex = -1;
 
+function getFileById(id) {
+    return document.querySelector(`[data-fileid="${id}"]`)
+}
+
 /*
 
     CHECKBOXES
@@ -41,7 +45,8 @@ async function restoreFile(fileId) {
     })
 
     if (result.ok) {
-        document.location.reload()
+        const target = getFileById(deleteFileId);
+        target?.remove();
     } else {
         setNotification((await result.json()).errors)
     }
@@ -53,14 +58,31 @@ async function restoreFile(fileId) {
 
  */
 
-async function favoriteFile(event, fileId, value) {
+async function favoriteFile(event, fileId, deleteOnRemoval = false) {
     event.preventDefault();
+
+    const target = getFileById(fileId);
+    const favoriteTarget = target?.querySelector('.favorite');
+
+    if (!favoriteTarget) {
+        return;
+    }
+
+    const value = favoriteTarget.classList.contains('is-hidden');
+
     const result = await fetch(`/drive/favorites/${fileId}`, {
         method: value ? 'POST' : 'DELETE',
     })
 
     if (result.ok) {
-        document.location.reload()
+        target?.querySelector('.favorite')?.classList.toggle('is-hidden');
+        injectData(target, {
+            favorite_text: value ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+        })
+
+        if (!value && deleteOnRemoval) {
+            target?.remove();
+        }
     } else {
         setNotification((await result.json()).errors)
     }
@@ -140,7 +162,8 @@ async function renameFile(event) {
         return;
     }
 
-    const fileName = document.getElementById("rename-input").value;
+    const data = getModalData('rename-modal');
+    const fileName = data.input;
 
     const result = await fetch(`/drive/files/${renameFileId}`, {
         method: 'PUT',
@@ -153,7 +176,11 @@ async function renameFile(event) {
     })
 
     if (result.ok) {
-        window.location.reload();
+        const target = getFileById(renameFileId);
+        injectData(target, {
+            filename: fileName
+        })
+
         closeNearestModal(event.target);
     } else {
         setNotification((await result.json()).errors)
@@ -193,7 +220,9 @@ async function deleteFile(event) {
     })
 
     if (result.ok) {
-        document.location.reload()
+        const target = getFileById(deleteFileId);
+        target?.remove();
+
         closeNearestModal(event.target);
     } else {
         setNotification((await result.json()).errors)
@@ -211,6 +240,64 @@ async function openDelete(event, fileId, fileName, force) {
             `Tem a certeza que deseja eliminar "${fileName}"?`,
             (force ? 'Este ficheiro vai ser eliminado permanentemente!' : 'Este ficheiro vai ser movido para a reciclagem.')
         ].join('<br/>')
+    });
+}
+
+/*
+
+    SHARE FILE
+
+ */
+
+let shareFileId = null;
+
+async function shareFile(event) {
+    event.preventDefault();
+
+    if (!shareFileId) {
+        return;
+    }
+
+    const data = getModalData('share-modal');
+    const username = data.input;
+    const type = data.type;
+
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('type', type)
+
+    console.log(username + " - " + type);
+    /*const result = await fetch(`/drive/shared/${shareFileId}`, {
+        method: 'POST',
+    })
+
+    if (result.ok) {
+        document.location.reload()
+        closeNearestModal(event.target);
+    } else {
+        setNotification((await result.json()).errors)
+    }*/
+}
+
+async function openShare(event, fileId, fileName) {
+    event.preventDefault();
+
+    shareFileId = fileId;
+
+    const extIndex = fileName.lastIndexOf('.');
+
+    openModal('share-modal', {
+        title: extIndex > 0 ? fileName.substr(0, extIndex) : fileName,
+        input: '',
+        type: 'VIEWER',
+        items: [
+            {
+                user: 'Hello World!'
+            },
+            {
+                user: 'Hello World2!'
+            }
+        ]
     });
 }
 

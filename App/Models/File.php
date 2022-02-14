@@ -7,6 +7,14 @@ use PDO;
 class File extends \Core\Model
 {
 
+    public static function search($text)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ to_tsquery('portuguese', ?)");
+        $stmt->execute([ $text ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function get($id)
     {
         $db = static::db();
@@ -94,25 +102,34 @@ class File extends \Core\Model
 
     public static function create($ownerId, $name, $size, $type, $state = 'NONE', $mime_type = null, $parentId = null)
     {
+        $path_parts = pathinfo($name);
+        $filename = $path_parts['filename'];
+
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (owner_id, name, coalesce(parent_id, '-1')) DO UPDATE SET size = excluded.size, type = excluded.type, state = excluded.state, mime_type = excluded.mime_type, modified_at=CURRENT_TIMESTAMP RETURNING id;");
-        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId]);
+        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id, search_tokens) VALUES (?, ?, ?, ?, ?, ?, ?, to_tsvector('portuguese', ?)) ON CONFLICT (owner_id, name, coalesce(parent_id, '-1')) DO UPDATE SET size = excluded.size, type = excluded.type, state = excluded.state, mime_type = excluded.mime_type, search_tokens = excluded.search_tokens, modified_at=CURRENT_TIMESTAMP RETURNING id;");
+        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
         return $stmt->fetchColumn();
     }
 
     public static function createIfNotExists($ownerId, $name, $size, $type, $state = 'NONE', $mime_type = null, $parentId = null)
     {
+        $path_parts = pathinfo($name);
+        $filename = $path_parts['filename'];
+
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;");
-        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId]);
+        $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id, search_tokens) VALUES (?, ?, ?, ?, ?, ?, ?, to_tsvector('portuguese', ?)) RETURNING id;");
+        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
         return $stmt->fetchColumn();
     }
 
     public static function rename($id, $newName)
     {
+        $path_parts = pathinfo($newName);
+        $filename = $path_parts['filename'];
+
         $db = static::db();
-        $stmt = $db->prepare("UPDATE public.file SET name=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
-        $stmt->execute([ $newName, $id ]);
+        $stmt = $db->prepare("UPDATE public.file SET name=?, search_tokens=to_tsvector('portuguese', ?), modified_at=CURRENT_TIMESTAMP WHERE id=?");
+        $stmt->execute([ $newName, $filename, $id ]);
     }
 
     public static function updateState($id, $state)
