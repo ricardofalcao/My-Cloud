@@ -169,7 +169,7 @@
 
                             <canvas id="Chart_cpu" width="300" height="300"></canvas>
                             <script>
-                                var ctx = document.getElementById("Chart_cpu");
+                                var ctx = document.getElementById("Chart_cpu").getContext('2d');
                                 var myChart = new Chart(ctx, {
                                     type: 'doughnut',
                                     data: {

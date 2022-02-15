@@ -36,7 +36,15 @@ View::render('components/head.php');
 
             <div class="column is-flex is-flex-direction-column">
                 <div class="is-flex-grow-1 is-scrollable">
-                    <!-- Conteudo -->
+                    <div class="columns m-4 is-tablet">
+
+                        <div class="column is-one-third">
+                            <h1 class="has-text-weight-bold">Espaço total</h1>
+
+                            <canvas id="chart_disk_user"></canvas>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

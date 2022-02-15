@@ -56,14 +56,14 @@ if(!isset($showSearch)) {
                         <? echo $user['username']; ?>
                     </a>
 
-                    <a class="navbar-item">
+                    <a class="navbar-item" href="../../dashboard/user/profile">
                         <span class="icon mr-2">
                             <i class="fas fa-cogs"></i>
                         </span>
                         <span>Painel de Controlo</span>
                     </a>
 
-                    <a class="navbar-item">
+                    <a class="navbar-item" href="../../auth/logout">
                         <span class="icon mr-2">
                             <i class="fas fa-sign-out-alt"></i>
                         </span>
