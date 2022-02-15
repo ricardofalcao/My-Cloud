@@ -43,4 +43,11 @@ class User extends \Core\Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function delete($userId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("DELETE FROM public.user WHERE id=?;");
+        $stmt->execute([ $userId ]);
+    }
+
 }

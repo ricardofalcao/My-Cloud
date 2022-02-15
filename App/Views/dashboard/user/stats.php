@@ -16,6 +16,10 @@ View::render('components/head.php');
 <body>
 <div>
     <?php
+    View::render('components/base.php');
+    ?>
+
+    <?php
     View::render('components/drive/navbar.php', [
         'showSearch' => false,
     ]);

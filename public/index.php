@@ -43,6 +43,8 @@ $router->delete('/drive/trash/{id}', 'Drive', 'trashDelete', ['Authenticated']);
 $router->get('/drive/download', 'DriveDownload', 'download', ['Authenticated']);
 
 $router->get('/dashboard/admin/users', 'DashboardAdmin', 'users', ['Authenticated']);
+$router->delete('/dashboard/admin/users/{id}', 'DashboardAdmin', 'usersDelete', ['Authenticated']);
+
 $router->get('/dashboard/admin/stats', 'DashboardAdmin', 'stats', ['Authenticated']);
 $router->get('/dashboard/admin/stats/api', 'DashboardAdmin', 'statsApi', ['Authenticated']);
 
