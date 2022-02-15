@@ -24,9 +24,8 @@ View::render('components/head.php');
     <main class="hero is-fullheight-with-navbar">
         <div class="columns is-gapless is-flex-grow-1">
             <?php
-            View::render('components/drive/sidebar.php', [
-                'sidebar_current_id' => '',
-                'count' => [],
+            View::render('components/drive/sidebar_dashboard.php', [
+                'sidebar_current_id' => 'admin_users'
             ]);
             ?>
 

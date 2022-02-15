@@ -3,19 +3,7 @@
 use Core\Request;
 use Core\Utils;
 
-class SidebarLink {
-    public $id;
-    public $name;
-    public $icon;
-    public $target;
-
-    public function __construct(string $id, string $name, string $icon, string $target) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->icon = $icon;
-        $this->target = $target;
-    }
-}
+require_once 'sidebar_common.php';
 
 $sidebar_links = array(
     new SidebarLink('files', 'Ficheiros', 'folder', '/drive/files'),
