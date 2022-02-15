@@ -72,8 +72,8 @@ class DashboardAdmin extends \Core\Controller
             ],
             'cpu' => $cpu,
             'memory' => [
-                'total' => $get_mem[1],
-                'used' => $get_mem[2],
+                'total' => $get_mem[1] * 1000,
+                'used' => $get_mem[2] * 1000,
             ]
         ]);
     }

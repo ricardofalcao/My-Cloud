@@ -35,21 +35,28 @@ View::render('components/head.php');
 
             <div class="column is-flex is-flex-direction-column">
                 <div class="is-flex-grow-1 is-scrollable">
-                    <div class="columns m-4 is-tablet">
+                    <div class="columns m-4 is-tablet is-variable is-6">
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Espaço total</h1>
 
-                            <canvas id="chart_disk"></canvas>
+                            <div class="chart-container" style="position: relative; width: 100%;">
+                                <canvas id="chart_disk"></canvas>
+
+                            </div>
                         </div>
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">CPU</h1>
 
-                            <canvas id="chart_cpu"></canvas>
+                            <div class="chart-container" style="position: relative; width: 100%;">
+                                <canvas id="chart_cpu"></canvas>
+                            </div>
                         </div>
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Memória</h1>
 
-                            <canvas id="chart_memory"></canvas>
+                            <div class="chart-container" style="position: relative; width: 100%;">
+                                <canvas id="chart_memory"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
