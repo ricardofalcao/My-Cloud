@@ -16,6 +16,10 @@ View::render('components/head.php');
 <body>
 <div>
     <?php
+    View::render('components/base.php');
+    ?>
+
+    <?php
     View::render('components/drive/navbar.php', [
         'showSearch' => false,
     ]);
@@ -40,22 +44,24 @@ View::render('components/head.php');
                                 <td class="py-3 pr-6">Ações</td>
                             </tr>
 
-                            <tr>
-                                <td class="py-3 pl-4">
-                                    ricardofalcao
-                                </td>
-                                <td class="py-3">
-                                    Ricardo Falcão
-                                </td>
+                            <? foreach($users as $user) { ?>
+                                <tr>
+                                    <td class="py-3 pl-4">
+                                        <? echo $user['username'] ?>
+                                    </td>
+                                    <td class="py-3">
+                                        <? echo $user['name'] ?>
+                                    </td>
 
-                                <td style="vertical-align: middle; width: 1px;">
-                                    <button class="button is-small is-black is-inverted">
-                                    <span class="icon">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    </button>
-                                </td>
-                            </tr>
+                                    <td style="vertical-align: middle; width: 1px;">
+                                        <a class="button is-small is-black is-inverted" onclick="openDelete(event, <? echo $user['id'] ?>, '<? echo $user['name'] ?>')">
+                                            <span class="icon">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <? } ?>
                         </table>
                     </div>
 
@@ -131,6 +137,28 @@ View::render('components/head.php');
         </div>
     </main>
 </div>
+
+<div id="delete-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Eliminar '<span data-value="username"></span>'?</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <section class="modal-card-body">
+            <p data-value="input">Esta ação é permanente!</p>
+        </section>
+
+        <footer class="modal-card-foot is-justify-content-right">
+            <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
+            <button class="button is-danger" onclick="deleteUser(event)">Eliminar</button>
+        </footer>
+    </div>
+</div>
+
+<script src="/assets/js/admin_users.js"></script>
+<script src="/assets/js/modal.js"></script>
 </body>
 
 </html>

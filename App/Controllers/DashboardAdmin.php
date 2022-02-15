@@ -2,16 +2,46 @@
 
 namespace App\Controllers;
 
+use App\Models\File;
 use App\Models\User;
 use Core\Input;
+use Core\Request;
 use Core\View;
 
 class DashboardAdmin extends \Core\Controller
 {
     public function users()
     {
-        View::render('dashboard/admin/users.php');
+        $users = User::getAll();
+
+        View::render('dashboard/admin/users.php', [
+            'users' => $users
+        ]);
     }
+
+    public function usersDelete()
+    {
+        $userId = Request::get('userId');
+
+        $inputParams = new Input($this->params);
+        $targetId = $inputParams->int('id');
+
+        if ($userId === $targetId) {
+            http_response_code(400);
+            echo json_encode([
+                'errors' => 'Não pode remover o seu próprio utilizador'
+            ]);
+
+            return;
+        }
+
+        User::delete($targetId);
+        echo 'ok';
+    }
+
+    /*
+     *
+     */
 
     public function stats()
     {
