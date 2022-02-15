@@ -434,8 +434,10 @@ async function onRowFileDrop(event, element, targetId) {
     let fileIds = event.dataTransfer.getData('files');
 
     if (fileIds) {
-        fileIds = JSON.parse(fileIds);
+        fileIds = JSON.parse(fileIds).filter(f => f !== targetId);
 
-        await moveFiles(fileIds, targetId);
+        if (fileIds.length > 0) {
+            await moveFiles(fileIds, targetId);
+        }
     }
 }
