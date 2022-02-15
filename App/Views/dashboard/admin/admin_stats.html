@@ -140,7 +140,6 @@
                             data: {
                                 labels: ['Utilização de espaço', 'Livre'],
                                 datasets: [{
-                                    label: '# of Tomatoes',
                                     data: [36, (100 - 36)],
                                     backgroundColor: [
                                         'rgba(0, 150, 136, 1)',
@@ -154,10 +153,13 @@
                                 }]
                             },
                             options: {
-                                //cutoutPercentage: 40,
-                                responsive: false,
-
-                            },
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                    }
+                                }
+                            }
                         });
                     </script>
                     <h1 class="is-size-4 has-text-weight-bold my-5">Sistema</h1>

@@ -47,7 +47,7 @@ if(!isset($showSearch)) {
             } ?>
 
             <div class="navbar-item has-dropdown is-hoverable is-right">
-                <a class="navbar-item has-text-white">
+                <a class="navbar-link has-text-white is-arrowless">
                     <? echo $user['name']; ?>
                 </a>
 
@@ -57,21 +57,17 @@ if(!isset($showSearch)) {
                     </a>
 
                     <a class="navbar-item">
-                        <span class="icon-text">
-                        <span class="icon">
+                        <span class="icon mr-2">
                             <i class="fas fa-cogs"></i>
                         </span>
                         <span>Painel de Controlo</span>
-                    </span>
                     </a>
 
                     <a class="navbar-item">
-                        <span class="icon-text">
-                            <span class="icon">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            <span>Sair</span>
+                        <span class="icon mr-2">
+                            <i class="fas fa-sign-out-alt"></i>
                         </span>
+                        <span>Sair</span>
                     </a>
                 </div>
             </div>
