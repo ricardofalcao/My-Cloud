@@ -56,7 +56,7 @@ class Validation
 
     private function _filter($filter, $errorMessage)
     {
-        if ($this->valid && !empty($this->value)) {
+        if ($this->valid && $this->value !== null) {
             $value = filter_var($this->value, $filter);
 
             if ($value === false) {
@@ -94,7 +94,7 @@ class Validation
     }
 
     public function str() {
-        if ($this->valid && !empty($this->value)) {
+        if ($this->valid && $this->value !== null) {
             if (!is_string($this->value)) {
                 $this->errors[$this->name] = "$this->name must be a string.";
                 $this->valid = false;
@@ -120,7 +120,7 @@ class Validation
     public function min($length)
     {
 
-        if ($this->valid && !empty($this->value)) {
+        if ($this->valid && $this->value !== null) {
             if (is_string($this->value)) {
 
                 if (strlen($this->value) < $length) {
@@ -145,7 +145,7 @@ class Validation
     public function max($length)
     {
 
-        if ($this->valid && !empty($this->value)) {
+        if ($this->valid && $this->value !== null) {
             if (is_string($this->value)) {
 
                 if (strlen($this->value) > $length) {
@@ -169,7 +169,7 @@ class Validation
 
     public function equal($value)
     {
-        if ($this->valid && !empty($this->value)) {
+        if ($this->valid && $this->value !== null) {
             if ($this->value != $value) {
                 $this->errors[$this->name] = "$this->name must be $value.";
                 $this->valid = false;

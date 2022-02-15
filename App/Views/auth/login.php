@@ -32,7 +32,7 @@ $inputs = [
     [
         "id" => "password",
         "label" => "Password",
-        "placeholder" => "password",
+        "placeholder" => "*******",
         "type" => "password",
         "icon" => "fa fa-key"
     ]
@@ -69,7 +69,7 @@ $inputs = [
                                             name="<? echo $input['id'] ?>"
                                             type="<? echo $input['type'] ?>"
                                             placeholder="<? echo $input['placeholder'] ?>"
-                                            class="input <? echo has_error($errors, $input['id']) ? 'is-danger' : 'is-primary' ?>"
+                                            class="input <? echo has_error($errors, $input['id']) ? 'is-danger' : '' ?>"
                                             value="<? echo isset(${$input['id']}) ? ${$input['id']} : '' ?>">
                                     <span class="icon is-small is-left">
                                         <i class="fa <? echo $input['icon'] ?>"></i>

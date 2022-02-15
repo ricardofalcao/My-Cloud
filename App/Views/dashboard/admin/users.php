@@ -2,6 +2,54 @@
 
 use Core\View;
 
+if (!isset($errors)) {
+    $errors = [];
+}
+
+function has_error($errors, $key)
+{
+    return array_key_exists($key, $errors);
+}
+
+function get_error($errors, $key)
+{
+    return has_error($errors, $key) ? $errors[$key] : null;
+}
+
+$inputs = [
+    [
+        "id" => "username",
+        "label" => "Username",
+        "placeholder" => "joaoexemplo",
+        "type" => "text",
+        "icon" => "fa fa-user"
+    ],
+    [
+        "id" => "name",
+        "label" => "Nome completo",
+        "placeholder" => "João Exemplo",
+        "type" => "text",
+        "icon" => "fa fa-signature"
+    ],
+    [
+        "id" => "password",
+        "label" => "Password",
+        "placeholder" => "*******",
+        "type" => "password",
+        "icon" => "fa fa-key"
+    ],
+    [
+        "id" => "confirmPassword",
+        "label" => "Confirmar Password",
+        "placeholder" => "*******",
+        "type" => "password",
+        "icon" => "fa fa-key"
+    ]
+];
+
+
+$total = count($inputs);
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +92,7 @@ View::render('components/head.php');
                                 <td class="py-3 pr-6">Ações</td>
                             </tr>
 
-                            <? foreach($users as $user) { ?>
+                            <? foreach ($users as $user) { ?>
                                 <tr>
                                     <td class="py-3 pl-4">
                                         <? echo $user['username'] ?>
@@ -54,7 +102,8 @@ View::render('components/head.php');
                                     </td>
 
                                     <td style="vertical-align: middle; width: 1px;">
-                                        <a class="button is-small is-black is-inverted" onclick="openDelete(event, <? echo $user['id'] ?>, '<? echo $user['name'] ?>')">
+                                        <a class="button is-small is-black is-inverted"
+                                           onclick="openDelete(event, <? echo $user['id'] ?>, '<? echo $user['name'] ?>')">
                                             <span class="icon">
                                                 <i class="fas fa-trash"></i>
                                             </span>
@@ -74,55 +123,55 @@ View::render('components/head.php');
 
                     <div class="column is-three-fifths">
                         <div class="container is-fluid p-0 mx-3">
-                            <form>
+                            <form action="/dashboard/admin/users" method="POST">
                                 <h1 class="is-size-4 has-text-weight-bold mb-4">Adicionar utilizador</h1>
-                                <div class="field is-horizontal">
-                                    <div class="field-body">
-                                        <div class="field">
-                                            <label for="" class="label">Username</label>
-                                            <p class="control has-icons-left is-expanded">
-                                                <input type="email" placeholder="e.g. Notorious B.I.G." class="input"
-                                                       required>
-                                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
-                                            </p>
-                                        </div>
+                                <?
+                                for ($i = 0; $i < $total; $i += 2) {
+                                    ?>
+                                    <div class="field is-horizontal">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label for="<? echo $inputs[$i]['id'] ?>"
+                                                       class="label"><? echo $inputs[$i]['label'] ?></label>
+                                                <div class="control has-icons-left">
+                                                    <input
+                                                            id="<? echo $inputs[$i]['id'] ?>"
+                                                            name="<? echo $inputs[$i]['id'] ?>"
+                                                            type="<? echo $inputs[$i]['type'] ?>"
+                                                            placeholder="<? echo $inputs[$i]['placeholder'] ?>"
+                                                            class="input <? echo has_error($errors, $inputs[$i]['id']) ? 'is-danger' : '' ?>"
+                                                            value="<? echo isset(${$inputs[$i]['id']}) ? ${$inputs[$i]['id']} : '' ?>">
 
-                                        <div class="field">
-                                            <label for="" class="label">Nome completo</label>
-                                            <p class="control has-icons-left is-expanded">
-                                                <input type="password" placeholder="e.g. Adelino Passas" class="input"
-                                                       required>
-                                                <span class="icon is-small is-left">
-                                                    <i class="fa fa-address-book"></i>
-                                                </span>
-                                            </p>
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fa <? echo $inputs[$i]['icon'] ?>"></i>
+                                                    </span>
+                                                </div>
+                                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, $inputs[$i]['id']) ?: '<wbr/>' ?></p>
+                                            </div>
+
+                                            <? if ($i + 1 < $total) { ?>
+                                                <div class="field">
+                                                    <label for="<? echo $inputs[$i + 1]['id'] ?>"
+                                                           class="label"><? echo $inputs[$i + 1]['label'] ?></label>
+                                                    <div class="control has-icons-left">
+                                                        <input
+                                                                id="<? echo $inputs[$i + 1]['id'] ?>"
+                                                                name="<? echo $inputs[$i + 1]['id'] ?>"
+                                                                type="<? echo $inputs[$i + 1]['type'] ?>"
+                                                                placeholder="<? echo $inputs[$i + 1]['placeholder'] ?>"
+                                                                class="input <? echo has_error($errors, $inputs[$i + 1]['id']) ? 'is-danger' : '' ?>"
+                                                                value="<? echo isset(${$inputs[$i + 1]['id']}) ? ${$inputs[$i + 1]['id']} : '' ?>">
+                                                        <span class="icon is-small is-left">
+                                                            <i class="fa <? echo $inputs[$i + 1]['icon'] ?>"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, $inputs[$i + 1]['id']) ?: '<wbr/>' ?></p>
+                                                </div>
+                                            <? } ?>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="field is-horizontal">
-                                    <div class="field-body">
 
-                                        <div class="field">
-                                            <label for="" class="label">Password</label>
-                                            <div class="control has-icons-left">
-                                                <input type="password" placeholder="*******" class="input" required>
-                                                <span class="icon is-small is-left">
-                                                    <i class="fa fa-lock"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="field">
-                                            <label for="" class="label">Confirmar Password</label>
-                                            <div class="control has-icons-left">
-                                                <input type="password" placeholder="*******" class="input" required>
-                                                <span class="icon is-small is-left">
-                                                    <i class="fa fa-lock"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <? } ?>
 
                                 <div class="field">
                                     <button class="button is-primary">

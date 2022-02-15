@@ -52,9 +52,9 @@ if(!isset($showSearch)) {
                 </a>
 
                 <div class="navbar-dropdown is-right">
-                    <a class="navbar-item has-text-grey">
-                        <? echo $user['username']; ?>
-                    </a>
+                    <span class="navbar-item has-text-grey">
+                        <? echo $user['name']; ?>
+                    </span>
 
                     <a class="navbar-item" href="../../dashboard/user/profile">
                         <span class="icon mr-2">

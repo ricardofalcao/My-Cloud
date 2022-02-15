@@ -29,7 +29,7 @@ class Auth extends \Core\Controller
             if ($validation->isValid()) {
                 $validation->assert(password_verify($password, $user['password_hash']), [
                     "username" => "",
-                    "password" => "Invalid password",
+                    "password" => "Password inválida",
                 ]);
             }
         }

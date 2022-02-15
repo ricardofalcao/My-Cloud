@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\User;
 use Core\Input;
 use Core\Request;
+use Core\Validation;
 use Core\View;
 
 class DashboardAdmin extends \Core\Controller
@@ -17,6 +18,53 @@ class DashboardAdmin extends \Core\Controller
         View::render('dashboard/admin/users.php', [
             'users' => $users
         ]);
+    }
+
+    public function usersPost()
+    {
+        $validation = new Validation();
+
+        $username = $validation->name('username')->str()->min(4)->required()->get();
+        $name = $validation->name('name')->str()->min(4)->required()->get();
+        $password = $validation->name('password')->str()->min(6)->required()->get();
+        $confirmPassword = $validation->name('confirmPassword')->str()->min(6)->required()->get();
+
+        $validation->assert($password === $confirmPassword, [
+            'password' => 'Passwords must match.',
+            'confirmPassword' => 'Passwords must match.'
+        ]);
+
+        if (!$validation->isValid()) {
+            $users = User::getAll();
+
+            View::render('dashboard/admin/users.php', [
+                'users' => $users,
+                "errors" => $validation->getErrors(),
+                "username" => $username,
+                "name" => $name,
+            ]);
+
+            return;
+        }
+
+        try {
+            $user = User::create($username, $name, $password);
+            header('Location: /dashboard/admin/users');
+        } catch(\PDOException $ex) {
+            $users = User::getAll();
+
+            View::render('dashboard/admin/users.php', [
+                'users' => $users,
+                "errors" => [
+                    'username' => 'Utilizador já existe!'
+                ],
+                "username" => $username,
+                "name" => $name,
+            ]);
+
+            return;
+        }
+
     }
 
     public function usersDelete()
@@ -36,7 +84,9 @@ class DashboardAdmin extends \Core\Controller
         }
 
         User::delete($targetId);
-        echo 'ok';
+        echo json_encode([
+            "success" => true,
+        ]);
     }
 
     /*

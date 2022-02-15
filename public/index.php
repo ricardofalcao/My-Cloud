@@ -42,13 +42,16 @@ $router->delete('/drive/trash/{id}', 'Drive', 'trashDelete', ['Authenticated']);
 
 $router->get('/drive/download', 'DriveDownload', 'download', ['Authenticated']);
 
-$router->get('/dashboard/admin/users', 'DashboardAdmin', 'users', ['Authenticated']);
-$router->delete('/dashboard/admin/users/{id}', 'DashboardAdmin', 'usersDelete', ['Authenticated']);
+$router->get('/dashboard/admin/users', 'DashboardAdmin', 'users', ['Authenticated', 'IsAdmin']);
+$router->post('/dashboard/admin/users', 'DashboardAdmin', 'usersPost', ['Authenticated', 'IsAdmin']);
+$router->delete('/dashboard/admin/users/{id}', 'DashboardAdmin', 'usersDelete', ['Authenticated', 'IsAdmin']);
 
-$router->get('/dashboard/admin/stats', 'DashboardAdmin', 'stats', ['Authenticated']);
-$router->get('/dashboard/admin/stats/api', 'DashboardAdmin', 'statsApi', ['Authenticated']);
+$router->get('/dashboard/admin/stats', 'DashboardAdmin', 'stats', ['Authenticated', 'IsAdmin']);
+$router->get('/dashboard/admin/stats/api', 'DashboardAdmin', 'statsApi', ['Authenticated', 'IsAdmin']);
 
 $router->get('/dashboard/user/profile', 'DashboardUser', 'profile', ['Authenticated']);
+$router->post('/dashboard/user/profile/password', 'DashboardUser', 'profilePassword', ['Authenticated']);
+$router->post('/dashboard/user/profile/name', 'DashboardUser', 'profileName', ['Authenticated']);
 $router->get('/dashboard/user/stats', 'DashboardUser', 'stats', ['Authenticated']);
 
 $app = new Core\App($router);
