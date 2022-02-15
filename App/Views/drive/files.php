@@ -46,7 +46,14 @@ View::render('components/head.php');
                     <nav class="breadcrumb mb-0" aria-label="breadcrumbs">
                         <ul>
                             <li>
-                                <a href="/drive/files">
+                                <a
+                                        href="/drive/files"
+                                    <?
+                                    echo 'ondragover="onRowFileDragOver(event, this, 0)"';
+                                    echo 'ondrop="onRowFileDrop(event, this, 0)"';
+                                    echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                    ?>
+                                >
                                 <span class="icon is-small">
                                   <i class="fas fa-home" aria-hidden="true"></i>
                                 </span>
@@ -59,14 +66,23 @@ View::render('components/head.php');
                                 foreach ($ancestors as $i => $ancestor) {
                                     if ($i == $len - 1) {
                                         ?>
-                                        <li class="is-active"><a href="#"
-                                                                 aria-current="page"><? echo $ancestor['name'] ?></a>
+                                        <li
+                                                class="is-active"
+                                        ><a href="#"
+                                            aria-current="page"><? echo $ancestor['name'] ?></a>
                                         </li>
                                         <?
                                     } else {
                                         ?>
-                                        <li><a href="/drive/files/<? echo $ancestor['id'] ?>"
-                                               class="has-text-weight-bold"><? echo $ancestor['name'] ?></a></li>
+                                        <li><a
+                                                href="/drive/files/<? echo $ancestor['id'] ?>"
+                                                <?
+                                                echo 'ondragover="onRowFileDragOver(event, this, ' . $ancestor['id'] . ')"';
+                                                echo 'ondrop="onRowFileDrop(event, this, ' . $ancestor['id'] . ')"';
+                                                echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                                ?>
+                                                    class="has-text-weight-bold"><? echo $ancestor['name'] ?>
+                                            </a></li>
                                         <?
                                     }
                                 }
@@ -136,7 +152,21 @@ View::render('components/head.php');
 
                             <? foreach ($files as $index => $file) { ?>
 
-                                <tr class="datatable-item" data-fileid="<? echo $file['id'] ?>">
+                                <tr
+                                        class="datatable-item is-clickable"
+                                        data-fileid="<? echo $file['id'] ?>"
+                                        draggable="true"
+                                        ondragstart="onRowFileDragStart(event, <? echo $file['id'] ?>)"
+                                    <?
+                                    if ($file['type'] === 'FOLDER') {
+                                        echo 'ondragover="onRowFileDragOver(event, this, ' . $file['id'] . ')"';
+                                        echo 'ondrop="onRowFileDrop(event, this, ' . $file['id'] . ')"';
+                                        echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                    } else {
+
+                                    }
+                                    ?>
+                                >
 
                                     <?
                                     View::render('components/drive/file.php', [

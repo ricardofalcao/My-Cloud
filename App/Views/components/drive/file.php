@@ -22,7 +22,7 @@ $humanSize = Utils::humanizeBytes($size);
 ?>
 
 <td style="vertical-align: middle; font-size: 1.4rem; white-space: nowrap;">
-    <input type="checkbox" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
+    <input type="checkbox" data-value="<? echo $file['id'] ?>" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
 </td>
 
 <td>
@@ -50,7 +50,7 @@ $humanSize = Utils::humanizeBytes($size);
 
             <div class="dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
-                  <button class="button is-small is-black is-inverted" aria-haspopup="true"
+                  <button class="button is-small is-ghost is-inverted" aria-haspopup="true"
                           aria-controls="dropdown-menu">
                     <span class="icon is-small">
                       <i class="fas fa-ellipsis-h" aria-hidden="true"></i>

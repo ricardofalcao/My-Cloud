@@ -28,7 +28,7 @@ $total_space = 2.4e6;
 
 ?>
 
-<aside class="column is-3 is-2-desktop menu is-flex is-flex-direction-column is-align-items-stretch right-border">
+<aside class="column is-3 is-2-desktop menu is-flex is-flex-direction-column is-align-items-stretch right-border" id="sidebar">
     <ul class="menu-list">
 
         <?  foreach($sidebar_links as $link) { ?>
@@ -39,7 +39,7 @@ $total_space = 2.4e6;
                     <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
                 </span>
                 <span class="name is-size-6"><? echo $link->name ?></span>
-                <span class="tag is-white is-rounded ml-auto all-border"><? echo array_key_exists($link->id, $count) ? $count[$link->id] : 0 ?></span>
+                <span class="tag is-white is-rounded ml-auto all-border" data-value="<? echo $link->id ?>"><? echo array_key_exists($link->id, $count) ? $count[$link->id] : 0 ?></span>
             </a>
         </li>
 
@@ -53,7 +53,7 @@ $total_space = 2.4e6;
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="name is-size-6">Reciclagem</span>
-                <span class="tag is-white is-rounded ml-auto all-border"><? echo array_key_exists('trash', $count) ? $count['trash'] : 0 ?></span>
+                <span class="tag is-white is-rounded ml-auto all-border" data-value="trash"><? echo array_key_exists('trash', $count) ? $count['trash'] : 0 ?></span>
             </a>
         </li>
 

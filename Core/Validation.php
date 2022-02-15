@@ -107,7 +107,7 @@ class Validation
     public function required()
     {
         if ($this->valid) {
-            if (empty($this->value)) {
+            if ($this->value === null) {
                 $this->errors[$this->name] = "$this->name is required";
                 $this->valid = false;
             }

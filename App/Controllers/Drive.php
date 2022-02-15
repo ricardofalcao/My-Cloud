@@ -111,7 +111,7 @@ class Drive extends \Core\Controller
         $userId = Request::get('userId');
 
         $validation = new Validation($this->params);
-        $fileId = $validation->name('id')->int()->required()->get();
+        $fileId = $validation->name('id')->required()->int()->get();
 
         if (!$validation->isValid()) {
             http_response_code(400);
@@ -123,6 +123,16 @@ class Drive extends \Core\Controller
         }
 
         $validation = new Validation($_PUT);
+        $moves = $validation->name('moves')->required()->get();
+
+        if ($validation->isValid()) {
+            foreach($moves as $moveId) {
+                File::updateParent($moveId, $fileId == 0 ? null : $fileId);
+            }
+
+            return;
+        }
+
         $fileName = $validation->name('fileName')->str()->required()->get();
 
         if (!$validation->isValid()) {
@@ -167,6 +177,10 @@ class Drive extends \Core\Controller
 
         $file = File::get($fileId);
         File::propagateState($fileId, 'DELETED');
+
+        echo json_encode([
+            'count' => $this->countFiles(),
+        ]);
     }
 
     /*
@@ -196,6 +210,10 @@ class Drive extends \Core\Controller
 
         $file = File::get($fileId);
         File::updateState($fileId, 'FAVORITE');
+
+        echo json_encode([
+            'count' => $this->countFiles(),
+        ]);
     }
 
     public function favoritesDelete()
@@ -207,6 +225,10 @@ class Drive extends \Core\Controller
 
         $file = File::get($fileId);
         File::updateState($fileId, 'NONE');
+
+        echo json_encode([
+            'count' => $this->countFiles(),
+        ]);
     }
 
     /*
@@ -252,6 +274,10 @@ class Drive extends \Core\Controller
         $file = File::get($fileId);
 
         File::propagateState($fileId, 'NONE');
+
+        echo json_encode([
+            'count' => $this->countFiles(),
+        ]);
     }
 
     public function trashDelete()
@@ -281,5 +307,9 @@ class Drive extends \Core\Controller
         if (file_exists($path)) {
             unlink($path);
         }
+
+        echo json_encode([
+            'count' => $this->countFiles(),
+        ]);
     }
 }

@@ -28,7 +28,7 @@
 
  */
 function injectData(element, data, prefix = '') {
-    Object.keys(data).forEach((key) => {
+    element && data && Object.keys(data).forEach((key) => {
         const child = element.querySelector(`[data-value="${prefix}${key}"]`);
         const value = data[key];
 

@@ -465,7 +465,7 @@ a.box:active {
     text-decoration: none; }
     .button.is-ghost:hover, .button.is-ghost.is-hovered {
       color: #7a7a7a;
-      text-decoration: underline; }
+      text-decoration: none; }
   .button.is-white {
     background-color: white;
     border-color: transparent;
@@ -7900,3 +7900,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   @media screen and (min-width: 769px), print {
     .is-scrollable {
       flex-basis: 0; } }
+
+tr.is-folder-drag {
+  background-color: #ebfffd; }
+
+a.is-folder-drag {
+  color: #00d6c2; }

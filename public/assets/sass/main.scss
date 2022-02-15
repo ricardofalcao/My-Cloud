@@ -13,6 +13,8 @@ $menu-list-link-padding: 0.875em 1.25em;
 $menu-item-active-background-color: $grey-lighter;
 $menu-item-radius: 0;
 
+$button-ghost-hover-decoration: none;
+
 @import "../bulma/sass/utilities/derived-variables.sass";
 
 $menu-item-active-color: $text;
@@ -84,4 +86,12 @@ $menu-item-active-color: $text;
   @include tablet {
     flex-basis: 0;
   }
+}
+
+tr.is-folder-drag {
+  background-color: $primary-light;
+}
+
+a.is-folder-drag {
+  color: $primary-dark;
 }

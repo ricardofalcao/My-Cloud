@@ -139,6 +139,13 @@ class File extends \Core\Model
         $stmt->execute([ $state, $id ]);
     }
 
+    public static function updateParent($id, $parentId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("UPDATE public.file SET parent_id=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
+        $stmt->execute([ $parentId, $id ]);
+    }
+
     public static function propagateState($id, $state)
     {
         $db = static::db();

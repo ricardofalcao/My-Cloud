@@ -4,11 +4,22 @@ function getFileById(id) {
     return document.querySelector(`[data-fileid="${id}"]`)
 }
 
+function updateCount(response) {
+    injectData(document.getElementById('sidebar'), {
+        ...response.count
+    })
+}
+
 /*
 
     CHECKBOXES
 
  */
+
+function getChecked() {
+    const checkboxes = document.getElementsByClassName('row-checkbox');
+    return Array.prototype.filter.call(checkboxes, (check) => check.checked).map((check) => Number.parseInt(check.getAttribute('data-value'))).filter(v => !!v);
+}
 
 function check(checkbox, shift) {
     const checkboxes = document.getElementsByClassName('row-checkbox')
@@ -74,6 +85,7 @@ async function favoriteFile(event, fileId, deleteOnRemoval = false) {
         method: value ? 'POST' : 'DELETE',
     })
 
+    const response = await result.json();
     if (result.ok) {
         target?.querySelector('.favorite')?.classList.toggle('is-hidden');
         injectData(target, {
@@ -83,8 +95,10 @@ async function favoriteFile(event, fileId, deleteOnRemoval = false) {
         if (!value && deleteOnRemoval) {
             target?.remove();
         }
+
+        updateCount(response);
     } else {
-        setNotification((await result.json()).errors)
+        setNotification(response.errors)
     }
 }
 
@@ -175,6 +189,7 @@ async function renameFile(event) {
         })
     })
 
+    const response = (await result.json());
     if (result.ok) {
         const target = getFileById(renameFileId);
         injectData(target, {
@@ -182,8 +197,9 @@ async function renameFile(event) {
         })
 
         closeNearestModal(event.target);
+        updateCount(response);
     } else {
-        setNotification((await result.json()).errors)
+        setNotification(response.errors)
     }
 }
 
@@ -219,13 +235,15 @@ async function deleteFile(event) {
         method: 'DELETE',
     })
 
+    const response = (await result.json());
     if (result.ok) {
         const target = getFileById(deleteFileId);
         target?.remove();
 
         closeNearestModal(event.target);
+        updateCount(response);
     } else {
-        setNotification((await result.json()).errors)
+        setNotification(response.errors)
     }
 }
 
@@ -303,6 +321,30 @@ async function openShare(event, fileId, fileName) {
 
 /*
 
+    MOVE FILE
+
+ */
+
+async function moveFiles(files, targetId) {
+    const result = await fetch(`/drive/files/${targetId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            moves: files
+        })
+    })
+
+    if (result.ok) {
+        window.location.reload();
+    } else {
+        setNotification((await result.json()).errors)
+    }
+}
+
+/*
+
  */
 
 async function onFileUpload(event) {
@@ -348,5 +390,49 @@ async function onFileDrag(event) {
                 break;
             }
         }
+    }
+}
+
+/*
+
+ */
+
+async function onRowFileDragStart(event, fileId) {
+    event.dataTransfer.setData("files",  JSON.stringify([
+        fileId,
+        ...getChecked()
+    ]));
+}
+
+async function onRowFileDragOver(event, element, folderId) {
+    event.preventDefault();
+
+    let fileIds = event.dataTransfer.getData('files');
+
+    if (fileIds) {
+        fileIds = JSON.parse(fileIds);
+
+        if (!fileIds.find(f => f === folderId)) {
+            element.classList.add('is-folder-drag');
+        }
+    }
+}
+
+async function onRowFileDragLeave(event, element) {
+    event.preventDefault();
+
+    element.classList.remove('is-folder-drag');
+}
+
+async function onRowFileDrop(event, element, targetId) {
+    event.preventDefault();
+
+    element.classList.remove('is-folder-drag');
+    let fileIds = event.dataTransfer.getData('files');
+
+    if (fileIds) {
+        fileIds = JSON.parse(fileIds);
+
+        await moveFiles(fileIds, targetId);
     }
 }
