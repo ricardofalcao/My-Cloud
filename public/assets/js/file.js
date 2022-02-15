@@ -337,7 +337,10 @@ async function moveFiles(files, targetId) {
     })
 
     if (result.ok) {
-        window.location.reload();
+        files.forEach((fileId) => {
+            const target = getFileById(fileId);
+            target?.remove();
+        })
     } else {
         setNotification((await result.json()).errors)
     }

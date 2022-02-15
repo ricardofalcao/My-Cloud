@@ -1,6 +1,7 @@
 let notificationInterval = null;
+let lastNotificationVariant = null;
 
-function setNotification(message, timeout = 5000) {
+function setNotification(message, variant = 'is-danger', timeout = 5000) {
     if (!message) {
         return;
     }
@@ -12,6 +13,14 @@ function setNotification(message, timeout = 5000) {
 
     const target = document.getElementById('notification');
     Array.prototype.forEach.call(target.getElementsByClassName('notification-message'), e => e.innerHTML = text);
+
+    if (lastNotificationVariant) {
+        target.classList.remove(lastNotificationVariant);
+    }
+
+    lastNotificationVariant = variant;
+    target.classList.add(lastNotificationVariant);
+
     setActive(target);
 
     notificationInterval && clearInterval(notificationInterval);

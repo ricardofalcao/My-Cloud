@@ -1,13 +1,4 @@
 // Functions to open and close a modal
-function setActive($el) {
-    $el.classList.add('is-active');
-    $el.classList.remove('is-hidden');
-}
-
-function setInactive($el) {
-    $el.classList.remove('is-active');
-    $el.classList.add('is-hidden');
-}
 
 function closeAllModals() {
     (document.querySelectorAll(".modal") || []).forEach(($modal) => {

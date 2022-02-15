@@ -22,16 +22,15 @@ class DashboardUser extends \Core\Controller
         $name = $validation->name('name')->str()->min(4)->required()->get();
 
         if (!$validation->isValid()) {
-            View::render('dashboard/user/profile.php', [
-                "errors" => $validation->getErrors(),
-                "name" => $name,
+            http_response_code(400);
+            echo json_encode([
+                "errors" => $validation->getErrors()
             ]);
 
             return;
         }
 
         User::updateName($userId, $name);
-        header('Location: /dashboard/user/profile');
     }
 
     public function profilePassword()

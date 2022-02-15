@@ -83,7 +83,7 @@ View::render('components/head.php');
                             </div>
                         </form>
 
-                        <form action="/dashboard/user/profile/name" method="POST">
+                        <form onsubmit="updateName(event)">
                             <h1 class="is-size-4 has-text-weight-bold mb-4">Alterar nome</h1>
                             <div class="field">
                                 <label for="name" class="label">Novo nome</label>
@@ -97,7 +97,7 @@ View::render('components/head.php');
                                 <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'name') ?: '<wbr/>' ?></p>
                             </div>
                             <div class="field">
-                                <button class="button is-block is-primary mb-6">
+                                <button type="submit" class="button is-block is-primary mb-6">
                                     Submeter
                                 </button>
                             </div>
@@ -108,6 +108,8 @@ View::render('components/head.php');
         </div>
     </main>
 </div>
+
+<script src="/assets/js/profile.js"></script>
 </body>
 
 </html>

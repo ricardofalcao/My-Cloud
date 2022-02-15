@@ -126,8 +126,22 @@ class Drive extends \Core\Controller
         $moves = $validation->name('moves')->required()->get();
 
         if ($validation->isValid()) {
+            $size = count($moves);
             foreach($moves as $moveId) {
-                File::updateParent($moveId, $fileId == 0 ? null : $fileId);
+                try {
+
+                    File::updateParent($moveId, $fileId == 0 ? null : $fileId);
+
+                } catch(\PDOException $ex) {
+                    if ($size === 1) {
+                        http_response_code(400);
+                        echo json_encode([
+                            "errors" => 'Já existe um ficheiro com esse nome nessa pasta'
+                        ]);
+
+                        return;
+                    }
+                }
             }
 
             return;
