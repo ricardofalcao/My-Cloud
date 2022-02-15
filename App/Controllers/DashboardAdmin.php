@@ -18,11 +18,42 @@ class DashboardAdmin extends \Core\Controller
         View::render('dashboard/admin/stats.php');
     }
 
+    public function statsApi()
+    {
+        $exec_loads = sys_getloadavg();
+        $exec_cores = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
+        $cpu = $exec_loads[1]/($exec_cores + 1) ;
+
+        $exec_free = explode("\n", trim(shell_exec('free')));
+        $get_mem = preg_split("/[\s]+/", $exec_free[1]);
+
+        $dir = '/data';
+
+        // get disk space free (in bytes)
+        $disk_free = disk_free_space($dir);
+
+        // get disk space total (in bytes)
+        $disk_total = disk_total_space($dir);
+
+        echo json_encode([
+            'disk' => [
+                'total' => $disk_total,
+                'used' => $disk_free,
+            ],
+            'cpu' => $cpu,
+            'memory' => [
+                'total' => $get_mem[1],
+                'used' => $get_mem[2],
+            ]
+        ]);
+    }
+
     /*
      *
      */
 
-    public function showUser() {
+    public function showUser()
+    {
         $input = new Input($this->params);
         $userId = $input->int('id');
 
@@ -30,7 +61,8 @@ class DashboardAdmin extends \Core\Controller
         echo $user;
     }
 
-    public function listUsers() {
+    public function listUsers()
+    {
         $users = User::getAll();
         print_r($users);
     }

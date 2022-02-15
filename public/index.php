@@ -44,6 +44,7 @@ $router->get('/drive/download', 'DriveDownload', 'download', ['Authenticated']);
 
 $router->get('/dashboard/admin/users', 'DashboardAdmin', 'users', ['Authenticated']);
 $router->get('/dashboard/admin/stats', 'DashboardAdmin', 'stats', ['Authenticated']);
+$router->get('/dashboard/admin/stats/api', 'DashboardAdmin', 'statsApi', ['Authenticated']);
 
 $router->get('/dashboard/user/profile', 'DashboardUser', 'profile', ['Authenticated']);
 $router->get('/dashboard/user/stats', 'DashboardUser', 'stats', ['Authenticated']);

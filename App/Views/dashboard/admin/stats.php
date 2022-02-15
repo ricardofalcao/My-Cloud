@@ -35,93 +35,17 @@ View::render('components/head.php');
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Espaço total</h1>
 
-                            <canvas id="Chart_disk"></canvas>
-                            <script>
-                                var ctx = document.getElementById("Chart_disk");
-                                var myChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: ['Utilização de espaço', 'Livre'],
-                                        datasets: [{
-
-                                            data: [36, (100 - 36)],
-                                            backgroundColor: [
-                                                'rgba(0, 150, 136, 1)',
-                                                'rgba(255, 255, 255, 1)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(0,0,0,1)',
-                                                'rgba(0, 0, 0, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                    }
-                                });
-                            </script>
+                            <canvas id="chart_disk"></canvas>
                         </div>
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">CPU</h1>
 
-                            <canvas id="Chart_cpu"></canvas>
-                            <script>
-                                var ctx = document.getElementById("Chart_cpu");
-                                var myChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: ['Utilização de CPU %',],
-                                        datasets: [{
-                                            label: '# of Tomatoes',
-                                            data: [24, (100 - 24)],
-                                            backgroundColor: [
-                                                'rgba(0, 150, 136, 1)',
-                                                'rgba(255, 255, 255, 1)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(0,0,0,1)',
-                                                'rgba(0, 0, 0, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        responsive: true,
-
-                                    },
-                                });
-                            </script>
+                            <canvas id="chart_cpu"></canvas>
                         </div>
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Memória</h1>
 
-                            <canvas id="Chart_mem"></canvas>
-                            <script>
-                                var ctx = document.getElementById("Chart_mem");
-                                var myChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: ['Utilização de RAM',],
-                                        datasets: [{
-                                            label: '# of Tomatoes',
-                                            data: [43, (100 - 43)],
-                                            backgroundColor: [
-                                                'rgba(0, 150, 136, 1)',
-                                                'rgba(255, 255, 255, 1)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(0,0,0,1)',
-                                                'rgba(0, 0, 0, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                    },
-                                });
-                            </script>
+                            <canvas id="chart_memory"></canvas>
                         </div>
                     </div>
                 </div>
@@ -129,6 +53,8 @@ View::render('components/head.php');
         </div>
 
 </div>
+
+<script src="/assets/js/admin_stats.js"></script>
 </body>
 
 </html>
