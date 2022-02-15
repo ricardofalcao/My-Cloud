@@ -30,8 +30,8 @@ View::render('components/head.php');
             ?>
 
 
-            <div class="column">
-                <div class="is-flex is-align-items-center ml-4 mt-4 mb-4">
+            <div class="column is-flex is-flex-direction-column">
+                <div class="is-flex-grow-1 is-scrollable">
                     <!-- Conteudo -->
                 </div>
             </div>

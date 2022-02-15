@@ -17,7 +17,7 @@ View::render('components/head.php');
 <div>
     <?php
     View::render('components/drive/navbar.php', [
-            'showSearch' => false,
+        'showSearch' => false,
     ]);
     ?>
 
@@ -28,95 +28,44 @@ View::render('components/head.php');
                 'sidebar_current_id' => 'admin_stats'
             ]);
             ?>
-            
-            <div class="columns">
-                <aside class="column is-2 menu is-full is-fullheight left-border">
-                    <ul class="menu-list">
-                        <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
-                            Utilizador
-                        </p>
-                        <li>
-                            <a href="#" class="is-flex is-align-items-center py-4 px-4">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-user is-size-5"></i>
-                                </span>
-                                <span class="name is-size-5">Perfil</span>
-                            </a>
-                        </li>
 
+            <div class="column is-flex is-flex-direction-column">
+                <div class="is-flex-grow-1 is-scrollable">
+                    <div class="columns m-4 is-tablet">
+                        <div class="column is-one-third">
+                            <h1 class="has-text-weight-bold">Espaço total</h1>
 
-                        <li>
-                            <a href="#" class="is-flex is-align-items-center py-4 px-4">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie is-size-5"></i>
-                                </span>
-                                <span class="name is-size-5">Estatísticas</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
-                        Administrador
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a href="#" class=" is-flex is-align-items-center py-4 px-4">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-users is-size-5"></i>
-                                </span>
-                                <span class="name is-size-5">Utilizadores</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="has-background-grey-lighter is-flex is-align-items-center py-4 px-4">
-                                <span class="icon mr-2">
-                                    <i class="fas fa-chart-pie is-size-5"></i>
-                                </span>
-                                <span class="name is-size-5">Estatísticas</span>
-                            </a>
-                        </li>
-                    </ul>
-                </aside>
+                            <canvas id="Chart_disk"></canvas>
+                            <script>
+                                var ctx = document.getElementById("Chart_disk");
+                                var myChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Utilização de espaço', 'Livre'],
+                                        datasets: [{
 
-                <div class="column is-two-thirds ml-4 mt-4">
-                    <h1 class="is-size-4 has-text-weight-bold mb-5">Utilização de espaço total</h1>
-
-                    <canvas id="Chart_disk" width="300" height="300"></canvas>
-                    <script>
-                        var ctx = document.getElementById("Chart_disk");
-                        var myChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: ['Utilização de espaço', 'Livre'],
-                                datasets: [{
-
-                                    data: [36, (100 - 36)],
-                                    backgroundColor: [
-                                        'rgba(0, 150, 136, 1)',
-                                        'rgba(255, 255, 255, 1)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(0,0,0,1)',
-                                        'rgba(0, 0, 0, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
+                                            data: [36, (100 - 36)],
+                                            backgroundColor: [
+                                                'rgba(0, 150, 136, 1)',
+                                                'rgba(255, 255, 255, 1)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(0,0,0,1)',
+                                                'rgba(0, 0, 0, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
                                     }
-                                }
-                            }
-                        });
-                    </script>
-                    <h1 class="is-size-4 has-text-weight-bold my-5">Sistema</h1>
-                    <div class="columns is-four-fifths">
-                        <div class="column">
+                                });
+                            </script>
+                        </div>
+                        <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">CPU</h1>
 
-                            <canvas id="Chart_cpu" width="300" height="300"></canvas>
+                            <canvas id="Chart_cpu"></canvas>
                             <script>
                                 var ctx = document.getElementById("Chart_cpu");
                                 var myChart = new Chart(ctx, {
@@ -138,23 +87,22 @@ View::render('components/head.php');
                                         }]
                                     },
                                     options: {
-                                        //cutoutPercentage: 40,
-                                        responsive: false,
+                                        responsive: true,
 
                                     },
                                 });
                             </script>
                         </div>
-                        <div class="column">
+                        <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Memória</h1>
 
-                            <canvas id="Chart_mem" width="300" height="300"></canvas>
+                            <canvas id="Chart_mem"></canvas>
                             <script>
                                 var ctx = document.getElementById("Chart_mem");
                                 var myChart = new Chart(ctx, {
                                     type: 'doughnut',
                                     data: {
-                                        labels: ['Utilização de RAM', ],
+                                        labels: ['Utilização de RAM',],
                                         datasets: [{
                                             label: '# of Tomatoes',
                                             data: [43, (100 - 43)],
@@ -170,9 +118,7 @@ View::render('components/head.php');
                                         }]
                                     },
                                     options: {
-                                        //cutoutPercentage: 40,
-                                        responsive: false,
-
+                                        responsive: true,
                                     },
                                 });
                             </script>
