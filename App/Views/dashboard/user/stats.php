@@ -1,14 +1,16 @@
 <?php
 
+use Core\Request;
 use Core\View;
 
+$user = Request::get('user');
+$total_space = 2.4e9;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-
 View::render('components/head.php');
 
 ?>
@@ -41,7 +43,7 @@ View::render('components/head.php');
                         <div class="column is-one-third">
                             <h1 class="has-text-weight-bold">Espaço total</h1>
 
-                            <canvas id="chart_disk_user"></canvas>
+                            <canvas id="chart_disk"></canvas>
                         </div>
 
                     </div>
@@ -50,6 +52,10 @@ View::render('components/head.php');
         </div>
     </main>
 </div>
+<script src="/assets/js/user_stats.js"></script>
+<script>
+    refreshStats(<? echo $total_space ?>, <? echo $user['quota'] ?>)
+</script>
 </body>
 
 </html>
