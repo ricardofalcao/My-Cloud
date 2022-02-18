@@ -49,7 +49,7 @@ class DashboardAdmin extends \Core\Controller
 
         try {
             $user = User::create($username, $name, $password);
-            header('Location: dashboard/admin/users');
+            header('Location: dashboard/admin/users', true, 303);
         } catch(\PDOException $ex) {
             $users = User::getAll();
 
