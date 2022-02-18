@@ -38,9 +38,9 @@ $router->get('/drive/favorites', 'Drive', 'favorites', ['Authenticated']);
 $router->post('/drive/favorites/{id}', 'Drive', 'favoritesPost', ['Authenticated']);
 $router->delete('/drive/favorites/{id}', 'Drive', 'favoritesDelete', ['Authenticated']);
 
-$router->get('/drive/shared', 'DriveShare', 'shared', ['Authenticated']);
-$router->post('/drive/shared/{id}', 'DriveShare', 'sharedPost', ['Authenticated']);
-$router->delete('/drive/shared/{id}', 'DriveShare', 'sharedDelete', ['Authenticated']);
+$router->get('/drive/shared', 'Drive', 'shared', ['Authenticated']);
+$router->post('/drive/shared/{id}', 'Drive', 'sharedPost', ['Authenticated']);
+$router->delete('/drive/shared/{id}', 'Drive', 'sharedDelete', ['Authenticated']);
 
 $router->get('/drive/trash', 'Drive', 'trash', ['Authenticated']);
 $router->post('/drive/trash/{id}', 'Drive', 'trashPost', ['Authenticated']);

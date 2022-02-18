@@ -23,11 +23,29 @@ function setNotification(message, variant = 'is-danger', timeout = 5000) {
 
     setActive(target);
 
+    target.classList.remove('animate__fadeOutDown');
+    target.classList.add('animate__fadeInDown');
+
     notificationInterval && clearInterval(notificationInterval);
-    notificationInterval = setInterval(() => {
-        setInactive(target);
-        Array.prototype.forEach.call(target.getElementsByClassName('notification-message'), e => e.innerHTML = '');
-    }, timeout);
+    if (timeout > 0) {
+        notificationInterval = setInterval(() => {
+            clearNotification();
+        }, timeout);
+    }
+}
+
+function clearNotification() {
+    const target = document.getElementById('notification');
+
+    target.classList.add('animate__fadeOutDown');
+
+    const onAnimationEnd = () => {
+        setInactive(target)
+
+        target.removeEventListener('animationend', onAnimationEnd, false)
+    };
+
+    target.addEventListener('animationend', onAnimationEnd, false);
 }
 
 // notifications close button

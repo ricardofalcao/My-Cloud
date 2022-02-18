@@ -55,6 +55,14 @@ function checkboxAll(value) {
  */
 
 async function restoreFile(fileId) {
+    const file = files[fileId];
+
+    if (!file) {
+        return;
+    }
+
+    setNotification(`Restaurando '${file.name}'...`, 'is-info', -1);
+
     const result = await fetch(`drive/trash/${fileId}`, {
         method: 'POST',
     })
@@ -65,6 +73,7 @@ async function restoreFile(fileId) {
         target?.remove();
 
         updateCount(response);
+        setNotification('Sucesso', 'is-success');
     } else {
         setNotification(response.errors)
     }
@@ -134,6 +143,8 @@ async function uploadFiles(files) {
         data.append('files[]', files[i])
     }
 
+    setNotification(files.length > 1 ? 'Enviando ficheiros...' : `Enviando '${files[0].name}'...`, 'is-info', -1);
+
     const result = await fetch(window.location.href, {
         method: 'POST',
         body: data
@@ -160,6 +171,8 @@ async function createFolder(event) {
 
     const formData = new FormData()
     formData.append('folderName', folderName)
+
+    setNotification(`Criando pasta '${folderName}'`, 'is-info', -1);
 
     const result = await fetch(window.location.href, {
         method: 'POST',
@@ -204,6 +217,7 @@ async function renameFile(event) {
     const data = getModalData('rename-modal');
     const fileName = data.input;
 
+    setNotification(`Renomeando ficheiro para '${fileName}'...`, 'is-info', -1);
     const result = await fetch(`drive/files/${renameFileId}`, {
         method: 'PUT',
         headers: {
@@ -223,6 +237,7 @@ async function renameFile(event) {
 
         files[renameFileId] = response.file;
         closeNearestModal(event.target);
+        setNotification('Sucesso', 'is-success');
     } else {
         setNotification(response.errors)
     }
@@ -265,6 +280,8 @@ async function deleteFile(event) {
         return;
     }
 
+    setNotification(`Eliminando '${file.name}'...`, 'is-info', -1);
+
     const deleteForce = file.type === 'DELETED';
     const result = await fetch(deleteForce ? `drive/trash/${deleteFileId}` : `drive/files/${deleteFileId}`, {
         method: 'DELETE',
@@ -279,6 +296,7 @@ async function deleteFile(event) {
         delete files[deleteFileId];
 
         closeNearestModal(event.target);
+        setNotification('Sucesso', 'is-success');
     } else {
         setNotification(response.errors)
     }
@@ -369,22 +387,26 @@ async function openShare(event, fileId) {
 
  */
 
-async function moveFiles(files, targetId) {
+async function moveFiles(fileIds, targetId) {
+    setNotification(fileIds.length > 1 ? 'Movendo ficheiros...' : `Movendo '${files[fileIds[0]]?.name}'...`, 'is-info', -1);;
+
     const result = await fetch(`drive/files/${targetId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            moves: files
+            moves: fileIds
         })
     })
 
     if (result.ok) {
-        files.forEach((fileId) => {
+        fileIds.forEach((fileId) => {
             const target = getFileElementById(fileId);
             target?.remove();
         })
+
+        setNotification('Sucesso', 'is-success');
     } else {
         setNotification((await result.json()).errors)
     }

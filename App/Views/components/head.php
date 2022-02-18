@@ -13,7 +13,8 @@ $feup = gethostname() === 'gnomo.fe.up.pt';
 
     <title>My Cloud</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <base href="<?php Asset::get('/') ?>">
     <link rel="stylesheet" href="assets/css/main.css">

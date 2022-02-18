@@ -56,10 +56,15 @@ $menu-item-active-color: $text;
 .notification {
   position: absolute;
   top: 16px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
+
   z-index: 99;
+
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  max-width: 300px;
+
+  transition: opacity 0.5s;
 }
 
 .row-checkbox {

@@ -63,9 +63,11 @@ View::render('components/head.php');
                                 <a
                                         href="drive/files"
                                     <?php
-                                    echo 'ondragover="onRowFileDragOver(event, this, 0)"';
-                                    echo 'ondrop="onRowFileDrop(event, this, 0)"';
-                                    echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                    if (isset($ancestors) && count($ancestors) > 0) {
+                                        echo 'ondragover="onRowFileDragOver(event, this, 0)"';
+                                        echo 'ondrop="onRowFileDrop(event, this, 0)"';
+                                        echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                    }
                                     ?>
                                 >
                                 <span class="icon is-small">
@@ -317,7 +319,6 @@ View::render('components/head.php');
         </div>
     </div>
 </div>
-
 </body>
 
 </html>
