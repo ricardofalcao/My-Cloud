@@ -352,6 +352,7 @@ async function openDelete(event, fileId) {
     }
 
     deleteFileId = fileId;
+    const force = file.type === 'DELETED';
 
     openModal('delete-modal', {
         input: [

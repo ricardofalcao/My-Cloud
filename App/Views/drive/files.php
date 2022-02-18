@@ -182,11 +182,11 @@ View::render('components/head.php');
                                     <input type="checkbox" class="row-checkbox has-text-primary"
                                            onchange="checkboxAll(event.currentTarget.checked)">
                                 </th>
-                                <tr class="py-3" style="width: 99%;">
+                                <th class="py-3" style="width: 99%;">
                                     <span class="mr-2">Nome</span>
 
                                     <?php createSortIcon($sorts, 'name') ?>
-                                </tr>
+                                </th>
                                 <th class="py-3">
                                     <span class="mr-2">Tamanho</span>
 
