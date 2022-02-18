@@ -123,7 +123,7 @@ View::render('components/head.php');
 
                     <div class="column is-three-fifths">
                         <div class="container is-fluid p-0 mx-3">
-                            <form action="/dashboard/admin/users" method="POST">
+                            <form action="dashboard/admin/users" method="POST">
                                 <h1 class="is-size-4 has-text-weight-bold mb-4">Adicionar utilizador</h1>
                                 <?php
                                 for ($i = 0; $i < $total; $i += 2) {
@@ -206,8 +206,8 @@ View::render('components/head.php');
     </div>
 </div>
 
-<script src="/assets/js/admin_users.js"></script>
-<script src="/assets/js/modal.js"></script>
+<script src="assets/js/admin_users.js"></script>
+<script src="assets/js/modal.js"></script>
 </body>
 
 </html>

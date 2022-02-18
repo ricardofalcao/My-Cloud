@@ -29,8 +29,8 @@ View::render('components/head.php');
     const files = <?php echo json_encode($files_js) ?>;
 </script>
 
-<script src="/assets/js/file.js"></script>
-<script src="/assets/js/modal.js"></script>
+<script src="assets/js/file.js"></script>
+<script src="assets/js/modal.js"></script>
 
 <div id="app" ondrop="onFileDrop(event)" ondragover="onFileDrag(event)">
     <?php

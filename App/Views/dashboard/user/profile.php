@@ -54,7 +54,7 @@ View::render('components/head.php');
             <div class="column is-flex is-flex-direction-column">
                 <div class="is-flex-grow-1 is-scrollable">
                     <div class="column is-one-third my-4 mx-5">
-                        <form action="/dashboard/user/profile/password" method="POST">
+                        <form action="dashboard/user/profile/password" method="POST">
                             <h1 class="is-size-4 has-text-weight-bold mb-4">Alterar password</h1>
                             <div class="field">
                                 <label for="password" class="label">Nova password</label>
@@ -109,7 +109,7 @@ View::render('components/head.php');
     </main>
 </div>
 
-<script src="/assets/js/profile.js"></script>
+<script src="assets/js/profile.js"></script>
 </body>
 
 </html>

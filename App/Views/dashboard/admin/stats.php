@@ -65,7 +65,7 @@ View::render('components/head.php');
 
 </div>
 
-<script src="/assets/js/admin_stats.js"></script>
+<script src="assets/js/admin_stats.js"></script>
 </body>
 
 </html>

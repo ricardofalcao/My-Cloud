@@ -52,7 +52,7 @@ View::render('components/head.php');
         </div>
     </main>
 </div>
-<script src="/assets/js/user_stats.js"></script>
+<script src="assets/js/user_stats.js"></script>
 <script>
     refreshStats(<?php echo $total_space ?>, <?php echo $user['quota'] ?>)
 </script>

@@ -30,7 +30,7 @@ if(!isset($showSearch)) {
             <?php if ($showSearch) {
             ?>
                 <div class="navbar-item">
-                    <form action="/drive/files">
+                    <form action="drive/files">
 
                         <input type="submit" style="display: none;"/>
                         <div class="field">
