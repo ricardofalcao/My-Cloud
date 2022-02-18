@@ -48,11 +48,11 @@ $user = Request::get('user');
             <?php
             if (empty($user['quota'])) {
             ?>
-                <p class="has-text-centered has-text-grey-light is-size-6"><?php echo Utils::humanizeBytes($count['disk_usage']) ?> utilizados</p>
+                <p class="mt-4 has-text-centered has-text-grey-light is-size-6"><?php echo Utils::humanizeBytes($count['disk_usage']) ?> utilizados</p>
             <?php
             } else {
             ?>
-                <p class="has-text-centered has-text-grey-light is-size-6"><?php echo Utils::humanizeBytes($count['disk_usage']) ?> / <?php echo  Utils::humanizeBytes($user['quota']) ?> utilizados</p>
+                <p class="mt-4 has-text-centered has-text-grey-light is-size-6"><?php echo Utils::humanizeBytes($count['disk_usage']) ?> / <?php echo  Utils::humanizeBytes($user['quota']) ?> utilizados</p>
             <?php
             }
             ?>

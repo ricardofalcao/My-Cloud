@@ -54,6 +54,8 @@ View::render('components/head.php');
 <script>
     const routeId = '<?php echo $id ?>'
     const files = <?php echo json_encode($files_js) ?>;
+
+    console.log(files);
 </script>
 
 <script src="assets/js/file.js"></script>
@@ -239,12 +241,12 @@ View::render('components/head.php');
         </div>
     </main>
 
-    <div id="folder-modal" class="modal">
+    <form id="folder-modal" class="modal" onsubmit="createFolder(event)">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Criar nova pasta</p>
-                <button class="delete" aria-label="close"></button>
+                <button class="delete" aria-label="close" type="button"></button>
             </header>
 
             <section class="modal-card-body">
@@ -259,18 +261,18 @@ View::render('components/head.php');
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
-                <button class="button is-primary" onclick="createFolder(event)">Criar</button>
+                <button class="button" onclick="closeNearestModal(this)" type="button">Cancelar</button>
+                <button class="button is-primary" type="submit">Criar</button>
             </footer>
         </div>
-    </div>
+    </form>
 
-    <div id="rename-modal" class="modal">
+    <form id="rename-modal" class="modal" onsubmit="renameFile(event)">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Renomear ficheiro</p>
-                <button class="delete" aria-label="close"></button>
+                <button class="delete" aria-label="close" type="button"></button>
             </header>
 
             <section class="modal-card-body">
@@ -286,18 +288,19 @@ View::render('components/head.php');
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
-                <button class="button is-primary" onclick="renameFile(event)">Renomear</button>
+                <button class="button"  type="button"onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-primary" type="submit">Renomear</button>
             </footer>
         </div>
-    </div>
+    </form>
 
-    <div id="share-modal" class="modal">
+    <form id="share-modal" class="modal" onsubmit="shareFile(event)">
+
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Partilhar '<span data-value="title"></span>'</p>
-                <button class="delete" aria-label="close"></button>
+                <button class="delete" aria-label="close" type="button"></button>
             </header>
 
             <section class="modal-card-body">
@@ -306,16 +309,16 @@ View::render('components/head.php');
                         <input data-value="input" class="input" type="name" placeholder="Nome de utilizador" required/>
 
                         <span class="icon is-small is-left">
-                          <i class="fas fa-user"></i>
-                        </span>
+                      <i class="fas fa-user"></i>
+                    </span>
                     </p>
                     <p class="control">
-                        <span class="select">
-                          <select data-value="type">
-                            <option value="VIEWER">Visualizador</option>
-                            <option value="EDITOR">Editor</option>
-                          </select>
-                        </span>
+                    <span class="select">
+                      <select data-value="type">
+                        <option value="VIEWER">Visualizador</option>
+                        <option value="EDITOR">Editor</option>
+                      </select>
+                    </span>
                     </p>
                 </div>
 
@@ -323,25 +326,27 @@ View::render('components/head.php');
                     <div class="control">
                         <div class="tags has-addons">
                             <a class="tag is-primary" data-value="accesses.name"></a>
-                            <a class="tag is-delete"></a>
+                            <a class="tag is-delete" onclick="unshareFile(event, this)">
+                                <span data-value="accesses.user_id" hidden></span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </section>
 
             <footer class="modal-card-foot is-justify-content-right">
-                <button class="button" onclick="closeNearestModal(this)">Cancelar</button>
-                <button class="button is-primary" onclick="shareFile(event)">Partilhar</button>
+                <button class="button" type="button" onclick="closeNearestModal(this)">Cancelar</button>
+                <button class="button is-primary" type="submit" >Partilhar</button>
             </footer>
         </div>
-    </div>
+    </form>
 
     <div id="delete-modal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Eliminar ficheiro</p>
-                <button class="delete" aria-label="close"></button>
+                <button class="delete" aria-label="close" type="button"></button>
             </header>
 
             <section class="modal-card-body">

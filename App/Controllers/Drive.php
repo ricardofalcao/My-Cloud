@@ -31,16 +31,17 @@ class Drive extends \Core\Controller
      *
      */
 
-    private function _attachAccesses($files) {
-        $toId =  function($value) {
+    private function _attachAccesses(&$files)
+    {
+        $toId = function ($value) {
             return $value['id'];
         };
 
         if (count($files) > 0) {
             $accesses = Access::getAll(array_map($toId, $files));
-            foreach($accesses as $access) {
-                foreach($files as &$file) {
-                    if ($file['id'] = $access['file_id']) {
+            foreach ($accesses as $access) {
+                foreach ($files as &$file) {
+                    if ($file['id'] == $access['file_id']) {
                         $file['accesses'][] = $access;
                         break;
                     }
@@ -49,7 +50,8 @@ class Drive extends \Core\Controller
         }
     }
 
-    private function _getSorts() {
+    private function _getSorts()
+    {
         $validation = new Validation();
         $q = $validation->name('q')->required()->get();
 
@@ -86,6 +88,8 @@ class Drive extends \Core\Controller
             $ancestors = null;
         }
 
+        $this->_attachAccesses($files);
+
         View::render('drive/files.php', [
             'id' => 'files',
             'files' => $files,
@@ -112,7 +116,7 @@ class Drive extends \Core\Controller
 
             try {
                 File::createIfNotExists($userId, $folderName, 0, 'FOLDER', 'NONE', null, $parent_id);
-            } catch(\PDOException $ex) {
+            } catch (\PDOException $ex) {
                 http_response_code(400);
                 echo json_encode([
                     "errors" => "A file with the name of '$folderName' already exists."
@@ -166,12 +170,12 @@ class Drive extends \Core\Controller
 
         if ($moves !== null) {
             $size = count($moves);
-            foreach($moves as $moveId) {
+            foreach ($moves as $moveId) {
                 try {
 
                     File::updateParent($moveId, $fileId == 0 ? null : $fileId);
 
-                } catch(\PDOException $ex) {
+                } catch (\PDOException $ex) {
                     if ($size === 1) {
                         http_response_code(400);
                         echo json_encode([
@@ -243,7 +247,7 @@ class Drive extends \Core\Controller
                 'file' => $file,
                 'count' => $this->countFiles(),
             ]);
-        } catch(\PDOException $ex) {
+        } catch (\PDOException $ex) {
             http_response_code(400);
             echo json_encode([
                 "errors" => "Could not delete file."
@@ -266,6 +270,8 @@ class Drive extends \Core\Controller
 
         $files = Access::getRoot($userId);
 
+        $this->_attachAccesses($files);
+
         View::render('drive/files.php', [
             'id' => 'shared',
             'files' => $files,
@@ -274,7 +280,9 @@ class Drive extends \Core\Controller
         ]);
     }
 
-    public function sharedPost() {
+    public function sharedPost()
+    {
+        $ownerId = Request::get('userId');
         $inputParams = new Input($this->params);
         $fileId = $inputParams->int('id');
 
@@ -287,16 +295,27 @@ class Drive extends \Core\Controller
             $validation->assert($user !== null, 'Utilizador não encontrado.');
 
             if ($validation->isValid()) {
-                try {
-                    Access::create($user['id'], $fileId, $type);
-                } catch(\PDOException $ex) {
-                    http_response_code(400);
+                $validation->assert($user['id'] !== $ownerId, 'Você já tem acesso a este ficheiro!');
 
-                    echo json_encode([
-                        "errors" => 'Esse utilizador já tem acesso a esse ficheiro!'
-                    ]);
+                if ($validation->isValid()) {
+                    try {
+                        Access::create($user['id'], $fileId, $type);
 
-                    return;
+                        $accesses = Access::getAll([$fileId]);
+                        echo json_encode([
+                            'accesses' => $accesses
+                        ]);
+
+                        return;
+                    } catch (\PDOException $ex) {
+                        http_response_code(400);
+
+                        echo json_encode([
+                            "errors" => 'Esse utilizador já tem acesso a esse ficheiro!'
+                        ]);
+
+                        return;
+                    }
                 }
             }
         }
@@ -306,6 +325,52 @@ class Drive extends \Core\Controller
 
             echo json_encode([
                 "errors" => $validation->getErrors()
+            ]);
+
+            return;
+        }
+    }
+
+    public function sharedDelete()
+    {
+        $_DELETE = json_decode(file_get_contents('php://input'), true);
+
+        $ownerId = Request::get('userId');
+
+        $inputParams = new Input($this->params);
+        $fileId = $inputParams->int('id');
+
+        $validation = new Validation($_DELETE);
+        $userId = $validation->name('userId')->required()->int()->get();
+
+        if ($validation->isValid()) {
+            try {
+                Access::delete($userId, $fileId);
+
+                $accesses = Access::getAll([$fileId]);
+                echo json_encode([
+                    'accesses' => $accesses
+                ]);
+
+                return;
+            } catch (\PDOException $ex) {
+                http_response_code(400);
+
+                echo json_encode([
+                    "errors" => 'Esse utilizador já tem acesso a esse ficheiro!'
+                ]);
+
+                return;
+            }
+        }
+
+        if (!$validation->isValid()) {
+            http_response_code(400);
+
+            echo json_encode([
+                "errors" => $validation->getErrors(),
+                'request' => $_REQUEST,
+                'delete' => $_DELETE
             ]);
 
             return;
@@ -324,6 +389,8 @@ class Drive extends \Core\Controller
         $sorts = $this->_getSorts();
 
         $files = File::getRootFavorites($userId);
+
+        $this->_attachAccesses($files);
 
         View::render('drive/files.php', [
             'id' => 'favorites',
@@ -378,6 +445,8 @@ class Drive extends \Core\Controller
 
         $files = File::getByState($userId, 'DELETED');
 
+        $this->_attachAccesses($files);
+
         View::render('drive/files.php', [
             'id' => 'trash',
             'files' => $files,
@@ -403,7 +472,7 @@ class Drive extends \Core\Controller
                 'file' => $file,
                 'count' => $this->countFiles(),
             ]);
-        } catch(\PDOException $ex) {
+        } catch (\PDOException $ex) {
             http_response_code(400);
             echo json_encode([
                 "errors" => "Could not restore file."

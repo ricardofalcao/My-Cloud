@@ -45,4 +45,11 @@ class Access extends \Core\Model
         $stmt->execute([$userId, $fileId, $type]);
     }
 
+    public static function delete($userId, $fileId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("DELETE FROM public.access WHERE user_id=? AND file_id=?;");
+        $stmt->execute([$userId, $fileId]);
+    }
+
 }

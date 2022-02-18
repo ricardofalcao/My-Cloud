@@ -47,12 +47,12 @@ if(!isset($showSearch)) {
             } ?>
 
             <div class="navbar-item has-dropdown is-hoverable is-right">
-                <a class="navbar-link has-text-white is-arrowless">
+                <a class="navbar-link has-text-white is-arrowless" data-value="user__name">
                     <?php echo $user['name']; ?>
                 </a>
 
                 <div class="navbar-dropdown is-right">
-                    <span class="navbar-item has-text-grey">
+                    <span class="navbar-item has-text-grey" data-value="user__name">
                         <?php echo $user['name']; ?>
                     </span>
 

@@ -11,6 +11,10 @@ async function updateName(event) {
     })
 
     if (result.ok) {
+        injectData(document, {
+            user__name: name,
+        })
+
         setNotification('Nome atualizado!', 'is-success');
     } else {
         setNotification((await result.json()).errors)

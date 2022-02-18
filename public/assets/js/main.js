@@ -38,12 +38,11 @@ function setInactive($el) {
  */
 function injectData(element, data, prefix = '') {
     element && data && Object.keys(data).forEach((key) => {
-        const child = element.querySelector(`[data-value="${prefix}${key}"]`);
+        const children = element.querySelectorAll(`[data-value="${prefix}${key}"]`);
         const value = data[key];
 
-        if (child) {
+        children?.forEach((child) => {
             if (Array.isArray(value)) {
-                console.log(child)
                 const template = child.firstElementChild;
                 template.classList.add('is-hidden');
 
@@ -69,6 +68,6 @@ function injectData(element, data, prefix = '') {
             } else {
                 child.innerHTML = value;
             }
-        }
+        })
     })
 }

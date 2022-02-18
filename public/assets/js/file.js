@@ -419,6 +419,10 @@ async function shareFile(event) {
         return;
     }
 
+    injectData(document.getElementById('share-modal'), {
+        accesses: file.accesses
+    })
+
     const data = getModalData('share-modal');
     const username = data.input;
     const type = data.type;
@@ -434,7 +438,43 @@ async function shareFile(event) {
 
     const response = (await result.json());
     if (result.ok) {
-        console.log(response);
+        files[shareFileId].accesses = response.accesses;
+
+        await openShare(event, shareFileId);
+    } else {
+        setNotification(response.errors)
+    }
+}
+
+async function unshareFile(event, target) {
+    event.preventDefault();
+
+    if (!shareFileId) {
+        return;
+    }
+
+    const file = files[shareFileId];
+    if (!file) {
+        return;
+    }
+
+    const userId = Number.parseInt(target.querySelector('[data-value="accesses.user_id"]')?.innerHTML);
+    if (!userId) {
+        return;
+    }
+
+    const result = await fetch(`drive/shared/${shareFileId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+            userId: userId
+        }),
+    })
+
+    const response = (await result.json());
+    if (result.ok) {
+        files[shareFileId].accesses = response.accesses;
+
+        await openShare(event, shareFileId);
     } else {
         setNotification(response.errors)
     }

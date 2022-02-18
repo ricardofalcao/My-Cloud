@@ -96,7 +96,7 @@ $inputs = [
                         ?>
 
                         <div class="field mt-5">
-                            <button class="button is-block is-fullwidth is-primary is-medium">
+                            <button type="submit" class="button is-block is-fullwidth is-primary is-medium">
                                 Register
                             </button>
                         </div>

@@ -17,6 +17,8 @@ function setNotification(message, variant = 'is-danger', timeout = 5000) {
     let text = message;
     if (Array.isArray(message)) {
         text = message.join('<br/>');
+    } else if (typeof message === 'object') {
+        text = Object.values(message).join('<br/>')
     }
 
     const target = document.getElementById('notification');
