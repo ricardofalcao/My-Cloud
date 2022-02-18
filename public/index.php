@@ -17,7 +17,7 @@ set_exception_handler('Core\Error::exceptionHandler');
 $hostname = gethostname();
 $feup = $hostname === 'gnomo.fe.up.pt';
 
-$router = new Core\Router($feup ? '/~up201704220/sie/project2/' : '/');
+$router = new Core\Router($feup ? '/~up201704220/sie/project2' : '/');
 $router->get('/auth/login', 'Auth', 'login', ['NotAuthenticated']);
 $router->post('/auth/login', 'Auth', 'authenticate', ['NotAuthenticated']);
 $router->get('/auth/logout', 'Auth', 'logout');

@@ -6,6 +6,10 @@
 
     <title>My Cloud</title>
 
+    <? if (gethostname() === 'gnomo.fe.up.pt') {
+        echo '<base href="/~up201704220/sie/project2">';
+    } ?>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
     <link rel="stylesheet" href="/assets/css/main.css">
