@@ -48,6 +48,11 @@ class Auth extends \Core\Controller
         header('Location: ' . Asset::path('/drive/files'), true, 303);
     }
 
+    public function redirectLogin()
+    {
+        header('Location: ' . Asset::path('/auth/login'), true, 303);
+    }
+
     public function logout()
     {
         session_start();

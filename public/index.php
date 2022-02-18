@@ -18,7 +18,7 @@ set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
 $router = new Core\Router(Asset::path(''));
-$router->get('__404__', 'Auth', 'login', ['NotAuthenticated']);
+$router->get('__404__', 'Auth', 'redirectLogin', ['NotAuthenticated']);
 
 $router->get('/auth/login', 'Auth', 'login', ['NotAuthenticated']);
 $router->post('/auth/login', 'Auth', 'authenticate', ['NotAuthenticated']);
