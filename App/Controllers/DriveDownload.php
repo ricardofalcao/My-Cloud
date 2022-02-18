@@ -17,6 +17,15 @@ class DriveDownload extends \Core\Controller
     }
 
     private function _return_file($name, $mime_type, $filePath) {
+        if (!file_exists($filePath)) {
+            http_response_code(404);
+            echo json_encode([
+                'errors' => 'Esse ficheiro está vazio'
+            ]);
+
+            return false;
+        }
+
         $size = filesize($filePath);
 
         header('Content-Description: File Transfer');
@@ -29,6 +38,7 @@ class DriveDownload extends \Core\Controller
         header("Content-Range: 0-" . ($size - 1) . "/" . $size);
 
         readfile($filePath);
+        return true;
     }
 
     private function _zip_file($zip, $file, $root = '') {
@@ -87,8 +97,10 @@ class DriveDownload extends \Core\Controller
 
             $zip->close();
 
-            $this->_return_file('Folder.zip', 'application/zip', $zipPath);
-            unlink($zipPath);
+            if ($this->_return_file('Folder.zip', 'application/zip', $zipPath)) {
+                unlink($zipPath);
+            }
+
             return;
         }
 
@@ -114,8 +126,10 @@ class DriveDownload extends \Core\Controller
             $this->_zip_file($zip, $file);
             $zip->close();
 
-            $this->_return_file($file['name'] . '.zip', 'application/zip', $zipPath);
-            unlink($zipPath);
+            if ($this->_return_file($file['name'] . '.zip', 'application/zip', $zipPath)) {
+                unlink($zipPath);
+            }
+
             return;
         }
 

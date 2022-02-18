@@ -322,6 +322,39 @@ async function openDelete(event, fileId) {
 
 /*
 
+    DOWNLOAD FILE
+
+ */
+
+async function downloadFiles(event, fileIds) {
+    event.preventDefault();
+
+    setNotification(fileIds.length > 1 ? 'Transferindo ficheiros...' : `Transferindo '${files[fileIds[0]].name}'...`, 'is-info', -1);
+
+    const fileQuery = fileIds.map(id => `files[]=${id}`).join('&');
+    const result = await fetch( `drive/download?${fileQuery}`);
+
+    if (result.ok) {
+        const blob = await result.blob();
+
+        const header = result.headers.get('Content-Disposition');
+        const parts = header.split(';');
+
+        const a = Object.assign(document.createElement('a'), {
+            href: window.URL.createObjectURL(blob),
+            download: parts[1].split('=')[1],
+        })
+
+        a.click();
+
+        clearNotification();
+    } else {
+        setNotification((await result.json()).errors)
+    }
+}
+
+/*
+
     SHARE FILE
 
  */

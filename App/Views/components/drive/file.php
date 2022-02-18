@@ -103,7 +103,7 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
                             <span>Renomear</span>
                         </a>
 
-                        <a href="drive/download?files[]=<?php echo $file['id'] ?>" class="dropdown-item">
+                        <a href="#" onclick="downloadFiles(event, [<?php echo $file['id'] ?>])" class="dropdown-item">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>

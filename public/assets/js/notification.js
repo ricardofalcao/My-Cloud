@@ -1,6 +1,14 @@
 let notificationInterval = null;
 let lastNotificationVariant = null;
 
+
+function notificationAnimationEnd() {
+    const target = document.getElementById('notification');
+    setInactive(target)
+
+    target.removeEventListener('animationend', notificationAnimationEnd, false)
+};
+
 function setNotification(message, variant = 'is-danger', timeout = 5000) {
     if (!message) {
         return;
@@ -26,6 +34,7 @@ function setNotification(message, variant = 'is-danger', timeout = 5000) {
     target.classList.remove('animate__fadeOutDown');
     target.classList.add('animate__fadeInDown');
 
+    target.removeEventListener('animationend', notificationAnimationEnd, false);
     notificationInterval && clearInterval(notificationInterval);
     if (timeout > 0) {
         notificationInterval = setInterval(() => {
@@ -39,13 +48,7 @@ function clearNotification() {
 
     target.classList.add('animate__fadeOutDown');
 
-    const onAnimationEnd = () => {
-        setInactive(target)
-
-        target.removeEventListener('animationend', onAnimationEnd, false)
-    };
-
-    target.addEventListener('animationend', onAnimationEnd, false);
+    target.addEventListener('animationend', notificationAnimationEnd, false);
 }
 
 // notifications close button
