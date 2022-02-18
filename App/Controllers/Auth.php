@@ -44,7 +44,7 @@ class Auth extends \Core\Controller
         }
 
         $_SESSION['userId'] = $user['id'];
-        header('Location: /drive/files');
+        header('Location: drive/files');
     }
 
     public function logout()
@@ -52,7 +52,7 @@ class Auth extends \Core\Controller
         session_start();
         session_destroy();
 
-        header('Location: /auth/login');
+        header('Location: auth/login');
     }
 
     /*
@@ -92,7 +92,7 @@ class Auth extends \Core\Controller
         $user = User::create($username, $name, $password);
         $_SESSION['userId'] = $user['id'];
 
-        header('Location: /drive/files');
+        header('Location: drive/files');
     }
 
     /*
