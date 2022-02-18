@@ -45,7 +45,7 @@ class Auth extends \Core\Controller
         }
 
         $_SESSION['userId'] = $user['id'];
-        header('Location: ' . Asset::get('/drive/files'), true, 303);
+        header('Location: ' . Asset::path('/drive/files'), true, 303);
     }
 
     public function logout()
@@ -53,7 +53,7 @@ class Auth extends \Core\Controller
         session_start();
         session_destroy();
 
-        header('Location: ' . Asset::get('/auth/login'), true, 303);
+        header('Location: ' . Asset::path('/auth/login'), true, 303);
     }
 
     /*
@@ -93,7 +93,7 @@ class Auth extends \Core\Controller
         $user = User::create($username, $name, $password);
         $_SESSION['userId'] = $user['id'];
 
-        header('Location: ' . Asset::get('/drive/files'), true, 303);
+        header('Location: ' . Asset::path('/drive/files'), true, 303);
     }
 
     /*

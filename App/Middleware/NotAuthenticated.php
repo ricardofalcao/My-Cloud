@@ -19,7 +19,7 @@ class NotAuthenticated extends \Core\Middleware
         $validation->name('userId')->int()->required();
 
         if ($validation->isValid()) {
-            header('Location: ' . Asset::get('/drive/files'), true, 303);
+            header('Location: ' . Asset::path('/drive/files'), true, 303);
             return false;
         }
 

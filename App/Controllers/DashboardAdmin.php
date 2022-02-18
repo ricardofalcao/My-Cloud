@@ -50,7 +50,7 @@ class DashboardAdmin extends \Core\Controller
 
         try {
             $user = User::create($username, $name, $password);
-            header('Location: ' . Asset::get('/dashboard/admin/users'), true, 303);
+            header('Location: ' . Asset::path('/dashboard/admin/users'), true, 303);
         } catch(\PDOException $ex) {
             $users = User::getAll();
 

@@ -19,7 +19,7 @@ class Authenticated extends \Core\Middleware
         $userId = $validation->name('userId')->int()->required()->get();
 
         if (!$validation->isValid()) {
-            header('Location: ' . Asset::get('/auth/login'), true, 303);
+            header('Location: ' . Asset::path('/auth/login'), true, 303);
             return false;
         }
 
@@ -27,7 +27,7 @@ class Authenticated extends \Core\Middleware
         $validation->assert($user !== null, "Invalid user");
 
         if (!$validation->isValid()) {
-            header('Location: ' . Asset::get('/auth/login'), true, 303);
+            header('Location: ' . Asset::path('/auth/login'), true, 303);
             return false;
         }
 

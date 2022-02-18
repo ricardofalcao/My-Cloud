@@ -56,7 +56,7 @@ class DashboardUser extends \Core\Controller
         }
 
         User::updatePassword($userId, $password);
-        header('Location: ' . Asset::get('/dashboard/user/profile'), true, 303);
+        header('Location: ' . Asset::path('/dashboard/user/profile'), true, 303);
     }
 
     public function stats()
