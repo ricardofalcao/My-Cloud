@@ -3,6 +3,9 @@
 /**
  * Composer
  */
+
+use Core\Asset;
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 
@@ -14,10 +17,7 @@ error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
-$hostname = gethostname();
-$feup = $hostname === 'gnomo.fe.up.pt';
-
-$router = new Core\Router($feup ? '/~up201704220/sie/mycloud' : '/');
+$router = new Core\Router(Asset::path(''));
 $router->get('/auth/login', 'Auth', 'login', ['NotAuthenticated']);
 $router->post('/auth/login', 'Auth', 'authenticate', ['NotAuthenticated']);
 $router->get('/auth/logout', 'Auth', 'logout');

@@ -3,4 +3,4 @@
     <span class="notification-message"></span>
 </div>
 
-<script src="/assets/js/notification.js"></script>
+<script src="<?php Asset::get('/assets/js/notification.js') ?>"></script>
