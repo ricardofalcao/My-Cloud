@@ -11,7 +11,7 @@
     <title>My Cloud</title>
 
     <? if ($feup) {
-        echo '<base href="/~up201704220/sie/project2">';
+        echo '<base href="/~up201704220/sie/mycloud">';
     } ?>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
