@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Core\Asset;
 use Core\Request;
 use Core\Validation;
 use Core\View;
@@ -55,7 +56,7 @@ class DashboardUser extends \Core\Controller
         }
 
         User::updatePassword($userId, $password);
-        header('Location: dashboard/user/profile', true, 303);
+        header('Location: ' . Asset::get('/dashboard/user/profile'), true, 303);
     }
 
     public function stats()

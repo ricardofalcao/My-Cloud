@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Core\AppException;
+use Core\Asset;
 use Core\Input;
 use Core\Validation;
 use Core\View;
@@ -44,7 +45,7 @@ class Auth extends \Core\Controller
         }
 
         $_SESSION['userId'] = $user['id'];
-        header('Location: drive/files', true, 303);
+        header('Location: ' . Asset::get('/drive/files'), true, 303);
     }
 
     public function logout()
@@ -52,7 +53,7 @@ class Auth extends \Core\Controller
         session_start();
         session_destroy();
 
-        header('Location: auth/login', true, 303);
+        header('Location: ' . Asset::get('/auth/login'), true, 303);
     }
 
     /*
@@ -92,7 +93,7 @@ class Auth extends \Core\Controller
         $user = User::create($username, $name, $password);
         $_SESSION['userId'] = $user['id'];
 
-        header('Location: drive/files', true, 303);
+        header('Location: ' . Asset::get('/drive/files'), true, 303);
     }
 
     /*

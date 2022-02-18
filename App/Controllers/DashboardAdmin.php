@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\File;
 use App\Models\User;
+use Core\Asset;
 use Core\Input;
 use Core\Request;
 use Core\Validation;
@@ -49,7 +50,7 @@ class DashboardAdmin extends \Core\Controller
 
         try {
             $user = User::create($username, $name, $password);
-            header('Location: dashboard/admin/users', true, 303);
+            header('Location: ' . Asset::get('/dashboard/admin/users'), true, 303);
         } catch(\PDOException $ex) {
             $users = User::getAll();
 

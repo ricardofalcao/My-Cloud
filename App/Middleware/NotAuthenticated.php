@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use Core\Asset;
 use Core\Input;
 use Core\Middleware;
 use Core\Request;
@@ -18,7 +19,7 @@ class NotAuthenticated extends \Core\Middleware
         $validation->name('userId')->int()->required();
 
         if ($validation->isValid()) {
-            header('Location: /drive/files');
+            header('Location: ' . Asset::get('/drive/files'), true, 303);
             return false;
         }
 
