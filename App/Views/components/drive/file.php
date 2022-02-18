@@ -1,10 +1,13 @@
 <?php
 
+use Core\Request;
 use Core\Utils;
 
 if (!isset($file)) {
     return;
 }
+
+$me = Request::get('userId');
 
 $folder = $file['type'] === 'FOLDER';
 $favorite = $file['state'] === 'FAVORITE';
@@ -18,6 +21,9 @@ $icon = Utils::iconFromExtension($extension);
 
 $size = $file['size'];
 $humanSize = Utils::humanizeBytes($size);
+
+$owned = $me === $file['owner_id'];
+$accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses']) : '[]';
 
 ?>
 
@@ -44,9 +50,13 @@ $humanSize = Utils::humanizeBytes($size);
 
             </span>
 
-            <span class="ml-auto icon is-small">
+            <span class="ml-auto"></span>
+
+            <? if (array_key_exists('accesses', $file)) { ?>
+            <span class="icon is-small">
               <i class="fas fa-link" aria-hidden="true"></i>
             </span>
+            <? } ?>
 
             <div class="dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
@@ -59,32 +69,34 @@ $humanSize = Utils::humanizeBytes($size);
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content is-block">
-                        <a href="#" class="dropdown-item"
-                           onclick="favoriteFile(event, <? echo $file['id'] ?>, <? echo $id === 'favorites' ? true : false ?>)">
+                        <? if ($owned) { ?>
+                            <a href="#" class="dropdown-item"
+                               onclick="favoriteFile(event, <? echo $file['id'] ?>)">
 
-                            <span class="icon">
-                                <i class="fas fa-star"></i>
-                            </span>
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
 
-                            <span data-value="favorite_text">
-                                <? if ($favorite) { ?>
-                                    Remover dos favoritos
-                                <? } else { ?>
-                                    Adicionar aos favoritos
-                                <? } ?>
-                            </span>
-                        </a>
+                                <span data-value="favorite_text">
+                                    <? if ($favorite) { ?>
+                                        Remover dos favoritos
+                                    <? } else { ?>
+                                        Adicionar aos favoritos
+                                    <? } ?>
+                                </span>
+                            </a>
 
-                        <a href="#" class="dropdown-item"
-                           onclick="openShare(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>')">
+                            <a href="#" class="dropdown-item"
+                                   onclick="openShare(event, <? echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-link"></i>
                             </span>
                             <span>Partilhar</span>
                         </a>
+                        <? } ?>
 
                         <a href="#" class="dropdown-item"
-                           onclick="openRename(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>')">
+                           onclick="openRename(event, <? echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
                             </span>
@@ -98,13 +110,17 @@ $humanSize = Utils::humanizeBytes($size);
                             <span>Transferir</span>
                         </a>
 
-                        <a href="#" class="dropdown-item"
-                           onclick="openDelete(event, <? echo $file['id'] ?>, '<? echo $file['name'] ?>', <? echo $deleted ?>)">
+                        <? if ($owned) { ?>
+
+                            <a href="#" class="dropdown-item"
+                               onclick="openDelete(event, <? echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-trash"></i>
                             </span>
                             <span>Eliminar</span>
                         </a>
+
+                        <? } ?>
 
                         <? if ($deleted) {
                             ?>

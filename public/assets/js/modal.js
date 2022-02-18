@@ -41,18 +41,24 @@ function getModalData(modalId) {
     }
 }
 
-// Add a click event on various child elements to close the parent modal
-document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete').forEach(($close) => {
-    $close.addEventListener('click', () => {
-        closeNearestModal($close)
+/*
+
+ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add a click event on various child elements to close the parent modal
+    document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete').forEach(($close) => {
+        $close.addEventListener('click', () => {
+            closeNearestModal($close)
+        });
     });
-});
 
 // Add a keyboard event to close all modals
-document.addEventListener('keydown', (event) => {
-    const e = event || window.event;
+    document.addEventListener('keydown', (event) => {
+        const e = event || window.event;
 
-    if (e.keyCode === 27) { // Escape key
-        closeAllModals();
-    }
+        if (e.keyCode === 27) { // Escape key
+            closeAllModals();
+        }
+    });
 });

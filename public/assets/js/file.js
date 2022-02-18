@@ -1,11 +1,15 @@
+/*
+
+ */
+
 let lastIndex = -1;
 
-function getFileById(id) {
+function getFileElementById(id) {
     return document.querySelector(`[data-fileid="${id}"]`)
 }
 
 function updateCount(response) {
-    injectData(document.getElementById('sidebar'), {
+    response?.count && injectData(document.getElementById('sidebar'), {
         ...response.count
     })
 }
@@ -55,11 +59,14 @@ async function restoreFile(fileId) {
         method: 'POST',
     })
 
+    const response = (await result.json());
     if (result.ok) {
-        const target = getFileById(deleteFileId);
+        const target = getFileElementById(fileId);
         target?.remove();
+
+        updateCount(response);
     } else {
-        setNotification((await result.json()).errors)
+        setNotification(response.errors)
     }
 }
 
@@ -69,17 +76,22 @@ async function restoreFile(fileId) {
 
  */
 
-async function favoriteFile(event, fileId, deleteOnRemoval = false) {
+async function favoriteFile(event, fileId) {
     event.preventDefault();
+    const file = files[fileId];
 
-    const target = getFileById(fileId);
+    if (!file) {
+        return;
+    }
+
+    const target = getFileElementById(fileId);
     const favoriteTarget = target?.querySelector('.favorite');
 
     if (!favoriteTarget) {
         return;
     }
 
-    const value = favoriteTarget.classList.contains('is-hidden');
+    const value = file.state !== 'FAVORITE';
 
     const result = await fetch(`/drive/favorites/${fileId}`, {
         method: value ? 'POST' : 'DELETE',
@@ -87,13 +99,21 @@ async function favoriteFile(event, fileId, deleteOnRemoval = false) {
 
     const response = await result.json();
     if (result.ok) {
-        target?.querySelector('.favorite')?.classList.toggle('is-hidden');
+        if (value) {
+            target?.querySelector('.favorite')?.classList.remove('is-hidden');
+        } else {
+            target?.querySelector('.favorite')?.classList.add('is-hidden');
+        }
+
         injectData(target, {
             favorite_text: value ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
         })
 
-        if (!value && deleteOnRemoval) {
+        if (!value && routeId === 'favorites') {
             target?.remove();
+            delete files[fileId];
+        } else {
+            files[fileId] = response.file;
         }
 
         updateCount(response);
@@ -176,6 +196,11 @@ async function renameFile(event) {
         return;
     }
 
+    const file = files[renameFileId];
+    if (!file) {
+        return;
+    }
+
     const data = getModalData('rename-modal');
     const fileName = data.input;
 
@@ -191,27 +216,32 @@ async function renameFile(event) {
 
     const response = (await result.json());
     if (result.ok) {
-        const target = getFileById(renameFileId);
+        const target = getFileElementById(renameFileId);
         injectData(target, {
             filename: fileName
         })
 
+        files[renameFileId] = response.file;
         closeNearestModal(event.target);
-        updateCount(response);
     } else {
         setNotification(response.errors)
     }
 }
 
-async function openRename(event, fileId, fileName) {
+async function openRename(event, fileId) {
     event.preventDefault();
 
-    const extIndex = fileName.lastIndexOf('.');
-    renameFileExtension = extIndex > 0 ? fileName.substr(extIndex + 1) : null;
+    const file = files[fileId];
+    if (!file) {
+        return;
+    }
+
+    const extIndex = file.name.lastIndexOf('.');
+    renameFileExtension = extIndex > 0 ? file.name.substr(extIndex + 1) : null;
     renameFileId = fileId;
 
     openModal('rename-modal', {
-        input: extIndex > 0 ? fileName.substr(0, extIndex) : fileName,
+        input: extIndex > 0 ? file.name.substr(0, extIndex) : file.name,
     });
 }
 
@@ -222,7 +252,6 @@ async function openRename(event, fileId, fileName) {
  */
 
 let deleteFileId = null;
-let deleteForce = false;
 
 async function deleteFile(event) {
     event.preventDefault();
@@ -231,31 +260,43 @@ async function deleteFile(event) {
         return;
     }
 
+    const file = files[deleteFileId];
+    if (!file) {
+        return;
+    }
+
+    const deleteForce = file.type === 'DELETED';
     const result = await fetch(deleteForce ? `/drive/trash/${deleteFileId}` : `/drive/files/${deleteFileId}`, {
         method: 'DELETE',
     })
 
     const response = (await result.json());
     if (result.ok) {
-        const target = getFileById(deleteFileId);
+        const target = getFileElementById(deleteFileId);
         target?.remove();
 
-        closeNearestModal(event.target);
         updateCount(response);
+        delete files[deleteFileId];
+
+        closeNearestModal(event.target);
     } else {
         setNotification(response.errors)
     }
 }
 
-async function openDelete(event, fileId, fileName, force) {
+async function openDelete(event, fileId) {
     event.preventDefault();
 
+    const file = files[fileId];
+    if (!file) {
+        return;
+    }
+
     deleteFileId = fileId;
-    deleteForce = force;
 
     openModal('delete-modal', {
         input: [
-            `Tem a certeza que deseja eliminar "${fileName}"?`,
+            `Tem a certeza que deseja eliminar "${file.name}"?`,
             (force ? 'Este ficheiro vai ser eliminado permanentemente!' : 'Este ficheiro vai ser movido para a reciclagem.')
         ].join('<br/>')
     });
@@ -276,6 +317,11 @@ async function shareFile(event) {
         return;
     }
 
+    const file = files[shareFileId];
+    if (!file) {
+        return;
+    }
+
     const data = getModalData('share-modal');
     const username = data.input;
     const type = data.type;
@@ -284,38 +330,36 @@ async function shareFile(event) {
     formData.append('username', username)
     formData.append('type', type)
 
-    console.log(username + " - " + type);
-    /*const result = await fetch(`/drive/shared/${shareFileId}`, {
+    const result = await fetch(`/drive/shared/${shareFileId}`, {
         method: 'POST',
+        body: formData,
     })
 
+    const response = (await result.json());
     if (result.ok) {
-        document.location.reload()
-        closeNearestModal(event.target);
+        console.log(response);
     } else {
-        setNotification((await result.json()).errors)
-    }*/
+        setNotification(response.errors)
+    }
 }
 
-async function openShare(event, fileId, fileName) {
+async function openShare(event, fileId) {
     event.preventDefault();
+
+    const file = files[fileId];
+    if (!file) {
+        return;
+    }
 
     shareFileId = fileId;
 
-    const extIndex = fileName.lastIndexOf('.');
+    const extIndex = file.name.lastIndexOf('.');
 
     openModal('share-modal', {
-        title: extIndex > 0 ? fileName.substr(0, extIndex) : fileName,
+        title: extIndex > 0 ? file.name.substr(0, extIndex) : file.name,
         input: '',
         type: 'VIEWER',
-        items: [
-            {
-                user: 'Hello World!'
-            },
-            {
-                user: 'Hello World2!'
-            }
-        ]
+        accesses: file.accesses || [],
     });
 }
 
@@ -338,7 +382,7 @@ async function moveFiles(files, targetId) {
 
     if (result.ok) {
         files.forEach((fileId) => {
-            const target = getFileById(fileId);
+            const target = getFileElementById(fileId);
             target?.remove();
         })
     } else {

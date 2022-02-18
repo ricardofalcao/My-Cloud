@@ -167,19 +167,6 @@ class Validation
 
     }
 
-    public function equal($value)
-    {
-        if ($this->valid && $this->value !== null) {
-            if ($this->value != $value) {
-                $this->errors[$this->name] = "$this->name must be $value.";
-                $this->valid = false;
-            }
-        }
-
-        return $this;
-
-    }
-
     public function get() {
         return $this->value;
     }

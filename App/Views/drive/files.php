@@ -6,6 +6,11 @@ if (!isset($id) || !isset($files) || !isset($count)) {
     return;
 }
 
+$files_js = [];
+foreach($files as $file) {
+    $files_js[$file['id']] = $file;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +23,15 @@ View::render('components/head.php');
 ?>
 
 <body>
+
+<script>
+    const routeId = '<? echo $id ?>'
+    const files = <? echo json_encode($files_js) ?>;
+</script>
+
+<script src="/assets/js/file.js"></script>
+<script src="/assets/js/modal.js"></script>
+
 <div id="app" ondrop="onFileDrop(event)" ondragover="onFileDrag(event)">
     <?php
     View::render('components/base.php');
@@ -120,7 +134,7 @@ View::render('components/head.php');
                 </div>
 
                 <div class="is-flex-grow-1 is-scrollable">
-                    <div class="table-container" style="padding-bottom: 12rem;">
+                    <div class="table-container" style="padding-bottom: 16rem;">
                         <table class="table is-fullwidth">
                             <thead>
                             <tr class="has-text-grey-light">
@@ -267,10 +281,10 @@ View::render('components/head.php');
                     </p>
                 </div>
 
-                <div class="field is-grouped is-grouped-multiline mt-4" data-value="items">
+                <div class="field is-grouped is-grouped-multiline mt-4" data-value="accesses">
                     <div class="control">
                         <div class="tags has-addons">
-                            <a class="tag is-primary" data-value="items.user"></a>
+                            <a class="tag is-primary" data-value="accesses.name"></a>
                             <a class="tag is-delete"></a>
                         </div>
                     </div>
@@ -303,9 +317,6 @@ View::render('components/head.php');
         </div>
     </div>
 </div>
-
-<script src="/assets/js/file.js"></script>
-<script src="/assets/js/modal.js"></script>
 
 </body>
 

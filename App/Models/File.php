@@ -11,7 +11,7 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ to_tsquery('portuguese', ?)");
-        $stmt->execute([ $text ]);
+        $stmt->execute([$text]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -19,7 +19,7 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE id=?");
-        $stmt->execute([ $id ]);
+        $stmt->execute([$id]);
         return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -30,7 +30,7 @@ class File extends \Core\Model
         JOIN public.file_ancestors as F2 ON (F2.id = ANY(F1.ancestors) OR F2.id=F1.id)
         WHERE F1.id=?
         ORDER BY F2.ancestors");
-        $stmt->execute([ $id ]);
+        $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -38,7 +38,7 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE ? = ANY(ancestors)");
-        $stmt->execute([ $id ]);
+        $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -55,7 +55,7 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE parent_id=? ORDER BY type DESC, name");
-        $stmt->execute([ $parentId ]);
+        $stmt->execute([$parentId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -63,15 +63,22 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE owner_id=? AND state <> 'DELETED' AND parent_id is NULL ORDER BY type DESC, name");
-        $stmt->execute([ $userId ]);
+        $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getRootByState($userId, $state)
+    public static function getRootFavorites($userId)
     {
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file WHERE owner_id=? AND state = ? AND parent_id is NULL ORDER BY type DESC, name");
-        $stmt->execute([ $userId, $state ]);
+
+        $stmt = $db->prepare("
+            SELECT F1.* FROM public.file as F1 
+                LEFT JOIN public.file as F2 ON F1.parent_id=F2.id 
+            WHERE F1.owner_id=? AND F1.state = 'FAVORITE' AND (F1.parent_id is NULL OR F2.state <> 'FAVORITE') 
+            ORDER BY F1.type DESC, F1.name
+        ");
+
+        $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -79,7 +86,7 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file WHERE owner_id=? AND state = ? ORDER BY type DESC, name");
-        $stmt->execute([ $userId, $state ]);
+        $stmt->execute([$userId, $state]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -87,8 +94,16 @@ class File extends \Core\Model
     {
         $db = static::db();
         $stmt = $db->prepare("SELECT * FROM public.file WHERE owner_id=? AND type = ? ORDER BY type DESC, name");
-        $stmt->execute([ $userId, $type ]);
+        $stmt->execute([$userId, $type]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getDiskUsage($userId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("SELECT SUM(size) as total FROM public.file WHERE owner_id=?");
+        $stmt->execute([$userId]);
+        return $stmt->rowCount() == 0 ? 0 : $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
     /*
@@ -107,7 +122,7 @@ class File extends \Core\Model
 
         $db = static::db();
         $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id, search_tokens) VALUES (?, ?, ?, ?, ?, ?, ?, to_tsvector('portuguese', ?)) ON CONFLICT (owner_id, name, coalesce(parent_id, '-1')) DO UPDATE SET size = excluded.size, type = excluded.type, state = excluded.state, mime_type = excluded.mime_type, search_tokens = excluded.search_tokens, modified_at=CURRENT_TIMESTAMP RETURNING id;");
-        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
+        $stmt->execute([$ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
         return $stmt->fetchColumn();
     }
 
@@ -118,7 +133,7 @@ class File extends \Core\Model
 
         $db = static::db();
         $stmt = $db->prepare("INSERT INTO public.file (owner_id, name, size, type, state, mime_type, parent_id, search_tokens) VALUES (?, ?, ?, ?, ?, ?, ?, to_tsvector('portuguese', ?)) RETURNING id;");
-        $stmt->execute([ $ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
+        $stmt->execute([$ownerId, $name, $size, $type, $state, $mime_type, $parentId, $filename]);
         return $stmt->fetchColumn();
     }
 
@@ -129,35 +144,35 @@ class File extends \Core\Model
 
         $db = static::db();
         $stmt = $db->prepare("UPDATE public.file SET name=?, search_tokens=to_tsvector('portuguese', ?), modified_at=CURRENT_TIMESTAMP WHERE id=?");
-        $stmt->execute([ $newName, $filename, $id ]);
+        $stmt->execute([$newName, $filename, $id]);
     }
 
     public static function updateState($id, $state)
     {
         $db = static::db();
         $stmt = $db->prepare("UPDATE public.file SET state=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
-        $stmt->execute([ $state, $id ]);
+        $stmt->execute([$state, $id]);
     }
 
     public static function updateParent($id, $parentId)
     {
         $db = static::db();
         $stmt = $db->prepare("UPDATE public.file SET parent_id=?, modified_at=CURRENT_TIMESTAMP WHERE id=?");
-        $stmt->execute([ $parentId, $id ]);
+        $stmt->execute([$parentId, $id]);
     }
 
     public static function propagateState($id, $state)
     {
         $db = static::db();
         $stmt = $db->prepare("UPDATE public.file SET state=?, modified_at=CURRENT_TIMESTAMP FROM public.file_ancestors WHERE file_ancestors.id=file.id AND (file.id=? OR ? = ANY(file_ancestors.ancestors))");
-        $stmt->execute([ $state, $id, $id ]);
+        $stmt->execute([$state, $id, $id]);
     }
 
     public static function delete($id)
     {
         $db = static::db();
         $stmt = $db->prepare("DELETE FROM public.file WHERE id=?");
-        $stmt->execute([ $id ]);
+        $stmt->execute([$id]);
     }
 
 }

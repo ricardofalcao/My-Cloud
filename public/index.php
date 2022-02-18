@@ -14,7 +14,10 @@ error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
-$router = new Core\Router();
+$hostname = gethostname();
+$feup = $hostname === 'gnomo.fe.up.pt';
+
+$router = new Core\Router($feup ? '/~up201704220/sie/project2/' : '/');
 $router->get('/auth/login', 'Auth', 'login', ['NotAuthenticated']);
 $router->post('/auth/login', 'Auth', 'authenticate', ['NotAuthenticated']);
 $router->get('/auth/logout', 'Auth', 'logout');
@@ -31,10 +34,13 @@ $router->put('/drive/files/{id}', 'Drive', 'filesPut', ['Authenticated']);
 $router->delete('/drive/files/{id}', 'Drive', 'filesDelete', ['Authenticated']);
 
 $router->get('/drive/favorites', 'Drive', 'favorites', ['Authenticated']);
+
 $router->post('/drive/favorites/{id}', 'Drive', 'favoritesPost', ['Authenticated']);
 $router->delete('/drive/favorites/{id}', 'Drive', 'favoritesDelete', ['Authenticated']);
 
-$router->get('/drive/shared', 'Drive', 'shared', ['Authenticated']);
+$router->get('/drive/shared', 'DriveShare', 'shared', ['Authenticated']);
+$router->post('/drive/shared/{id}', 'DriveShare', 'sharedPost', ['Authenticated']);
+$router->delete('/drive/shared/{id}', 'DriveShare', 'sharedDelete', ['Authenticated']);
 
 $router->get('/drive/trash', 'Drive', 'trash', ['Authenticated']);
 $router->post('/drive/trash/{id}', 'Drive', 'trashPost', ['Authenticated']);

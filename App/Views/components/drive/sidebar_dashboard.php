@@ -38,10 +38,11 @@ $user = Request::get('user');
 
         <? } ?>
 
+        <? if ($user['role'] === 'SUPERUSER') {  ?>
         <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
             Administrador
         </p>
-        <?  foreach($sidebar_admin_links as $link) { ?>
+        <? foreach($sidebar_admin_links as $link) { ?>
 
             <li>
                 <a href="<? echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <? echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
@@ -52,6 +53,6 @@ $user = Request::get('user');
                 </a>
             </li>
 
-        <? } ?>
+        <? } } ?>
     </ul>
 </aside>

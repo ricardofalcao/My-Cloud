@@ -12,7 +12,6 @@ $sidebar_links = array(
 );
 
 $user = Request::get('user');
-$total_space = 2.4e6;
 
 ?>
 
@@ -49,11 +48,11 @@ $total_space = 2.4e6;
             <?
             if (empty($user['quota'])) {
             ?>
-                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($total_space) ?> utilizados</p>
+                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($count['disk_usage']) ?> utilizados</p>
             <?
             } else {
             ?>
-                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($total_space) ?> / <? echo  Utils::humanizeBytes($user['quota']) ?> utilizados</p>
+                <p class="has-text-centered has-text-grey-light is-size-6"><? echo Utils::humanizeBytes($count['disk_usage']) ?> / <? echo  Utils::humanizeBytes($user['quota']) ?> utilizados</p>
             <?
             }
             ?>
