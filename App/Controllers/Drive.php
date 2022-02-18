@@ -110,7 +110,7 @@ class Drive extends \Core\Controller
             $files = $inputRequest->get('files');
             $all_files = count($files['tmp_name']);
 
-            $dir = dirname(__DIR__) . '/data/' . $userId;
+            $dir = '/data/' . $userId;
             if (!file_exists($dir)) {
                 mkdir($dir, 0775, true);
             }
@@ -403,7 +403,7 @@ class Drive extends \Core\Controller
             $children = File::getDescendants($fileId);
 
             foreach ($children as $child) {
-                $path = dirname(__DIR__) . '/data/' . $child['owner_id'] . '/' . $child['id'];
+                $path = '/data/' . $child['owner_id'] . '/' . $child['id'];
 
                 if (file_exists($path)) {
                     unlink($path);
@@ -413,7 +413,7 @@ class Drive extends \Core\Controller
 
         File::delete($fileId);
 
-        $path = dirname(__DIR__) . '/data/' . $file['owner_id'] . '/' . $fileId;
+        $path = '/data/' . $file['owner_id'] . '/' . $fileId;
         if (file_exists($path)) {
             unlink($path);
         }

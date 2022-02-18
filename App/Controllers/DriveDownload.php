@@ -13,7 +13,7 @@ class DriveDownload extends \Core\Controller
 
     private function _get_file_path($file)
     {
-        return dirname(__DIR__) . '/data/' . $file['owner_id'] . '/' . $file['id'];
+        return '/data/' . $file['owner_id'] . '/' . $file['id'];
     }
 
     private function _return_file($name, $mime_type, $filePath) {
@@ -71,7 +71,7 @@ class DriveDownload extends \Core\Controller
 
         if (count($files) > 1) {
             $zip = new \ZipArchive();
-            $zipPath = dirname(__DIR__) . '/data/' . $userId . '/folder_' . uniqid() . '.zip';
+            $zipPath = '/data/' . $userId . '/folder_' . uniqid() . '.zip';
 
             $validation->assert($zip->open($zipPath, \ZipArchive::CREATE) === TRUE, "Could not create zip file.");
 
@@ -103,7 +103,7 @@ class DriveDownload extends \Core\Controller
 
         if ($file['type'] === 'FOLDER') {
             $zip = new \ZipArchive();
-            $zipPath = dirname(__DIR__) . '/data/' . $userId . '/folder_' . uniqid() . '.zip';
+            $zipPath = '/data/' . $userId . '/folder_' . uniqid() . '.zip';
 
             $validation->assert($zip->open($zipPath, \ZipArchive::CREATE) === TRUE, "Could not create zip file.");
 
