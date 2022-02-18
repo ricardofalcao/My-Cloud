@@ -1,5 +1,8 @@
 <?php
-    $feup = gethostname() === 'gnomo.fe.up.pt';
+
+use Core\Asset;
+
+$feup = gethostname() === 'gnomo.fe.up.pt';
 ?>
 
 <head>
