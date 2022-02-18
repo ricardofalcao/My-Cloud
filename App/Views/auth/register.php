@@ -58,12 +58,12 @@ $inputs = [
 
 
 <section class="hero is-fullheight"
-         style="background-image: url('/assets/images/login_bg.png'); background-size: cover; background-position: center;">
+         style="background-image: url('<?php Asset::get('/assets/images/login_bg.png') ?>'); background-size: cover; background-position: center;">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-7-tablet is-6-desktop is-4-widescreen">
-                    <form action="/auth/register" method="POST" class="box">
+                    <form action="auth/register" method="POST" class="box">
                         <span class="icon-text p-6 is-flex is-justify-content-center is-align-items-center">
                             <span class="fas fa-2x">
                                 <i class="fas fa-cloud mr-3"></i>

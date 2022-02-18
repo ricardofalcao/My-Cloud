@@ -15,7 +15,7 @@ $feup = gethostname() === 'gnomo.fe.up.pt';
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-    <base href="<?php Asset::get('') ?>">
+    <base href="<?php Asset::get('/') ?>">
     <link rel="stylesheet" href="<?php Asset::get('/assets/css/main.css') ?>">
 
     <script src="<?php Asset::get('/assets/js/main.js') ?>"></script>
