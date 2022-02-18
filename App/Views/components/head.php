@@ -1,3 +1,7 @@
+<?php
+    $feup = gethostname() === 'gnomo.fe.up.pt';
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -6,7 +10,7 @@
 
     <title>My Cloud</title>
 
-    <? if (gethostname() === 'gnomo.fe.up.pt') {
+    <? if ($feup) {
         echo '<base href="/~up201704220/sie/project2">';
     } ?>
 
