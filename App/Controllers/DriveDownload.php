@@ -121,7 +121,7 @@ class DriveDownload extends \Core\Controller
 
         $path = $this->_get_file_path($file);
 
-        $validation->assert(file_exists($path), "Could not find file.");
+        $validation->assert(file_exists($path), "Could not find file '$path'.");
 
         if (!$validation->isValid()) {
             goto error;
