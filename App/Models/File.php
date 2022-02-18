@@ -7,10 +7,36 @@ use PDO;
 class File extends \Core\Model
 {
 
-    public static function search($text)
+    private static function compileSorts($sorts) {
+        if (count($sorts) > 0) {
+            $query = "ORDER BY ";
+
+            $sorts = array_unique($sorts);
+
+            foreach ($sorts as $index => $sort) {
+                if ($index > 0) {
+                    $query .= ', ';
+                }
+
+                if ($sort[0] === 'A') {
+                    $query .= substr($sort, 1, strlen($sort) - 1) . ' ASC';
+                } else {
+                    $query .= substr($sort, 1, strlen($sort) - 1) . ' DESC';
+                }
+            }
+
+            return $query;
+        }
+
+        return "";
+    }
+
+    public static function search($text, $sorts = [])
     {
+        $sortsQ = self::compileSorts($sorts);
+
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ to_tsquery('portuguese', ?)");
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ to_tsquery('portuguese', ?) $sortsQ");
         $stmt->execute([$text]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -51,18 +77,22 @@ class File extends \Core\Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getByParent($parentId)
+    public static function getByParent($parentId, $sorts = [])
     {
+        $sortsQ = self::compileSorts(array_merge(['Dtype'], $sorts,['Aname']));
+
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE parent_id=? ORDER BY type DESC, name");
+        $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE parent_id=? $sortsQ");
         $stmt->execute([$parentId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getRoot($userId)
+    public static function getRoot($userId, $sorts = [])
     {
+        $sortsQ = self::compileSorts(array_merge(['Dtype'], $sorts,['Aname']));
+
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE owner_id=? AND state <> 'DELETED' AND parent_id is NULL ORDER BY type DESC, name");
+        $stmt = $db->prepare("SELECT * FROM public.file_ancestors WHERE owner_id=? AND state <> 'DELETED' AND parent_id is NULL $sortsQ");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

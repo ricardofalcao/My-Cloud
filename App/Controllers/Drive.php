@@ -49,6 +49,17 @@ class Drive extends \Core\Controller
         }
     }
 
+    private function _getSorts() {
+        $validation = new Validation();
+        $q = $validation->name('q')->required()->get();
+
+        if (!$validation->isValid()) {
+            return [];
+        }
+
+        return $q;
+    }
+
     /*
      *
      */
@@ -57,19 +68,21 @@ class Drive extends \Core\Controller
     {
         $userId = Request::get('userId');
 
+        $sorts = $this->_getSorts();
+
         $inputRequest = new Input();
         $inputParams = new Input($this->params);
 
         if ($inputRequest->exists('search')) {
             $search = $inputRequest->str('search');
-            $files = File::search($search);
+            $files = File::search($search, $sorts);
             $ancestors = null;
         } else if ($inputParams->exists('id')) {
             $folderId = $inputParams->int('id');;
-            $files = File::getByParent($folderId);
+            $files = File::getByParent($folderId, $sorts);
             $ancestors = File::getAncestors($folderId);
         } else {
-            $files = File::getRoot($userId);
+            $files = File::getRoot($userId, $sorts);
             $ancestors = null;
         }
 
@@ -79,6 +92,7 @@ class Drive extends \Core\Controller
             'folderId' => $folderId ?? null,
             'count' => $this->countFiles(),
             'ancestors' => $ancestors,
+            'sorts' => $sorts,
         ]);
     }
 
@@ -245,6 +259,8 @@ class Drive extends \Core\Controller
 
     public function shared()
     {
+        $sorts = $this->_getSorts();
+
         $userId = Request::get('userId');
         // verificar root
 
@@ -254,6 +270,7 @@ class Drive extends \Core\Controller
             'id' => 'shared',
             'files' => $files,
             'count' => $this->countFiles(),
+            'sorts' => $sorts,
         ]);
     }
 
@@ -304,12 +321,15 @@ class Drive extends \Core\Controller
         $userId = Request::get('userId');
         // verificar root
 
+        $sorts = $this->_getSorts();
+
         $files = File::getRootFavorites($userId);
 
         View::render('drive/files.php', [
             'id' => 'favorites',
             'files' => $files,
             'count' => $this->countFiles(),
+            'sorts' => $sorts
         ]);
     }
 
@@ -354,12 +374,15 @@ class Drive extends \Core\Controller
         $userId = Request::get('userId');
         // verificar root
 
+        $sorts = $this->_getSorts();
+
         $files = File::getByState($userId, 'DELETED');
 
         View::render('drive/files.php', [
             'id' => 'trash',
             'files' => $files,
             'count' => $this->countFiles(),
+            'sorts' => $sorts
         ]);
     }
 

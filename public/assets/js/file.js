@@ -39,6 +39,8 @@ function check(checkbox, shift) {
     }
 
     lastIndex = index;
+
+    checkboxActions();
 }
 
 function checkboxAll(value) {
@@ -46,6 +48,45 @@ function checkboxAll(value) {
     for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = value;
     }
+
+    checkboxActions();
+}
+
+function checkboxActions() {
+    const checkboxes = document.getElementsByClassName('row-checkbox')
+    const selectedActions = document.getElementById('selected-actions');
+
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            setActive(selectedActions);
+            return;
+        }
+    }
+
+    setInactive(selectedActions);
+}
+
+/*
+
+    SORT FILES
+
+ */
+
+async function sortFiles(event, parameter, order) {
+    const url = new URL(document.location);
+    const params = url.searchParams;
+
+    const blacklist = [`A${parameter}`, `D${parameter}`];
+    const queries = params.getAll("q[]").filter(param => !blacklist.includes(param));
+
+    if (order) {
+        queries.push(order + parameter);
+    }
+
+    url.searchParams.delete("q[]");
+    queries.forEach(q => url.searchParams.append("q[]", q));
+
+    window.location.replace(url.toString())
 }
 
 /*
@@ -351,6 +392,10 @@ async function downloadFiles(event, fileIds) {
     } else {
         setNotification((await result.json()).errors)
     }
+}
+
+async function downloadSelectedFiles(event) {
+    await downloadFiles(event, getChecked());
 }
 
 /*

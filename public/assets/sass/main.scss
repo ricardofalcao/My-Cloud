@@ -100,3 +100,8 @@ tr.is-folder-drag {
 a.is-folder-drag {
   color: $primary-dark;
 }
+
+th {
+  white-space: nowrap;
+  font-weight: normal;
+}

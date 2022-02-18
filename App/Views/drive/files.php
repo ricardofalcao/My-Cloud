@@ -7,8 +7,35 @@ if (!isset($id) || !isset($files) || !isset($count)) {
 }
 
 $files_js = [];
-foreach($files as $file) {
+foreach ($files as $file) {
     $files_js[$file['id']] = $file;
+}
+
+if (!isset($sorts)) {
+    $sorts = [];
+}
+
+function createSortIcon($sorts, $id)
+{
+    if (in_array('A' . $id, $sorts)) {
+        echo '<a class="is-small is-inline" onclick="sortFiles(event, \'' . $id . '\', \'D\')">
+                <span class="icon is-small has-text-black">
+                        <i class="fas fa-sort-up"></i>
+                </span>
+        </a>';
+    } else if (in_array('D' . $id, $sorts)) {
+        echo '<a class="is-small is-inline" onclick="sortFiles(event, \'' . $id . '\', null)">
+                <span class="icon is-small has-text-black">
+                        <i class="fas fa-sort-down"></i>
+                </span>
+        </a>';
+    } else {
+        echo '<a class="is-small is-inline" onclick="sortFiles(event, \'' . $id . '\', \'A\')">
+                <span class="icon is-small has-text-grey-light">
+                        <i class="fas fa-sort"></i>
+                </span>
+        </a>';
+    }
 }
 
 ?>
@@ -56,82 +83,93 @@ View::render('components/head.php');
 
 
             <div class="column is-flex is-flex-direction-column">
-                <div class="is-flex is-align-items-center ml-4 mt-4 mb-4">
-                    <nav class="breadcrumb mb-0" aria-label="breadcrumbs">
-                        <ul>
-                            <li>
-                                <a
-                                        href="drive/files"
-                                    <?php
-                                    if (isset($ancestors) && count($ancestors) > 0) {
-                                        echo 'ondragover="onRowFileDragOver(event, this, 0)"';
-                                        echo 'ondrop="onRowFileDrop(event, this, 0)"';
-                                        echo 'ondragleave="onRowFileDragLeave(event, this)"';
-                                    }
-                                    ?>
-                                >
+                <div class="level m-4">
+                    <div class="level-left">
+                        <div class="is-flex is-align-items-center">
+                            <nav class="breadcrumb mb-0" aria-label="breadcrumbs">
+                                <ul>
+                                    <li>
+                                        <a
+                                                href="drive/files"
+                                            <?php
+                                            if (isset($ancestors) && count($ancestors) > 0) {
+                                                echo 'ondragover="onRowFileDragOver(event, this, 0)"';
+                                                echo 'ondrop="onRowFileDrop(event, this, 0)"';
+                                                echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                            }
+                                            ?>
+                                        >
                                 <span class="icon is-small">
                                   <i class="fas fa-home" aria-hidden="true"></i>
                                 </span>
-                                    <span><wbr/></span>
-                                </a>
-                            </li>
-                            <?php
-                            if (isset($ancestors)) {
-                                $len = count($ancestors);
-                                foreach ($ancestors as $i => $ancestor) {
-                                    if ($i == $len - 1) {
-                                        ?>
-                                        <li
-                                                class="is-active"
-                                        ><a href="#"
-                                            aria-current="page"><?php echo $ancestor['name'] ?></a>
-                                        </li>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <li><a
-                                                href="drive/files/<?php echo $ancestor['id'] ?>"
-                                                <?php
-                                                echo 'ondragover="onRowFileDragOver(event, this, ' . $ancestor['id'] . ')"';
-                                                echo 'ondrop="onRowFileDrop(event, this, ' . $ancestor['id'] . ')"';
-                                                echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                            <span><wbr/></span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    if (isset($ancestors)) {
+                                        $len = count($ancestors);
+                                        foreach ($ancestors as $i => $ancestor) {
+                                            if ($i == $len - 1) {
                                                 ?>
-                                                    class="has-text-weight-bold"><?php echo $ancestor['name'] ?>
-                                            </a></li>
-                                        <?php
+                                                <li
+                                                        class="is-active"
+                                                ><a href="#"
+                                                    aria-current="page"><?php echo $ancestor['name'] ?></a>
+                                                </li>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <li><a
+                                                            href="drive/files/<?php echo $ancestor['id'] ?>"
+                                                        <?php
+                                                        echo 'ondragover="onRowFileDragOver(event, this, ' . $ancestor['id'] . ')"';
+                                                        echo 'ondrop="onRowFileDrop(event, this, ' . $ancestor['id'] . ')"';
+                                                        echo 'ondragleave="onRowFileDragLeave(event, this)"';
+                                                        ?>
+                                                            class="has-text-weight-bold"><?php echo $ancestor['name'] ?>
+                                                    </a></li>
+                                                <?php
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                            ?>
-                        </ul>
-                    </nav>
+                                    ?>
+                                </ul>
+                            </nav>
 
-                    <div class="dropdown is-hoverable">
-                        <div class="dropdown-trigger">
-                            <button class="button is-small" style="border-radius: 9999px;" aria-haspopup="true"
-                                    aria-controls="dropdown-menu">
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-small" style="border-radius: 9999px;" aria-haspopup="true"
+                                            aria-controls="dropdown-menu">
                                 <span class="icon is-small">
                                 <i class="fas fa-plus" aria-hidden="true"></i>
                                 </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                                <a href="#" class="dropdown-item" onclick="openNewFolder(event)">
-                                    Criar pasta
-                                </a>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item" onclick="openNewFolder(event)">
+                                            Criar pasta
+                                        </a>
 
-                                <label>
-                                    <input type="file" style="display: none;" multiple
-                                           onchange="onFileUpload(event)">
+                                        <label>
+                                            <input type="file" style="display: none;" multiple
+                                                   onchange="onFileUpload(event)">
 
-                                    <a class="dropdown-item is-clickable">
-                                        Enviar ficheiros
-                                    </a>
-                                </label>
+                                            <a class="dropdown-item is-clickable">
+                                                Enviar ficheiros
+                                            </a>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="level-right is-hidden" id="selected-actions">
+                        <!--<button class="button is-black is-small is-inverted mr-4">Eliminar selecionados</button>-->
+                        <button class="button is-success is-small is-inverted" onclick="downloadSelectedFiles(event)">
+                            Transferir selecionados
+                        </button>
                     </div>
                 </div>
 
@@ -140,27 +178,25 @@ View::render('components/head.php');
                         <table class="table is-fullwidth">
                             <thead>
                             <tr class="has-text-grey-light">
-                                <td style="vertical-align: middle; font-size: 1.4rem;">
+                                <th style="vertical-align: middle; font-size: 1.4rem;">
                                     <input type="checkbox" class="row-checkbox has-text-primary"
                                            onchange="checkboxAll(event.currentTarget.checked)">
-                                </td>
-                                <td class="py-3" style="width: 99%;">
-                                    <!--<span class="icon-text is-align-items-center">
-                                        <span>Nome</span>
+                                </th>
+                                <tr class="py-3" style="width: 99%;">
+                                    <span class="mr-2">Nome</span>
 
-                                        <form href="drive/files/">
-                                            <a class="button is-white is-small is-rounded ml-1">
-                                                <span class="icon is-small has-text-grey-light">
-                                                    <i class="fas fa-sort-alpha-down"></i>
-                                                </span>
-                                            </a>
-                                        </form>
-                                    </span>-->
+                                    <?php createSortIcon($sorts, 'name') ?>
+                                </tr>
+                                <th class="py-3">
+                                    <span class="mr-2">Tamanho</span>
 
-                                    Nome
-                                </td>
-                                <td class="py-3">Tamanho</td>
-                                <td class="py-3 pr-4">Modificado</td>
+                                    <?php createSortIcon($sorts, 'size') ?>
+                                </th>
+                                <th class="py-3 pr-4">
+                                    <span class="mr-2">Modificado</span>
+
+                                    <?php createSortIcon($sorts, 'modified_at') ?>
+                                </th>
                             </tr>
                             </thead>
 
