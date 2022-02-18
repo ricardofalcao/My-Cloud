@@ -3,6 +3,7 @@
 
 <?php
 
+use Core\Asset;
 use Core\View;
 
 View::render('components/head.php');
