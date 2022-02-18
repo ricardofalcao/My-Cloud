@@ -108,7 +108,7 @@ class DashboardAdmin extends \Core\Controller
         $exec_free = explode("\n", trim(shell_exec('free')));
         $get_mem = preg_split("/[\s]+/", $exec_free[1]);
 
-        $dir = getcwd() . '../data';
+        $dir = getcwd() . '/../data';
         print_r($dir);
 
         // get disk space free (in bytes)
