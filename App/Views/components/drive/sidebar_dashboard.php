@@ -6,13 +6,13 @@ use Core\Utils;
 require_once 'sidebar_common.php';
 
 $sidebar_user_links = array(
-    new SidebarLink('user_profile', 'Perfil', 'user', '/dashboard/user/profile'),
-    new SidebarLink('user_stats', 'Estatísticas', 'chart-pie', '/dashboard/user/stats'),
+    new SidebarLink('user_profile', 'Perfil', 'user', 'dashboard/user/profile'),
+    new SidebarLink('user_stats', 'Estatísticas', 'chart-pie', 'dashboard/user/stats'),
 );
 
 $sidebar_admin_links = array(
-    new SidebarLink('admin_users', 'Utilizadores', 'users', '/dashboard/admin/users'),
-    new SidebarLink('admin_stats', 'Estatísticas', 'chart-pie', '/dashboard/admin/stats'),
+    new SidebarLink('admin_users', 'Utilizadores', 'users', 'dashboard/admin/users'),
+    new SidebarLink('admin_stats', 'Estatísticas', 'chart-pie', 'dashboard/admin/stats'),
 );
 
 $user = Request::get('user');

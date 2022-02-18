@@ -6,9 +6,9 @@ use Core\Utils;
 require_once 'sidebar_common.php';
 
 $sidebar_links = array(
-    new SidebarLink('files', 'Ficheiros', 'folder', '/drive/files'),
-    new SidebarLink('shared', 'Partilhados', 'share-alt',  '/drive/shared'),
-    new SidebarLink('favorites', 'Favoritos', 'star',  '/drive/favorites'),
+    new SidebarLink('files', 'Ficheiros', 'folder', 'drive/files'),
+    new SidebarLink('shared', 'Partilhados', 'share-alt',  'drive/shared'),
+    new SidebarLink('favorites', 'Favoritos', 'star',  'drive/favorites'),
 );
 
 $user = Request::get('user');
