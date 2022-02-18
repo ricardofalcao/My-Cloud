@@ -43,7 +43,7 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
             <span class="py-3 row-name">
 
                 <?php if ($folder) { ?>
-                    <a href="/drive/files/<?php echo $file['id'] ?>" class="has-text-black" data-value="filename"><?php echo $filename ?></a>
+                    <a href="drive/files/<?php echo $file['id'] ?>" class="has-text-black" data-value="filename"><?php echo $filename ?></a>
                 <?php } else { ?>
                     <span data-value="filename"><?php echo $filename ?></span> <span class="has-text-grey-light">.<?php echo $extension; ?></span>
                 <?php } ?>
@@ -103,7 +103,7 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
                             <span>Renomear</span>
                         </a>
 
-                        <a href="/drive/download?files[]=<?php echo $file['id'] ?>" class="dropdown-item">
+                        <a href="drive/download?files[]=<?php echo $file['id'] ?>" class="dropdown-item">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>

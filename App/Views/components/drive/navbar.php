@@ -11,7 +11,7 @@ if(!isset($showSearch)) {
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/drive/files">
+        <a class="navbar-item" href="drive/files">
                     <span class="icon mr-2">
                         <i class="fa fa-cloud"></i>
                     </span>

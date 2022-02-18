@@ -35,7 +35,7 @@ $user = Request::get('user');
 
     <ul class="menu-list mt-auto mb-4">
         <li>
-            <a href="/drive/trash" class=" is-flex is-align-items-center is-justify-content-space-between py-4 px-4 <?php echo $sidebar_current_id === 'trash' ? 'is-active' : '' ?>">
+            <a href="drive/trash" class=" is-flex is-align-items-center is-justify-content-space-between py-4 px-4 <?php echo $sidebar_current_id === 'trash' ? 'is-active' : '' ?>">
                 <span class="icon mr-2 is-size-6">
                     <i class="fas fa-trash"></i>
                 </span>

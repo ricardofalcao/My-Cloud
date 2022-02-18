@@ -61,7 +61,7 @@ View::render('components/head.php');
                         <ul>
                             <li>
                                 <a
-                                        href="/drive/files"
+                                        href="drive/files"
                                     <?php
                                     echo 'ondragover="onRowFileDragOver(event, this, 0)"';
                                     echo 'ondrop="onRowFileDrop(event, this, 0)"';
@@ -89,7 +89,7 @@ View::render('components/head.php');
                                     } else {
                                         ?>
                                         <li><a
-                                                href="/drive/files/<?php echo $ancestor['id'] ?>"
+                                                href="drive/files/<?php echo $ancestor['id'] ?>"
                                                 <?php
                                                 echo 'ondragover="onRowFileDragOver(event, this, ' . $ancestor['id'] . ')"';
                                                 echo 'ondrop="onRowFileDrop(event, this, ' . $ancestor['id'] . ')"';
@@ -146,7 +146,7 @@ View::render('components/head.php');
                                     <!--<span class="icon-text is-align-items-center">
                                         <span>Nome</span>
 
-                                        <form href="/drive/files/">
+                                        <form href="drive/files/">
                                             <a class="button is-white is-small is-rounded ml-1">
                                                 <span class="icon is-small has-text-grey-light">
                                                     <i class="fas fa-sort-alpha-down"></i>
