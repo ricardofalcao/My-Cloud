@@ -10,7 +10,7 @@
 
     <title>My Cloud</title>
 
-    <? if ($feup) {
+    <?php if ($feup) {
         echo '<base href="/~up201704220/sie/mycloud">';
     } ?>
 

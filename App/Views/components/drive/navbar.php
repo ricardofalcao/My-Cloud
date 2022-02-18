@@ -1,4 +1,4 @@
-<?
+<?php
 use Core\Request;
 
 $user = Request::get('user');
@@ -27,7 +27,7 @@ if(!isset($showSearch)) {
     </div>
     <div id="navbar" class="navbar-menu">
         <div class="navbar-end">
-            <? if ($showSearch) {
+            <?php if ($showSearch) {
             ?>
                 <div class="navbar-item">
                     <form action="/drive/files">
@@ -43,17 +43,17 @@ if(!isset($showSearch)) {
                         </div>
                     </form>
                 </div>
-            <?
+            <?php
             } ?>
 
             <div class="navbar-item has-dropdown is-hoverable is-right">
                 <a class="navbar-link has-text-white is-arrowless">
-                    <? echo $user['name']; ?>
+                    <?php echo $user['name']; ?>
                 </a>
 
                 <div class="navbar-dropdown is-right">
                     <span class="navbar-item has-text-grey">
-                        <? echo $user['name']; ?>
+                        <?php echo $user['name']; ?>
                     </span>
 
                     <a class="navbar-item" href="../../dashboard/user/profile">

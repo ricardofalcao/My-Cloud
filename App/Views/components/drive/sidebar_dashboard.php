@@ -25,34 +25,34 @@ $user = Request::get('user');
         <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
             Utilizador
         </p>
-        <?  foreach($sidebar_user_links as $link) { ?>
+        <?php  foreach($sidebar_user_links as $link) { ?>
 
             <li>
-                <a href="<? echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <? echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
+                <a href="<?php echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <?php echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
                 <span class="icon mr-2">
-                    <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
+                    <i class="fas fa-<?php echo $link->icon ?> is-size-6"></i>
                 </span>
-                    <span class="name is-size-6"><? echo $link->name ?></span>
+                    <span class="name is-size-6"><?php echo $link->name ?></span>
                 </a>
             </li>
 
-        <? } ?>
+        <?php } ?>
 
-        <? if ($user['role'] === 'SUPERUSER') {  ?>
+        <?php if ($user['role'] === 'SUPERUSER') {  ?>
         <p class="menu-label ml-4 mt-4" style="font-size: 15px;">
             Administrador
         </p>
-        <? foreach($sidebar_admin_links as $link) { ?>
+        <?php foreach($sidebar_admin_links as $link) { ?>
 
             <li>
-                <a href="<? echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <? echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
+                <a href="<?php echo $link->target ?>" class="item is-flex is-align-items-center py-4 px-4 <?php echo $sidebar_current_id === $link->id ? 'is-active' : '' ?>">
                 <span class="icon mr-2">
-                    <i class="fas fa-<? echo $link->icon ?> is-size-6"></i>
+                    <i class="fas fa-<?php echo $link->icon ?> is-size-6"></i>
                 </span>
-                    <span class="name is-size-6"><? echo $link->name ?></span>
+                    <span class="name is-size-6"><?php echo $link->name ?></span>
                 </a>
             </li>
 
-        <? } } ?>
+        <?php } } ?>
     </ul>
 </aside>

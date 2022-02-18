@@ -72,26 +72,26 @@ $inputs = [
                             <h1 class="title has-text-black has-text-weight-normal is-size-3">My Cloud</h1>
                         </span>
 
-                        <?
+                        <?php
                         foreach ($inputs as $input) {
                             ?>
                             <div class="field">
-                                <label for="<? echo $input['id'] ?>" class="label"><? echo $input['label'] ?></label>
+                                <label for="<?php echo $input['id'] ?>" class="label"><?php echo $input['label'] ?></label>
                                 <div class="control has-icons-left">
                                     <input
-                                            id="<? echo $input['id'] ?>"
-                                            name="<? echo $input['id'] ?>"
-                                            type="<? echo $input['type'] ?>"
-                                            placeholder="<? echo $input['placeholder'] ?>"
-                                            class="input <? echo has_error($errors, $input['id']) ? 'is-danger' : '' ?>"
-                                            value="<? echo isset(${$input['id']}) ? ${$input['id']} : '' ?>">
+                                            id="<?php echo $input['id'] ?>"
+                                            name="<?php echo $input['id'] ?>"
+                                            type="<?php echo $input['type'] ?>"
+                                            placeholder="<?php echo $input['placeholder'] ?>"
+                                            class="input <?php echo has_error($errors, $input['id']) ? 'is-danger' : '' ?>"
+                                            value="<?php echo isset(${$input['id']}) ? ${$input['id']} : '' ?>">
                                     <span class="icon is-small is-left">
-                                        <i class="fa <? echo $input['icon'] ?>"></i>
+                                        <i class="fa <?php echo $input['icon'] ?>"></i>
                                     </span>
                                 </div>
-                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, $input['id']) ?: '<wbr/>' ?></p>
+                                <p class="mt-2 has-text-danger is-size-7"><?php echo get_error($errors, $input['id']) ?: '<wbr/>' ?></p>
                             </div>
-                            <?
+                            <?php
                         }
                         ?>
 

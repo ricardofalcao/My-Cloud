@@ -54,7 +54,7 @@ View::render('components/head.php');
 </div>
 <script src="/assets/js/user_stats.js"></script>
 <script>
-    refreshStats(<? echo $total_space ?>, <? echo $user['quota'] ?>)
+    refreshStats(<?php echo $total_space ?>, <?php echo $user['quota'] ?>)
 </script>
 </body>
 

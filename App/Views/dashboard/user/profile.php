@@ -59,22 +59,22 @@ View::render('components/head.php');
                             <div class="field">
                                 <label for="password" class="label">Nova password</label>
                                 <div class="control has-icons-left">
-                                    <input id="password" name="password" type="password" placeholder="*******" class="input <? echo has_error($errors, 'password') ? 'is-danger' : '' ?>" required>
+                                    <input id="password" name="password" type="password" placeholder="*******" class="input <?php echo has_error($errors, 'password') ? 'is-danger' : '' ?>" required>
                                     <span class="icon is-small is-left">
                             <i class="fa fa-lock"></i>
                           </span>
                                 </div>
-                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'confirmPassword') ?: '<wbr/>' ?></p>
+                                <p class="mt-2 has-text-danger is-size-7"><?php echo get_error($errors, 'confirmPassword') ?: '<wbr/>' ?></p>
                             </div>
                             <div class="field">
                                 <label for="confirmPassword" class="label">Confirmar password</label>
                                 <div class="control has-icons-left">
-                                    <input id="confirmPassword" name="confirmPassword" type="password" placeholder="*******" class="input <? echo has_error($errors, 'confirmPassword') ? 'is-danger' : '' ?>" required>
+                                    <input id="confirmPassword" name="confirmPassword" type="password" placeholder="*******" class="input <?php echo has_error($errors, 'confirmPassword') ? 'is-danger' : '' ?>" required>
                                     <span class="icon is-small is-left">
                             <i class="fa fa-lock"></i>
                           </span>
                                 </div>
-                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'confirmPassword') ?: '<wbr/>' ?></p>
+                                <p class="mt-2 has-text-danger is-size-7"><?php echo get_error($errors, 'confirmPassword') ?: '<wbr/>' ?></p>
                             </div>
                             <div class="field">
                                 <button class="button is-block is-primary mb-6">
@@ -88,13 +88,13 @@ View::render('components/head.php');
                             <div class="field">
                                 <label for="name" class="label">Novo nome</label>
                                 <div class="control has-icons-left">
-                                    <input name="name" id="name" type="text" placeholder="João Exemplo" class="input <? echo has_error($errors, 'name') ? 'is-danger' : '' ?>"
-                                           value="<? echo $name ?? $user['name'] ?>" required>
+                                    <input name="name" id="name" type="text" placeholder="João Exemplo" class="input <?php echo has_error($errors, 'name') ? 'is-danger' : '' ?>"
+                                           value="<?php echo $name ?? $user['name'] ?>" required>
                                     <span class="icon is-small is-left">
                             <i class="fa fa-user"></i>
                           </span>
                                 </div>
-                                <p class="mt-2 has-text-danger is-size-7"><? echo get_error($errors, 'name') ?: '<wbr/>' ?></p>
+                                <p class="mt-2 has-text-danger is-size-7"><?php echo get_error($errors, 'name') ?: '<wbr/>' ?></p>
                             </div>
                             <div class="field">
                                 <button type="submit" class="button is-block is-primary mb-6">

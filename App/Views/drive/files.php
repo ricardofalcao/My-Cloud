@@ -25,8 +25,8 @@ View::render('components/head.php');
 <body>
 
 <script>
-    const routeId = '<? echo $id ?>'
-    const files = <? echo json_encode($files_js) ?>;
+    const routeId = '<?php echo $id ?>'
+    const files = <?php echo json_encode($files_js) ?>;
 </script>
 
 <script src="/assets/js/file.js"></script>
@@ -62,7 +62,7 @@ View::render('components/head.php');
                             <li>
                                 <a
                                         href="/drive/files"
-                                    <?
+                                    <?php
                                     echo 'ondragover="onRowFileDragOver(event, this, 0)"';
                                     echo 'ondrop="onRowFileDrop(event, this, 0)"';
                                     echo 'ondragleave="onRowFileDragLeave(event, this)"';
@@ -74,7 +74,7 @@ View::render('components/head.php');
                                     <span><wbr/></span>
                                 </a>
                             </li>
-                            <?
+                            <?php
                             if (isset($ancestors)) {
                                 $len = count($ancestors);
                                 foreach ($ancestors as $i => $ancestor) {
@@ -83,21 +83,21 @@ View::render('components/head.php');
                                         <li
                                                 class="is-active"
                                         ><a href="#"
-                                            aria-current="page"><? echo $ancestor['name'] ?></a>
+                                            aria-current="page"><?php echo $ancestor['name'] ?></a>
                                         </li>
-                                        <?
+                                        <?php
                                     } else {
                                         ?>
                                         <li><a
-                                                href="/drive/files/<? echo $ancestor['id'] ?>"
-                                                <?
+                                                href="/drive/files/<?php echo $ancestor['id'] ?>"
+                                                <?php
                                                 echo 'ondragover="onRowFileDragOver(event, this, ' . $ancestor['id'] . ')"';
                                                 echo 'ondrop="onRowFileDrop(event, this, ' . $ancestor['id'] . ')"';
                                                 echo 'ondragleave="onRowFileDragLeave(event, this)"';
                                                 ?>
-                                                    class="has-text-weight-bold"><? echo $ancestor['name'] ?>
+                                                    class="has-text-weight-bold"><?php echo $ancestor['name'] ?>
                                             </a></li>
-                                        <?
+                                        <?php
                                     }
                                 }
                             }
@@ -164,14 +164,14 @@ View::render('components/head.php');
 
                             <tbody>
 
-                            <? foreach ($files as $index => $file) { ?>
+                            <?php foreach ($files as $index => $file) { ?>
 
                                 <tr
                                         class="datatable-item is-clickable"
-                                        data-fileid="<? echo $file['id'] ?>"
+                                        data-fileid="<?php echo $file['id'] ?>"
                                         draggable="true"
-                                        ondragstart="onRowFileDragStart(event, <? echo $file['id'] ?>)"
-                                    <?
+                                        ondragstart="onRowFileDragStart(event, <?php echo $file['id'] ?>)"
+                                    <?php
                                     if ($file['type'] === 'FOLDER') {
                                         echo 'ondragover="onRowFileDragOver(event, this, ' . $file['id'] . ')"';
                                         echo 'ondrop="onRowFileDrop(event, this, ' . $file['id'] . ')"';
@@ -182,7 +182,7 @@ View::render('components/head.php');
                                     ?>
                                 >
 
-                                    <?
+                                    <?php
                                     View::render('components/drive/file.php', [
                                         'file' => $file,
                                         'id' => $id,
@@ -191,7 +191,7 @@ View::render('components/head.php');
 
                                 </tr>
 
-                            <? } ?>
+                            <?php } ?>
 
                             </tbody>
                         </table>

@@ -52,9 +52,9 @@ View::render('components/head.php');
                         <tr class="datatable-item">
                             <td class="file-checkbox"><input type="checkbox"></td>
                             <td class="file-icon">
-                                <i class="fas fa-<? echo $file->icon ?>"></i>
+                                <i class="fas fa-<?php echo $file->icon ?>"></i>
                             </td>
-                            <td class="file-name"><? echo $file->name ?><span class="file-extension">.<? echo $file->extension ?></span></td>
+                            <td class="file-name"><?php echo $file->name ?><span class="file-extension">.<?php echo $file->extension ?></span></td>
                             <td class="file-options">
                                 <i class="fas fa-ellipsis-h"></i>
 
@@ -85,7 +85,7 @@ View::render('components/head.php');
                                     </li>
                                 </ul>
                             </td>
-                            <td class="file-size"><? echo $file->size ?></td>
+                            <td class="file-size"><?php echo $file->size ?></td>
                         </tr>
 
                         <?php
