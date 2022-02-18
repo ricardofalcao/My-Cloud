@@ -45,7 +45,7 @@ $inputs = [
 
 
 <section class="hero is-fullheight"
-         style="background-image: url(<?php Asset::get('/assets/images/login_bg.png') ?>; background-size: cover; background-position: center;">
+         style="background-image: url('<?php Asset::get('/assets/images/login_bg.png') ?>'; background-size: cover; background-position: center;">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
