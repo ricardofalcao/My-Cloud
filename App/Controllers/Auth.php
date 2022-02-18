@@ -45,6 +45,7 @@ class Auth extends \Core\Controller
         }
 
         $_SESSION['userId'] = $user['id'];
+        header('Location: ' . Asset::path('/auth/files'), true, 303);
     }
 
     public function logout()
