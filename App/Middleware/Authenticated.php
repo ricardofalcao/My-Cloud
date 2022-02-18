@@ -3,6 +3,7 @@
 namespace App\Middleware;
 
 use App\Models\User;
+use Core\Asset;
 use Core\Input;
 use Core\Middleware;
 use Core\Request;
