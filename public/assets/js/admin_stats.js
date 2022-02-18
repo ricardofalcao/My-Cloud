@@ -119,7 +119,7 @@ const chartMemory = new Chart(memoryDiv, {
 */
 
 async function refreshStats() {
-    const result = await fetch(`/dashboard/admin/stats/api`);
+    const result = await fetch(`dashboard/admin/stats/api`);
     const response = await result.json();
 
     chartDisk.data.datasets[0].data = [response.disk.used, response.disk.total - response.disk.used];
