@@ -156,15 +156,6 @@ class Router
             }
         }
 
-        foreach ($this->routes as $route) {
-            if (preg_match($route->expression, '__404__', $matches)) {
-                if (strtolower($route->httpMethod) == $httpMethod) {
-                    $processRoute($route, $matches);
-                    return;
-                }
-            }
-        }
-
-        throw new \Exception('Could not find route.', 404);
+        header('Location: ' . Asset::path('/drive/files'), true, 303);
     }
 }

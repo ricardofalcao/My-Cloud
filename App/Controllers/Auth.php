@@ -45,12 +45,6 @@ class Auth extends \Core\Controller
         }
 
         $_SESSION['userId'] = $user['id'];
-        header('Location: ' . Asset::path('/drive/files'), true, 303);
-    }
-
-    public function redirectLogin()
-    {
-        header('Location: ' . Asset::path('/auth/login'), true, 303);
     }
 
     public function logout()
