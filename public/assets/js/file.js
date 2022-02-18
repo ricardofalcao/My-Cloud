@@ -55,7 +55,7 @@ function checkboxAll(value) {
  */
 
 async function restoreFile(fileId) {
-    const result = await fetch(`/drive/trash/${fileId}`, {
+    const result = await fetch(`drive/trash/${fileId}`, {
         method: 'POST',
     })
 
@@ -93,7 +93,7 @@ async function favoriteFile(event, fileId) {
 
     const value = file.state !== 'FAVORITE';
 
-    const result = await fetch(`/drive/favorites/${fileId}`, {
+    const result = await fetch(`drive/favorites/${fileId}`, {
         method: value ? 'POST' : 'DELETE',
     })
 
@@ -204,7 +204,7 @@ async function renameFile(event) {
     const data = getModalData('rename-modal');
     const fileName = data.input;
 
-    const result = await fetch(`/drive/files/${renameFileId}`, {
+    const result = await fetch(`drive/files/${renameFileId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -266,7 +266,7 @@ async function deleteFile(event) {
     }
 
     const deleteForce = file.type === 'DELETED';
-    const result = await fetch(deleteForce ? `/drive/trash/${deleteFileId}` : `/drive/files/${deleteFileId}`, {
+    const result = await fetch(deleteForce ? `drive/trash/${deleteFileId}` : `drive/files/${deleteFileId}`, {
         method: 'DELETE',
     })
 
@@ -330,7 +330,7 @@ async function shareFile(event) {
     formData.append('username', username)
     formData.append('type', type)
 
-    const result = await fetch(`/drive/shared/${shareFileId}`, {
+    const result = await fetch(`drive/shared/${shareFileId}`, {
         method: 'POST',
         body: formData,
     })
@@ -370,7 +370,7 @@ async function openShare(event, fileId) {
  */
 
 async function moveFiles(files, targetId) {
-    const result = await fetch(`/drive/files/${targetId}`, {
+    const result = await fetch(`drive/files/${targetId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

@@ -10,7 +10,7 @@ async function deleteUser(event) {
         return;
     }
 
-    const result = await fetch(`/dashboard/admin/users/${deleteUserId}`, {
+    const result = await fetch(`dashboard/admin/users/${deleteUserId}`, {
         method: 'DELETE',
     })
 

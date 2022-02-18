@@ -5,7 +5,7 @@ async function updateName(event) {
     const formData = new FormData();
     formData.append("name", name);
 
-    const result = await fetch(`/dashboard/user/profile/name`, {
+    const result = await fetch(`dashboard/user/profile/name`, {
         method: 'POST',
         body: formData
     })
