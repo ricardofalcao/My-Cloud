@@ -2,7 +2,7 @@
 
 use Core\Asset;
 
-$feup = gethostname() === 'gnomo.fe.up.pt';
+$feup = strpos(gethostname(), 'fe.up') !== false;
 ?>
 
 <head>

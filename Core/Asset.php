@@ -5,7 +5,7 @@ namespace Core;
 class Asset
 {
     public static function path($asset) {
-        $feup = gethostname() === 'gnomo.fe.up.pt';
+        $feup = strpos(gethostname(), 'fe.up') !== false;
         if ($feup) {
             return '/~up201704220/sie/mycloud' . $asset;
         }
