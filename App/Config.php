@@ -14,25 +14,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'db.ricardofalcao.pt';
+    const DB_HOST = 'db.fe.up.pt';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'postgres';
+    const DB_NAME = 'sie212239';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'postgres';
+    const DB_USER = 'sie212239';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = '3SYkfraxGhhgc6';
+    const DB_PASSWORD = 'MZEScFWz';
 
     /**
      * Show or hide error messages on screen

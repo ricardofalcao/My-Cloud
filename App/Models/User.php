@@ -9,7 +9,7 @@ class User extends \Core\Model
     public static function get($id)
     {
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.user WHERE id=?;");
+        $stmt = $db->prepare("SELECT * FROM sie212239.user WHERE id=?;");
         $stmt->execute([ $id ]);
         return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -17,7 +17,7 @@ class User extends \Core\Model
     public static function getByUsername($username)
     {
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.user WHERE username=?;");
+        $stmt = $db->prepare("SELECT * FROM sie212239.user WHERE username=?;");
         $stmt->execute([ $username ]);
         return $stmt->rowCount() == 0 ? null : $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -25,7 +25,7 @@ class User extends \Core\Model
     public static function getAll()
     {
         $db = static::db();
-        $stmt = $db->query('SELECT * FROM public.user;');
+        $stmt = $db->query('SELECT * FROM sie212239.user;');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -38,7 +38,7 @@ class User extends \Core\Model
         $password_hash = password_hash($password,  PASSWORD_DEFAULT);
 
         $db = static::db();
-        $stmt = $db->prepare("INSERT INTO public.user (username, name, password_hash, quota, role) VALUES (?, ?, ?, ?, ?) RETURNING *;");
+        $stmt = $db->prepare("INSERT INTO sie212239.user (username, name, password_hash, quota, role) VALUES (?, ?, ?, ?, ?) RETURNING *;");
         $stmt->execute([ $username, $name, $password_hash, $quota, $role]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -48,21 +48,21 @@ class User extends \Core\Model
         $password_hash = password_hash($newPassword,  PASSWORD_DEFAULT);
 
         $db = static::db();
-        $stmt = $db->prepare("UPDATE public.user SET password_hash=? WHERE id=?;");
+        $stmt = $db->prepare("UPDATE sie212239.user SET password_hash=? WHERE id=?;");
         $stmt->execute([ $password_hash, $userId ]);
     }
 
     public static function updateName($userId, $name)
     {
         $db = static::db();
-        $stmt = $db->prepare("UPDATE public.user SET name=? WHERE id=?;");
+        $stmt = $db->prepare("UPDATE sie212239.user SET name=? WHERE id=?;");
         $stmt->execute([ $name, $userId ]);
     }
 
     public static function delete($userId)
     {
         $db = static::db();
-        $stmt = $db->prepare("DELETE FROM public.user WHERE id=?;");
+        $stmt = $db->prepare("DELETE FROM sie212239.user WHERE id=?;");
         $stmt->execute([ $userId ]);
     }
 
