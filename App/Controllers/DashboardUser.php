@@ -61,6 +61,8 @@ class DashboardUser extends \Core\Controller
 
     public function stats()
     {
-        View::render('dashboard/user/stats.php');
+        View::render('dashboard/user/stats.php', [
+            'count' => Drive::countFiles()
+        ]);
     }
 }

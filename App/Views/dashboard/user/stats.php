@@ -3,8 +3,12 @@
 use Core\Request;
 use Core\View;
 
+if (!isset($count)) {
+    return;
+}
+
 $user = Request::get('user');
-$total_space = 2.4e9;
+
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +58,7 @@ View::render('components/head.php');
 </div>
 <script src="assets/js/user_stats.js"></script>
 <script>
-    refreshStats(<?php echo $total_space ?>, <?php echo $user['quota'] ?>)
+    refreshStats(<?php echo $count['disk_usage'] ?>, <?php echo $user['quota'] ?>)
 </script>
 </body>
 

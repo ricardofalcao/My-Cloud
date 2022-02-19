@@ -33,7 +33,7 @@ class User extends \Core\Model
      *
      */
 
-    public static function create($username, $name, $password, $quota = null, $role = 'USER')
+    public static function create($username, $name, $password, $quota = 1000000000, $role = 'USER')
     {
         $password_hash = password_hash($password,  PASSWORD_DEFAULT);
 
