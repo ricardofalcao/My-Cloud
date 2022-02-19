@@ -419,10 +419,6 @@ async function shareFile(event) {
         return;
     }
 
-    injectData(document.getElementById('share-modal'), {
-        accesses: file.accesses
-    })
-
     const data = getModalData('share-modal');
     const username = data.input;
     const type = data.type;

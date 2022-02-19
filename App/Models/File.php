@@ -7,7 +7,7 @@ use PDO;
 class File extends \Core\Model
 {
 
-    private static function compileSorts($sorts) {
+    public static function compileSorts($sorts) {
         if (count($sorts) > 0) {
             $query = "ORDER BY ";
 
@@ -36,7 +36,7 @@ class File extends \Core\Model
         $sortsQ = self::compileSorts($sorts);
 
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ to_tsquery('portuguese', ?) $sortsQ");
+        $stmt = $db->prepare("SELECT * FROM public.file WHERE type='FILE' AND search_tokens @@ plainto_tsquery('portuguese', ?) $sortsQ");
         $stmt->execute([$text]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -29,8 +29,8 @@ class DriveDownload extends \Core\Controller
         $size = filesize($filePath);
 
         header('Content-Description: File Transfer');
-        header("Content-Type: $mime_type");
-        header('Content-Disposition: attachment; filename="' . $name . '"');
+        header("Content-Type: $mime_type; charset=utf-8");
+        header('Content-Disposition: attachment; filename="' . utf8_decode(htmlspecialchars_decode($name)) . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');

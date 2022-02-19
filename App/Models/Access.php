@@ -21,15 +21,30 @@ class Access extends \Core\Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllByUser($userId)
+    {
+        $db = static::db();
+        $stmt = $db->prepare("
+            SELECT access.* FROM access 
+                INNER JOIN public.file_ancestors AS F1 ON F1.id = access.file_id
+                INNER JOIN public.file AS F2 ON F2.id=ANY(F1.ancestors)
+            WHERE access.user_id = ?
+");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getRoot($userId, $sorts = [])
     {
-        $sortsQ = self::compileSorts(array_merge(['Dtype'], $sorts,['Aname']));
+        $sortsQ = File::compileSorts(array_merge(['Dtype'], $sorts, ['Aname']));
 
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.file_ancestors as F1
+        $stmt = $db->prepare("SELECT F1.* FROM public.file_ancestors as F1
             INNER JOIN public.access as A1 on A1.file_id=F1.id
-            INNER JOIN public.access as A2 ON A2.file_id=F1.parent_id
-        WHERE F1.state <> 'DELETED' $sortsQ");
+            LEFT JOIN public.access as A2 ON A2.file_id=F1.parent_id
+            WHERE A1.user_id = ?
+              AND F1.state <> 'DELETED'
+              AND A2.file_id IS NULL $sortsQ");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

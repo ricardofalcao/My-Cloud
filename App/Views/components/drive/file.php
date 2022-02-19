@@ -12,6 +12,7 @@ $me = Request::get('userId');
 $folder = $file['type'] === 'FOLDER';
 $favorite = $file['state'] === 'FAVORITE';
 $deleted = $file['state'] === 'DELETED';
+$shared = array_key_exists('accesses', $file);
 
 $path_parts = pathinfo($file['name']);
 $filename = $path_parts['filename'];
@@ -22,13 +23,25 @@ $icon = Utils::iconFromExtension($extension);
 $size = $file['size'];
 $humanSize = Utils::humanizeBytes($size);
 
+$accesses = $shared ? json_encode($file['accesses']) : '[]';
 $owned = $me === $file['owner_id'];
-$accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses']) : '[]';
+
+if ($shared) {
+    foreach ($file['accesses'] as $access) {
+        if ($access['user_id'] === $me) {
+            $canWrite = $access['type'] === 'EDITOR';
+            break;
+        }
+    }
+} else {
+    $canWrite = false;
+}
 
 ?>
 
 <td style="vertical-align: middle; font-size: 1.4rem; white-space: nowrap;">
-    <input type="checkbox" data-value="<?php echo $file['id'] ?>" class="row-checkbox has-text-primary" onclick="check(this, event.shiftKey)">
+    <input type="checkbox" data-value="<?php echo $file['id'] ?>" class="row-checkbox has-text-primary"
+           onclick="check(this, event.shiftKey)">
 </td>
 
 <td>
@@ -43,19 +56,24 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
             <span class="py-3 row-name">
 
                 <?php if ($folder) { ?>
-                    <a href="drive/files/<?php echo $file['id'] ?>" class="has-text-black" data-value="filename"><?php echo $filename ?></a>
+                    <a href="drive/files/<?php echo $file['id'] ?>" class="has-text-black"
+                       data-value="filename"><?php echo $filename ?></a>
                 <?php } else { ?>
-                    <span data-value="filename"><?php echo $filename ?></span> <span class="has-text-grey-light">.<?php echo $extension; ?></span>
+                    <span data-value="filename"><?php echo $filename ?></span><span
+                            class="has-text-grey-light">.<?php echo $extension; ?></span>
                 <?php } ?>
 
             </span>
 
             <span class="ml-auto"></span>
 
-            <?php if (array_key_exists('accesses', $file)) { ?>
-            <span class="icon is-small">
-              <i class="fas fa-link" aria-hidden="true"></i>
-            </span>
+            <?php if ($owned && $shared) { ?>
+                <button class="button is-small is-ghost is-inverted" aria-haspopup="true"
+                        onclick="openShare(event, <?php echo $file['id'] ?>)">
+                <span class="icon is-small">
+                  <i class="fas fa-link" aria-hidden="true"></i>
+                </span>
+              </button>
             <?php } ?>
 
             <div class="dropdown is-hoverable is-right">
@@ -69,7 +87,7 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content is-block">
-                        <?php if ($owned) { ?>
+                        <?php if ($owned && !$deleted) { ?>
                             <a href="#" class="dropdown-item"
                                onclick="favoriteFile(event, <?php echo $file['id'] ?>)">
 
@@ -87,7 +105,7 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
                             </a>
 
                             <a href="#" class="dropdown-item"
-                                   onclick="openShare(event, <?php echo $file['id'] ?>)">
+                               onclick="openShare(event, <?php echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-link"></i>
                             </span>
@@ -95,20 +113,26 @@ $accesses = array_key_exists('accesses', $file) ? json_encode($file['accesses'])
                         </a>
                         <?php } ?>
 
-                        <a href="#" class="dropdown-item"
-                           onclick="openRename(event, <?php echo $file['id'] ?>)">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            <span>Renomear</span>
-                        </a>
+                        <?php if (!$deleted) { ?>
 
-                        <a href="#" onclick="downloadFiles(event, [<?php echo $file['id'] ?>])" class="dropdown-item">
+                            <?php if ($owned || $canWrite) { ?>
+                                <a href="#" class="dropdown-item"
+                                   onclick="openRename(event, <?php echo $file['id'] ?>)">
+                                    <span class="icon">
+                                        <i class="fas fa-pen"></i>
+                                    </span>
+                                    <span>Renomear</span>
+                                </a>
+                            <?php } ?>
+
+                            <a href="#" onclick="downloadFiles(event, [<?php echo $file['id'] ?>])"
+                               class="dropdown-item">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
                             <span>Transferir</span>
                         </a>
+                        <?php } ?>
 
                         <?php if ($owned) { ?>
 

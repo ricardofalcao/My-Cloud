@@ -57,7 +57,6 @@ function injectData(element, data, prefix = '') {
 
                     child.appendChild(copy);
                 })
-
                 return;
             }
 

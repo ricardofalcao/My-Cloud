@@ -12,7 +12,7 @@ use Core\View;
 
 class Drive extends \Core\Controller
 {
-    public function countFiles()
+    public static function countFiles()
     {
         $userId = Request::get('userId');
 
@@ -20,7 +20,7 @@ class Drive extends \Core\Controller
 
         return [
             'files' => count(File::getByType($userId, 'FILE')) - $deleted,
-            'shared' => 0,
+            'shared' => count(Access::getAllByUser($userId)),
             'favorites' => count(File::getByState($userId, 'FAVORITE')),
             'trash' => $deleted,
             'disk_usage' => File::getDiskUsage($userId),
@@ -94,7 +94,7 @@ class Drive extends \Core\Controller
             'id' => 'files',
             'files' => $files,
             'folderId' => $folderId ?? null,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
             'ancestors' => $ancestors,
             'sorts' => $sorts,
         ]);
@@ -193,7 +193,7 @@ class Drive extends \Core\Controller
         $fileName = $validation->name('fileName')->str()->required()->get();
 
         if (!$validation->isValid()) {
-            http_response_code(400);
+            http_response_ccode(400);
             echo json_encode([
                 "errors" => $validation->getErrors()
             ]);
@@ -245,7 +245,7 @@ class Drive extends \Core\Controller
 
             echo json_encode([
                 'file' => $file,
-                'count' => $this->countFiles(),
+                'count' => self::countFiles(),
             ]);
         } catch (\PDOException $ex) {
             http_response_code(400);
@@ -275,7 +275,7 @@ class Drive extends \Core\Controller
         View::render('drive/files.php', [
             'id' => 'shared',
             'files' => $files,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
             'sorts' => $sorts,
         ]);
     }
@@ -395,7 +395,7 @@ class Drive extends \Core\Controller
         View::render('drive/files.php', [
             'id' => 'favorites',
             'files' => $files,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
             'sorts' => $sorts
         ]);
     }
@@ -412,7 +412,7 @@ class Drive extends \Core\Controller
 
         echo json_encode([
             'file' => $file,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
         ]);
     }
 
@@ -428,7 +428,7 @@ class Drive extends \Core\Controller
 
         echo json_encode([
             'file' => $file,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
         ]);
     }
 
@@ -450,7 +450,7 @@ class Drive extends \Core\Controller
         View::render('drive/files.php', [
             'id' => 'trash',
             'files' => $files,
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
             'sorts' => $sorts
         ]);
     }
@@ -470,7 +470,7 @@ class Drive extends \Core\Controller
 
             echo json_encode([
                 'file' => $file,
-                'count' => $this->countFiles(),
+                'count' => self::countFiles(),
             ]);
         } catch (\PDOException $ex) {
             http_response_code(400);
@@ -511,7 +511,7 @@ class Drive extends \Core\Controller
         }
 
         echo json_encode([
-            'count' => $this->countFiles(),
+            'count' => self::countFiles(),
         ]);
     }
 }
