@@ -268,7 +268,7 @@ class Drive extends \Core\Controller
         $userId = Request::get('userId');
         // verificar root
 
-        $files = Access::getRoot($userId);
+        $files = Access::getRoot($userId, $sorts);
 
         $this->_attachAccesses($files);
 

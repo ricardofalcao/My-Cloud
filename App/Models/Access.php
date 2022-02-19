@@ -16,15 +16,20 @@ class Access extends \Core\Model
             SELECT access.*, public.user.name FROM access 
                 INNER JOIN public.user ON public.user.id = access.user_id
             WHERE file_id in ($qMarks)
-"       );
+");
         $stmt->execute($fileIds);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getRoot($userId)
+    public static function getRoot($userId, $sorts = [])
     {
+        $sortsQ = self::compileSorts(array_merge(['Dtype'], $sorts,['Aname']));
+
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM public.access INNER JOIN public.file_ancestors on public.access.file_id=public.file_ancestors.id WHERE public.access.user_id=? AND state <> 'DELETED' ORDER BY file_ancestors.type DESC, file_ancestors.name");
+        $stmt = $db->prepare("SELECT * FROM public.file_ancestors as F1
+            INNER JOIN public.access as A1 on A1.file_id=F1.id
+            INNER JOIN public.access as A2 ON A2.file_id=F1.parent_id
+        WHERE F1.state <> 'DELETED' $sortsQ");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
