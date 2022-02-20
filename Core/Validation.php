@@ -60,7 +60,8 @@ class Validation
             $value = filter_var($this->value, $filter);
 
             if ($value === false) {
-                $this->errors[$this->name] = "$this->name must be $errorMessage.";
+                $cap = ucfirst($this->name);
+                $this->errors[$this->name] = "$cap tem de ser $errorMessage.";
                 $this->valid = false;
             }
         }
@@ -70,33 +71,34 @@ class Validation
 
     public function int()
     {
-        return $this->_filter(FILTER_VALIDATE_INT, 'numeric');
+        return $this->_filter(FILTER_VALIDATE_INT, 'numerico');
     }
 
     public function float()
     {
-        return $this->_filter(FILTER_VALIDATE_FLOAT, 'a float');
+        return $this->_filter(FILTER_VALIDATE_FLOAT, 'decimal');
     }
 
     public function bool()
     {
-        return $this->_filter(FILTER_VALIDATE_BOOLEAN, 'a boolean');
+        return $this->_filter(FILTER_VALIDATE_BOOLEAN, 'booleano');
     }
 
     public function email()
     {
-        return $this->_filter(FILTER_VALIDATE_EMAIL, 'an email');
+        return $this->_filter(FILTER_VALIDATE_EMAIL, 'um email');
     }
 
     public function url()
     {
-        return $this->_filter(FILTER_VALIDATE_URL, 'an url');
+        return $this->_filter(FILTER_VALIDATE_URL, 'um url');
     }
 
     public function str() {
         if ($this->valid && $this->value !== null) {
             if (!is_string($this->value)) {
-                $this->errors[$this->name] = "$this->name must be a string.";
+                $cap = ucfirst($this->name);
+                $this->errors[$this->name] = "$cap tem de ser uma string.";
                 $this->valid = false;
             }
         }
@@ -108,7 +110,8 @@ class Validation
     {
         if ($this->valid) {
             if ($this->value === null) {
-                $this->errors[$this->name] = "$this->name is required";
+                $cap = ucfirst($this->name);
+                $this->errors[$this->name] = "$cap é obrigatório.";
                 $this->valid = false;
             }
         }
@@ -120,18 +123,19 @@ class Validation
     public function min($length)
     {
 
+        $cap = ucfirst($this->name);
         if ($this->valid && $this->value !== null) {
             if (is_string($this->value)) {
 
                 if (strlen($this->value) < $length) {
-                    $this->errors[$this->name] = "$this->name must be at least $length characters.";
+                    $this->errors[$this->name] = "$cap tem de ter pelo menos $length caracteres.";
                     $this->valid = false;
                 }
 
             } else {
 
                 if ($this->value < $length) {
-                    $this->errors[$this->name] = "$this->name must be greater than $length.";
+                    $this->errors[$this->name] = "$cap tem de ser superior a $length.";
                     $this->valid = false;
                 }
 
@@ -144,19 +148,20 @@ class Validation
 
     public function max($length)
     {
+        $cap = ucfirst($this->name);
 
         if ($this->valid && $this->value !== null) {
             if (is_string($this->value)) {
 
                 if (strlen($this->value) > $length) {
-                    $this->errors[$this->name] = "$this->name must not exceed $length characters.";
+                    $this->errors[$this->name] = "$cap não pode exceder $length caracteres.";
                     $this->valid = false;
                 }
 
             } else {
 
                 if ($this->value > $length) {
-                    $this->errors[$this->name] = "$this->name must be lesser than $length.";
+                    $this->errors[$this->name] = "$cap tem de ser inferior a $length.";
                     $this->valid = false;
                 }
 

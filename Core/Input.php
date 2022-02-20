@@ -31,7 +31,7 @@ class  Input {
             $name = ucfirst($key);
 
             throw new AppException([
-                $key => "'$name' is required."
+                $key => "'$name' é obrigatório."
             ], 400);
 
             return false;
@@ -52,7 +52,7 @@ class  Input {
             $name = ucfirst($key);
 
             throw new AppException([
-                $key => "'$name' must be $errorMessage."
+                $key => "'$name' tem de ser $errorMessage."
             ], 400);
         }
 
@@ -60,11 +60,11 @@ class  Input {
     }
 
     public function int($key) {
-        return $this->_filter($key, FILTER_VALIDATE_INT, 'numeric');
+        return $this->_filter($key, FILTER_VALIDATE_INT, 'numerico');
     }
 
     public function float($key) {
-        return $this->_filter($key, FILTER_VALIDATE_FLOAT, 'a float');
+        return $this->_filter($key, FILTER_VALIDATE_FLOAT, 'decimal');
     }
 
     public function str($key) {
@@ -75,7 +75,7 @@ class  Input {
             $name = ucfirst($key);
 
             throw new AppException([
-                $key => "'$name' must be a string."
+                $key => "'$name' tem de ser uma string."
             ], 400);
         }
 
@@ -84,15 +84,15 @@ class  Input {
     }
 
     public function bool($key) {
-        return $this->_filter($key, FILTER_VALIDATE_BOOLEAN, 'a boolean');
+        return $this->_filter($key, FILTER_VALIDATE_BOOLEAN, 'booleano');
     }
 
     public function email($key) {
-        return $this->_filter($key, FILTER_VALIDATE_EMAIL, 'an email');
+        return $this->_filter($key, FILTER_VALIDATE_EMAIL, 'um email');
     }
 
     public function url($key) {
-        return $this->_filter($key, FILTER_VALIDATE_URL, 'an url');
+        return $this->_filter($key, FILTER_VALIDATE_URL, 'um url');
     }
 
     public function get($key) {
