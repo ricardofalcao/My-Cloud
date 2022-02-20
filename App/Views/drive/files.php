@@ -61,7 +61,7 @@ View::render('components/head.php');
 <script src="assets/js/file.js"></script>
 <script src="assets/js/modal.js"></script>
 
-<div id="app" ondrop="onFileDrop(event)" ondragover="onFileDrag(event)">
+<div id="app" ondrop="onFileDrop(event)" ondragover="onFileDrag(event)" ondragleave="onFileDragLeave(event)">
     <?php
     View::render('components/base.php');
     ?>

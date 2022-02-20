@@ -578,6 +578,14 @@ async function onFileDrag(event) {
     }
 }
 
+async function onFileDragLeave(event) {
+    event.preventDefault();
+
+    const overlay = document.getElementById("drag_overlay");
+    overlay.style.opacity = '0';
+    overlay.style.display = 'none';
+}
+
 /*
 
  */

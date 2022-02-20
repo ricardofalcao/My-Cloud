@@ -73,5 +73,4 @@ if(!isset($showSearch)) {
             </div>
             </div>
         </div>
-    </div>
 </nav>
