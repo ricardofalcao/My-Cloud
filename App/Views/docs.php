@@ -12,6 +12,7 @@ $users = [
     [
         "name" => "Ricardo Falcão",
         "email" => "up201704220@edu.fe.up.pt",
+        "role" => "Administrador",
         "username" => "ricardofalcao",
         "password" => "password1",
         "avatar" => "assets/images/201704220.jpg"
@@ -19,6 +20,7 @@ $users = [
     [
         "name" => "Daniel Barros",
         "email" => "up201704271@edu.fe.up.pt",
+        "role" => "Utilizador",
         "username" => "danielbarros",
         "password" => "password2",
         "avatar" => "assets/images/201704271.jpg"
@@ -70,7 +72,7 @@ $users = [
                                 </figure>
                                 <div class="media-content is-align-self-stretch is-flex is-flex-direction-column">
                                     <div class="content">
-                                        <strong><?php echo $user['name']?></strong> <br/>
+                                        <strong><?php echo $user['name']?></strong> <small>(<?php echo $user['role']?>)</small><br/>
                                         <small><?php echo $user['email']?></small>
                                     </div>
                                     <nav class="level is-mobile mt-auto">

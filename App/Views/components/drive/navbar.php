@@ -25,7 +25,7 @@ if(!isset($showSearch)) {
             <span aria-hidden="true"></span>
         </a>
     </div>
-    <div id="navbar" class="navbar-menu">
+    <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
             <?php if ($showSearch) {
             ?>
@@ -47,7 +47,7 @@ if(!isset($showSearch)) {
             } ?>
 
             <div class="navbar-item has-dropdown is-hoverable is-right">
-                <a class="navbar-link has-text-white is-arrowless" data-value="user__name">
+                <a class="navbar-link is-arrowless" data-value="user__name">
                     <?php echo $user['name']; ?>
                 </a>
 

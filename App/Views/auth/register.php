@@ -108,7 +108,7 @@ $inputs = [
                             </div>
                             <div class="level-item has-text-centered has-text-weight-bold">
                                 <div>
-                                    <a href="docs">DOCUMENTAÇÂO</a>
+                                    <a href="docs">DOCUMENTAÇÃO</a>
                                 </div>
                             </div>
                         </nav>
