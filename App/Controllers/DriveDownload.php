@@ -11,12 +11,12 @@ use Core\View;
 class DriveDownload extends \Core\Controller
 {
 
-    private function _get_file_path($file)
+    private static function _get_file_path($file)
     {
         return getcwd() . '/../data/' . $file['owner_id'] . '/' . $file['id'];
     }
 
-    private function _return_file($name, $mime_type, $filePath) {
+    public static function _return_file($name, $mime_type, $filePath) {
         if (!file_exists($filePath)) {
             http_response_code(404);
             echo json_encode([
@@ -41,25 +41,25 @@ class DriveDownload extends \Core\Controller
         return true;
     }
 
-    private function _zip_file($zip, $file, $root = '') {
+    public static function _zip_file($zip, $file, $root = '') {
         if ($file['type'] === 'FOLDER') {
             $files = File::getByParent($file['id']);
 
             foreach ($files as $childFile) {
                 if ($childFile['type'] == 'FOLDER') {
                     $zip->addEmptyDir($root . $childFile['name']);
-                    $this->_zip_file($zip, $childFile, $root . $childFile['name'] . '/');
+                    self::_zip_file($zip, $childFile, $root . $childFile['name'] . '/');
                     continue;
                 }
 
-                $this->_zip_file($zip, $childFile, $root);
+                self::_zip_file($zip, $childFile, $root);
             }
 
             return true;
         }
 
 
-        $path = $this->_get_file_path($file);
+        $path = self::_get_file_path($file);
         if (!file_exists($path)) {
             return false;
         }
@@ -92,12 +92,12 @@ class DriveDownload extends \Core\Controller
             $cloudFiles = File::batchGet($files);
 
             foreach ($cloudFiles as $cloudFile) {
-                $this->_zip_file($zip, $cloudFile, $cloudFile['type'] === 'FOLDER' ? $cloudFile['name'] . '/' : '');
+                self::_zip_file($zip, $cloudFile, $cloudFile['type'] === 'FOLDER' ? $cloudFile['name'] . '/' : '');
             }
 
             $zip->close();
 
-            if ($this->_return_file('Folder.zip', 'application/zip', $zipPath)) {
+            if (self::_return_file('Folder.zip', 'application/zip', $zipPath)) {
                 unlink($zipPath);
             }
 
@@ -123,17 +123,17 @@ class DriveDownload extends \Core\Controller
                 goto error;
             }
 
-            $this->_zip_file($zip, $file);
+            self::_zip_file($zip, $file);
             $zip->close();
 
-            if ($this->_return_file($file['name'] . '.zip', 'application/zip', $zipPath)) {
+            if (self::_return_file($file['name'] . '.zip', 'application/zip', $zipPath)) {
                 unlink($zipPath);
             }
 
             return;
         }
 
-        $path = $this->_get_file_path($file);
+        $path = self::_get_file_path($file);
 
         $validation->assert(file_exists($path), "Could not find file '$path'.");
 
@@ -141,7 +141,7 @@ class DriveDownload extends \Core\Controller
             goto error;
         }
 
-        $this->_return_file($file['name'], $file['mime_type'], $path);
+        self::_return_file($file['name'], $file['mime_type'], $path);
         return;
 
         error:

@@ -19,6 +19,9 @@ set_exception_handler('Core\Error::exceptionHandler');
 
 $router = new Core\Router(Asset::path(''));
 
+$router->get('/docs', 'Docs', 'index');
+$router->get('/docs/download', 'Docs', 'download');
+
 $router->get('/auth/login', 'Auth', 'login', ['NotAuthenticated']);
 $router->post('/auth/login', 'Auth', 'authenticate', ['NotAuthenticated']);
 $router->get('/auth/logout', 'Auth', 'logout');

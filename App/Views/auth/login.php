@@ -82,12 +82,6 @@ $inputs = [
                         }
                         ?>
 
-                        <div class="field">
-                            <label for="remember" class="checkbox">
-                                <input id="remember" name="remember" type="checkbox">
-                                Remember me
-                            </label>
-                        </div>
                         <div class="field mt-5">
                             <button type="submit" class="button is-block is-fullwidth is-primary is-medium">
                                 Login
@@ -96,7 +90,12 @@ $inputs = [
                         <nav class="level mt-5">
                             <div class="level-item has-text-centered">
                                 <div>
-                                    <a href="auth/register">Create an Account</a>
+                                    <a href="auth/register">Criar uma conta</a>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered has-text-weight-bold">
+                                <div>
+                                    <a href="docs">DOCUMENTAÇÂO</a>
                                 </div>
                             </div>
                         </nav>

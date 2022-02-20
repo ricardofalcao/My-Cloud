@@ -103,7 +103,12 @@ $inputs = [
                         <nav class="level mt-5">
                             <div class="level-item has-text-centered">
                                 <div>
-                                    <a href="auth/login">Got an account?</a>
+                                    <a href="auth/login">Já tem conta?</a>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered has-text-weight-bold">
+                                <div>
+                                    <a href="docs">DOCUMENTAÇÂO</a>
                                 </div>
                             </div>
                         </nav>
