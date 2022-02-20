@@ -148,7 +148,7 @@ if ($shared) {
 
                         <?php if ($deleted) {
                             ?>
-                            <a href="#" class="dropdown-item" onclick="restoreFile(<?php echo $file['id'] ?>)">
+                            <a href="#" class="dropdown-item" onclick="restoreFile(event, <?php echo $file['id'] ?>)">
                             <span class="icon">
                                 <i class="fas fa-recycle"></i>
                             </span>

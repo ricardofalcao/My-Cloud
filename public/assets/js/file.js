@@ -95,7 +95,8 @@ async function sortFiles(event, parameter, order) {
 
  */
 
-async function restoreFile(fileId) {
+async function restoreFile(event, fileId) {
+    event.preventDefault();
     const file = files[fileId];
 
     if (!file) {
@@ -323,7 +324,7 @@ async function deleteFile(event) {
 
     setNotification(`Eliminando '${file.name}'...`, 'is-info', -1);
 
-    const deleteForce = file.type === 'DELETED';
+    const deleteForce = file.state === 'DELETED';
     const result = await fetch(deleteForce ? `drive/trash/${deleteFileId}` : `drive/files/${deleteFileId}`, {
         method: 'DELETE',
     })
@@ -352,7 +353,7 @@ async function openDelete(event, fileId) {
     }
 
     deleteFileId = fileId;
-    const force = file.type === 'DELETED';
+    const force = file.state === 'DELETED';
 
     openModal('delete-modal', {
         input: [

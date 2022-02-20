@@ -31,13 +31,13 @@ class File extends \Core\Model
         return "";
     }
 
-    public static function search($text, $sorts = [])
+    public static function search($userId, $text, $sorts = [])
     {
         $sortsQ = self::compileSorts($sorts);
 
         $db = static::db();
-        $stmt = $db->prepare("SELECT * FROM file WHERE type='FILE' AND search_tokens @@ plainto_tsquery('portuguese', ?) $sortsQ");
-        $stmt->execute([$text]);
+        $stmt = $db->prepare("SELECT * FROM file WHERE owner_id = ? AND type='FILE' AND search_tokens @@ plainto_tsquery('portuguese', ?) $sortsQ");
+        $stmt->execute([$userId, $text]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

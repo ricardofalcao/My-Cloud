@@ -77,7 +77,7 @@ class Drive extends \Core\Controller
 
         if ($inputRequest->exists('search')) {
             $search = $inputRequest->str('search');
-            $files = File::search($search, $sorts);
+            $files = File::search($userId, $search, $sorts);
             $ancestors = null;
         } else if ($inputParams->exists('id')) {
             $folderId = $inputParams->int('id');;
@@ -472,6 +472,8 @@ class Drive extends \Core\Controller
                 'file' => $file,
                 'count' => self::countFiles(),
             ]);
+
+            return;
         } catch (\PDOException $ex) {
             http_response_code(400);
             echo json_encode([
