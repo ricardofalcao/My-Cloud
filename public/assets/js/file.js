@@ -74,17 +74,12 @@ function checkboxActions() {
 
 async function sortFiles(event, parameter, order) {
     const url = new URL(document.location);
-    const params = url.searchParams;
-
-    const blacklist = [`A${parameter}`, `D${parameter}`];
-    const queries = params.getAll("q[]").filter(param => !blacklist.includes(param));
-
-    if (order) {
-        queries.push(order + parameter);
-    }
 
     url.searchParams.delete("q[]");
-    queries.forEach(q => url.searchParams.append("q[]", q));
+
+    if (order) {
+        url.searchParams.append("q[]", order + parameter);
+    }
 
     window.location.replace(url.toString())
 }
